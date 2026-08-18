@@ -334,6 +334,64 @@
   footer{text-align:center;color:var(--mut);font-size:11.5px;margin-top:22px;line-height:2;}
   footer a{color:var(--mut);}
   footer .hl{color:var(--sand-d);}
+
+  /* ========== MOBILE ADAPT ========== */
+  @media (max-width: 780px){
+    body{padding:18px 10px 44px;}
+    .hero h1{font-size:29px;}
+    .route{max-width:100%;padding:12px 6px;}
+    .route .city{min-width:50px;gap:3px;}
+    .route .link{width:9px;}
+    .route .cn{font-size:12px;}
+    .route .en{display:none;}
+    .tabs{gap:6px;padding:9px 2px;}
+    .tab-btn{padding:7px 13px;font-size:12.5px;}
+    .sub-tabs{gap:6px;}
+    .sub-tab-btn{padding:5px 11px;font-size:12px;}
+    section{margin-bottom:20px;}
+    .p-h h2{font-size:18px;}
+    /* tables: let them scroll horizontally instead of bursting */
+    .lg{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .lg table{min-width:560px;}
+    table.cal{min-width:0;}
+    table.cal th{font-size:9.5px;padding:2px 0 5px;}
+    table.cal td{height:42px;padding:4px 0 5px;font-size:12px;border-radius:8px;}
+    .cnote{font-size:7.5px;}
+    /* timeline & day cards */
+    .tl{padding:6px 10px;}
+    .tl-item{grid-template-columns:72px 1fr;gap:10px;padding-left:20px;}
+    .tl-item .date .d{font-size:14px;}
+    .tl-item .date .w{letter-spacing:1px;}
+    .day-card{padding:10px 12px;}
+    .day-h{font-size:13px;gap:6px;}
+    .day-h .tag{font-size:10px;padding:2px 8px;}
+    .day-list li{font-size:12px;padding:6px 8px 6px 24px;}
+    .g-list li{font-size:12px;}
+    .zone{font-size:14.5px;padding:9px 12px;}
+    .zone small{font-size:10px;}
+    .warn,.budget-basic,.wbox,.g-note{padding:9px 11px;font-size:12px;}
+    .cat{padding:12px 12px 8px;}
+    .cat-h small{font-size:10px;}
+    .back-bar{font-size:12px;padding:5px 12px;}
+    .hint{font-size:11px;}
+  }
+  @media (max-width: 480px){
+    .hero .kick{font-size:9.5px;letter-spacing:2px;padding:4px 10px;}
+    .hero .sub{font-size:12.5px;}
+    .stats{gap:8px;margin:18px 0 12px;}
+    .stat{padding:11px 12px;}
+    .stat .v{font-size:17px;}
+    .stat .s{font-size:10.5px;}
+    .grand{gap:8px;}
+    .g-item{padding:10px 12px;}
+    .gv{font-size:17px;}
+    .gv.big{font-size:19px;}
+    .g-sec{font-size:12px;margin:10px 0 5px;}
+    .calbox{padding:10px 8px 6px;}
+    table.cal td{padding:3px 0 4px;}
+    .n{font-size:12px;}
+    footer{font-size:10.5px;}
+  }
 </style>
 </head>
 <body>
