@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 蜜月旅行计划 · 呼和浩特 → 沙巴</title>
+<style>
+  :root{
+    --paper:#faf3e7;
+    --card:#ffffff;
+    --ink:#1f2d4d;
+    --mut:#7b8aa5;
+    --line:#f0e2cd;
+    --sand:#f2862e;
+    --sand-d:#c96318;
+    --sea:#1b9aaa;
+    --sea-soft:#e4f6f8;
+    --lemon:#ffc94d;
+    --lemon-soft:#fff4d6;
+    --mint:#2ec4b6;
+    --red:#ff5d73;
+    --vio:#8a6fd6;
+    --grad:linear-gradient(92deg,#ffd166,#f2862e 50%,#ff5d73);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Segoe UI",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:
+      radial-gradient(900px 420px at 90% -5%, rgba(76,201,240,.10), transparent 60%),
+      radial-gradient(800px 380px at 5% 110%, rgba(242,134,46,.10), transparent 60%),
+      var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    padding:30px 16px 56px;
+  }
+  .wrap{max-width:1020px;margin:0 auto;}
+  .mono{font-family:Consolas,"SF Mono",Menlo,monospace;letter-spacing:.5px;}
+
+  /* ---------- HERO ---------- */
+  .hero{text-align:center;margin-bottom:22px;}
+  .hero .kick{
+    display:inline-block;font-size:11px;letter-spacing:3px;color:var(--sand-d);
+    border:1px solid rgba(242,134,46,.5);border-radius:999px;padding:5px 14px;margin-bottom:12px;
+    background:var(--card);font-weight:700;box-shadow:0 2px 10px rgba(242,134,46,.12);
+  }
+  .hero h1{
+    font-size:clamp(28px,4.6vw,42px);font-weight:800;letter-spacing:1px;line-height:1.15;color:var(--ink);
+  }
+  .hero h1 i{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero .sub{color:var(--mut);font-size:14px;margin-top:8px;letter-spacing:.4px;}
+  .hero .sub b{color:var(--sand-d);font-weight:700;}
+
+  .route{
+    display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;
+    margin:18px auto 0;max-width:860px;background:var(--card);
+    border:1px solid var(--line);border-radius:18px;padding:16px 12px;
+    box-shadow:0 6px 18px rgba(31,45,77,.06);
+  }
+  .route .city{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:64px;}
+  .route .dot{
+    width:13px;height:13px;border-radius:50%;
+    background:var(--grad);box-shadow:0 0 10px rgba(242,134,46,.55);margin-bottom:1px;
+  }
+  .route .dot.small{width:8px;height:8px;background:#cfd8ea;box-shadow:none;}
+  .route .cn{font-size:13px;font-weight:800;color:var(--ink);white-space:nowrap;}
+  .route .en{font-size:9px;color:var(--mut);letter-spacing:1px;text-transform:uppercase;}
+  .route .link{width:44px;display:flex;align-items:center;margin:0 2px;}
+  .route .link i{height:2px;width:100%;background:linear-gradient(90deg,rgba(242,134,46,.6),rgba(27,154,170,.5));border-radius:2px;}
+  @media(max-width:640px){.route .link{width:14px;}.route .city{min-width:56px;}}
+
+  /* ---------- TABS ---------- */
+  .tabs{
+    position:sticky;top:0;z-index:50;
+    display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px;
+    background:rgba(250,243,231,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    padding:10px 2px;border-radius:0 0 14px 14px;
+  }
+  .tab-btn{
+    border:1px solid var(--line);background:var(--card);color:var(--mut);
+    font-family:inherit;font-size:13.5px;font-weight:700;letter-spacing:.5px;
+    padding:8px 18px;border-radius:999px;cursor:pointer;
+    transition:all .18s ease;display:inline-flex;align-items:center;gap:6px;
+  }
+  .tab-btn:hover{border-color:var(--sand);color:var(--sand-d);transform:translateY(-1px);}
+  .tab-btn.active{
+    background:var(--grad);color:#fff;border-color:transparent;
+    box-shadow:0 4px 12px rgba(242,134,46,.35);
+  }
+
+  .panel{display:none;}
+  .panel.active{display:block;animation:fadeIn .28s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  .p-h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px;}
+  .p-h h2{font-size:20px;font-weight:800;letter-spacing:.5px;}
+  .p-h .en{font-size:10px;color:var(--mut);letter-spacing:2px;text-transform:uppercase;margin-left:auto;font-weight:600;}
+
+  /* ---------- PLAN: two columns ---------- */
+  .plan-wrap{display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start;}
+  @media(max-width:880px){.plan-wrap{grid-template-columns:1fr;}}
+  .cal-col{display:flex;flex-direction:column;gap:16px;}
+  .tl-col{min-width:0;}
+
+  /* ---------- TIMELINE ---------- */
+  .tl{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:8px 18px;box-shadow:0 6px 18px rgba(31,45,77,.05);}
+  .tl-item{
+    display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:start;
+    position:relative;padding:13px 12px 13px 22px;border-radius:12px;
+    transition:background .15s ease, box-shadow .15s ease;cursor:pointer;
+  }
+  .tl-item::before{
+    content:"";position:absolute;left:1px;top:12px;bottom:12px;width:2px;
+    background:linear-gradient(180deg,rgba(242,134,46,.5),rgba(27,154,170,.35));
+  }
+  .tl-item.hl{
+    background:linear-gradient(90deg,rgba(242,134,46,.14),rgba(255,255,255,0) 85%);
+    box-shadow:inset 0 0 0 1px rgba(242,134,46,.35);
+  }
+  .tl-dot{
+    position:absolute;left:0;top:18px;width:13px;height:13px;border-radius:50%;
+    background:var(--grad);box-shadow:0 0 8px rgba(242,134,46,.5);z-index:1;
+  }
+  .tl-item.done .tl-dot{background:linear-gradient(135deg,var(--sea),var(--mint));box-shadow:0 0 8px rgba(46,196,182,.5);}
+  .tl-item .date .d{font-size:15px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .tl-item .date .w{font-size:9.5px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;font-weight:600;}
+  .tl-item .body b{color:var(--ink);font-weight:800;}
+  .tl-item .body .p{color:var(--mut);font-size:12.5px;margin-top:3px;line-height:1.6;}
+  .tl-item .body .t{
+    display:block;background:var(--lemon-soft);color:#8a6a1d;font-size:11.5px;line-height:1.6;
+    border-radius:8px;padding:4px 9px;margin-top:5px;width:fit-content;
+  }
+  .amt{display:none;}
+  .warn{
+    display:block;margin-top:14px;padding:12px 15px;border-radius:14px;font-size:12.5px;line-height:1.8;
+    background:var(--lemon-soft);border:1px dashed rgba(255,201,77,.9);color:#8a6a1d;
+  }
+  .warn b{color:#b8860b;}
+
+  /* ---------- CALENDAR ---------- */
+  .calbox{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px 12px 8px;box-shadow:0 6px 18px rgba(31,45,77,.05);}
+  .calbox h3{
+    font-size:15px;font-weight:800;color:var(--ink);padding:0 4px 8px;
+    display:flex;justify-content:space-between;align-items:baseline;
+  }
+  .calbox h3 .y{font-size:10px;color:var(--mut);font-weight:600;letter-spacing:1px;}
+  table.cal{width:100%;border-collapse:collapse;table-layout:fixed;}
+  table.cal th{font-size:9.5px;text-align:center;padding:2px 0 5px;color:var(--mut);border-bottom:1px solid var(--line);font-weight:700;}
+  table.cal td{
+    text-align:center;padding:4px 0 5px;border-radius:9px;font-size:12.5px;
+    height:46px;border-bottom:none;vertical-align:top;position:relative;
+    transition:transform .12s ease, box-shadow .15s ease;cursor:default;
+  }
+  table.cal td[data-date]{cursor:pointer;}
+  table.cal td[data-date]:hover{transform:scale(1.08);z-index:2;}
+  .n{font-weight:700;display:block;}
+  .cnote{display:block;font-size:8px;letter-spacing:.1px;line-height:1.2;opacity:.95;font-weight:700;}
+  .off{background:var(--grad);color:#fff;box-shadow:0 2px 8px rgba(242,134,46,.3);}
+  .off .n{color:#fff;}
+  .off .cnote{color:#fff9f0;}
+  .wkd{background:var(--lemon);color:#6b5200;}
+  .wk{color:var(--mut);}
+  .cross{color:#cdc4b2;}
+  .cross .n{color:#cdc4b2;font-weight:600;}
+  .hm::after{
+    content:"";position:absolute;right:4px;bottom:4px;width:5px;height:5px;border-radius:50%;
+    background:var(--sea);box-shadow:0 0 5px rgba(27,154,170,.7);
+  }
+  td.hl{
+    outline:2px solid #fff;outline-offset:-2px;
+    box-shadow:0 0 0 3px rgba(242,134,46,.55), 0 0 14px rgba(242,134,46,.8);
+    transform:scale(1.1);z-index:3;
+  }
+  .note-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:11px;color:var(--mut);}
+  .note-legend span{display:inline-flex;align-items:center;gap:6px;font-weight:600;}
+  .swatch{width:11px;height:11px;border-radius:3px;display:inline-block;}
+  .swatch.off{background:var(--grad);box-shadow:none;}
+  .swatch.wkd{background:var(--lemon);box-shadow:none;}
+  .swatch.dot{width:9px;height:9px;border-radius:50%;background:var(--sea);box-shadow:0 0 5px rgba(27,154,170,.6);}
+  .hint{
+    margin-top:10px;font-size:11px;color:var(--sand-d);text-align:center;
+    background:var(--card);border:1px dashed rgba(242,134,46,.5);border-radius:12px;padding:8px 10px;
+  }
+
+  /* ---------- LEDGER ---------- */
+  .cat{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:14px 16px 10px;margin-bottom:14px;position:relative;overflow:hidden;
+    box-shadow:0 5px 16px rgba(31,45,77,.05);
+  }
+  .cat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--mut);}
+  .cat-tra::before{background:var(--sea);}
+  .cat-hot::before{background:var(--sand);}
+  .cat-fun::before{background:var(--vio);}
+  .cat-food::before{background:var(--lemon);}
+  .cat-h{
+    display:flex;align-items:baseline;gap:8px;
+    font-size:14px;font-weight:800;letter-spacing:1px;margin-bottom:2px;color:var(--ink);
+  }
+  .cat-h small{font-weight:600;color:var(--mut);font-size:11px;letter-spacing:0;margin-left:auto;}
+  .cat-tra .cat-h{color:var(--sea);}
+  .cat-hot .cat-h{color:var(--sand-d);}
+  .cat-fun .cat-h{color:var(--vio);}
+  .cat-food .cat-h{color:#b8860b;}
+  .cat-mint::before{background:var(--mint);}
+  .cat-red::before{background:var(--red);}
+  .cat-ink::before{background:var(--ink);}
+  .cat-mint .cat-h{color:#2e8f85;}
+  .cat-red .cat-h{color:var(--red);}
+  .cat-ink .cat-h{color:var(--ink);}
+  .sub-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+  .sub-tab-btn{
+    border:1px solid var(--line);background:var(--card);color:var(--mut);
+    font-family:inherit;font-size:12.5px;font-weight:700;letter-spacing:.5px;
+    padding:6px 14px;border-radius:999px;cursor:pointer;transition:all .15s ease;
+  }
+  .sub-tab-btn:hover{border-color:var(--sand);color:var(--sand-d);}
+  .sub-tab-btn.active{background:var(--sand);color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(242,134,46,.3);}
+  .sub-panel{display:none;}
+  .sub-panel.active{display:block;animation:fadeIn .25s ease;}
+  .back-bar{
+    display:inline-flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:12px;
+    font-size:12.5px;font-weight:700;color:var(--sea);
+    background:var(--sea-soft);border:1px solid rgba(27,154,170,.4);
+    border-radius:999px;padding:6px 14px;transition:transform .15s ease;
+  }
+  .back-bar:hover{transform:translateX(-3px);}
+  .g-note{
+    font-size:12.5px;color:var(--mut);background:var(--card);border:1px dashed var(--line);
+    border-radius:12px;padding:8px 12px;margin-bottom:14px;
+  }
+  .cat.clickable{cursor:pointer;transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;}
+  .cat.clickable:hover{transform:translateY(-2px);border-color:rgba(242,134,46,.65);box-shadow:0 8px 20px rgba(242,134,46,.15);}
+  .cat.clickable .go{
+    display:inline-block;margin-left:8px;font-size:10.5px;font-weight:800;letter-spacing:.5px;
+    color:#fff;background:var(--grad);border-radius:999px;padding:2px 9px;vertical-align:1px;
+  }
+  .day-card{
+    background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;margin-bottom:10px;
+  }
+  .day-h{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    font-size:14px;font-weight:800;color:var(--ink);margin-bottom:9px;
+    padding-bottom:8px;border-bottom:2px solid var(--grad);
+  }
+  .day-h .tag{
+    margin-left:auto;font-size:10.5px;font-weight:700;color:#fff;
+    background:var(--grad);border-radius:999px;padding:2px 10px;letter-spacing:.5px;
+  }
+  .day-list{list-style:none;display:grid;gap:6px;}
+  .day-list li{
+    position:relative;padding:7px 10px 7px 26px;background:#fdf9f0;
+    border:1px solid var(--line);border-radius:9px;font-size:12.5px;line-height:1.7;color:var(--ink);
+  }
+  .day-list li::before{content:"▶";position:absolute;left:10px;top:8px;font-size:9px;color:var(--sand);}
+  .day-list li b{color:var(--sand-d);font-weight:800;}
+  .day-list li .m{color:var(--sea);font-weight:700;}
+  .g-list{list-style:none;display:grid;gap:7px;}
+  .g-list li{
+    position:relative;padding:8px 12px 8px 22px;background:#fdf9f0;
+    border:1px solid var(--line);border-radius:10px;font-size:12.5px;line-height:1.7;color:var(--ink);
+  }
+  .g-list li::before{content:"·";position:absolute;left:10px;top:7px;color:var(--sand);font-weight:800;font-size:16px;}
+  .g-list li b{color:var(--sand-d);}
+  .g-list li .m{color:var(--sea);font-weight:700;}
+  .zone{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    font-size:16.5px;font-weight:800;letter-spacing:1px;color:#fff;
+    border-radius:14px;padding:11px 16px;margin-bottom:14px;
+  }
+  .zone small{font-weight:600;opacity:.92;font-size:11px;letter-spacing:0;margin-left:auto;text-align:right;}
+  @media(max-width:520px){.zone small{width:100%;margin-left:0;}}
+  .zone.cn{background:linear-gradient(92deg,#f2862e,#ff5d73);box-shadow:0 4px 14px rgba(242,134,46,.32);}
+  .zone.my{background:linear-gradient(92deg,#1b9aaa,#2ec4b6);box-shadow:0 4px 14px rgba(27,154,170,.30);}
+  .pack-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
+  @media(max-width:760px){.pack-grid{grid-template-columns:1fr;}}
+  .check-list{list-style:none;display:grid;gap:7px;}
+  .check{
+    display:flex;gap:10px;align-items:flex-start;cursor:pointer;
+    padding:8px 12px;background:#fdf9f0;border:1px solid var(--line);
+    border-radius:10px;font-size:12.5px;line-height:1.6;color:var(--ink);
+  }
+  .check input{margin-top:2px;width:15px;height:15px;accent-color:var(--sand);flex:none;cursor:pointer;}
+  .check b{color:var(--sand-d);}
+  .check .m{color:var(--sea);font-weight:700;}
+  .check:has(input:checked){background:var(--sea-soft);border-color:rgba(27,154,170,.35);}
+  .check:has(input:checked) .tx{text-decoration:line-through;color:var(--mut);}
+  .wbox{
+    padding:9px 12px;border-radius:10px;font-size:12.5px;line-height:1.7;margin-bottom:4px;
+    background:linear-gradient(135deg,rgba(242,134,46,.1),rgba(255,209,102,.12));
+    border:1px dashed rgba(242,134,46,.45);color:var(--ink);
+  }
+  .wbox b{color:var(--sand-d);}
+  .g-sec{
+    display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;
+    color:var(--ink);margin:12px 0 6px;letter-spacing:.5px;
+  }
+  .g-sec::after{content:"";flex:1;height:1px;background:var(--line);}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th{
+    font-size:10.5px;color:var(--mut);text-align:left;font-weight:700;letter-spacing:.8px;
+    padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap;
+  }
+  th.c,td.c{text-align:right;}
+  td{
+    padding:8px;border-bottom:1px solid rgba(240,226,205,.7);color:var(--ink);
+    font-variant-numeric:tabular-nums;
+  }
+  tr:last-child td{border-bottom:none;}
+  td.l{white-space:nowrap;color:var(--mut);}
+  .srow td{color:var(--mut);font-size:12.5px;background:#fdf9f0;}
+  .num2{font-weight:800;color:var(--sand-d);white-space:nowrap;}
+  .num2.z{color:var(--mut);font-weight:600;}
+  .tbl-tag{font-size:10.5px;font-weight:700;border-radius:999px;padding:2px 8px;white-space:nowrap;}
+  .tbl-tag.on{background:var(--sea-soft);color:var(--sea);}
+  .tbl-tag.pd{background:var(--lemon-soft);color:#b8860b;}
+  .total-row td{font-weight:800;color:var(--ink);border-top:2px solid var(--sand);padding-top:10px;}
+  .budget-basic{
+    margin-top:16px;padding:12px 14px;border-radius:14px;font-size:12.5px;line-height:1.85;
+    background:var(--sea-soft);border:1px solid rgba(27,154,170,.35);color:#0e6b77;
+  }
+  .budget-basic b{color:var(--sea);}
+  .grand{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
+  @media(max-width:760px){.grand{grid-template-columns:repeat(2,1fr);}.g-item.total{grid-column:1/-1;}}
+  .g-item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:0 4px 14px rgba(31,45,77,.05);}
+  .gk{font-size:11px;color:var(--mut);font-weight:700;letter-spacing:.5px;}
+  .gv{font-size:19px;font-weight:800;margin-top:4px;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .g-item.total{background:linear-gradient(135deg,rgba(242,134,46,.12),rgba(255,93,115,.08));border-color:rgba(242,134,46,.45);}
+  .gv.big{font-size:22px;color:var(--sand-d);}
+  .subrow td{border-top:1px solid var(--line);font-weight:800;padding-top:10px;color:var(--ink);}
+  .subval{font-size:14px;color:var(--sand-d);}
+  .sub-t small{font-weight:600;color:var(--mut);font-size:11px;letter-spacing:0;margin-left:6px;}
+
+  footer{text-align:center;color:var(--mut);font-size:11.5px;margin-top:22px;line-height:2;}
+  footer a{color:var(--mut);}
+  footer .hl{color:var(--sand-d);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <span class="kick mono">HONEYMOON TRIP · 2026</span>
+    <h1>中秋国庆 · <i>蜜月旅行计划</i></h1>
+    <div class="sub">两对新婚夫妇 · 连玩 <b>13 天</b> · 从草原沙漠浪到马来西亚海岛</div>
+    <div class="route">
+      <div class="city"><span class="dot"></span><span class="cn">深圳</span><span class="en">Shenzhen</span></div>
+      <div class="link"><i></i></div>
+      <div class="city"><span class="dot small"></span><span class="cn">呼和浩特</span><span class="en">Hohhot</span></div>
+      <div class="link"><i></i></div>
+      <div class="city"><span class="dot small"></span><span class="cn">包头 💍</span><span class="en">Baotou</span></div>
+      <div class="link"><i></i></div>
+      <div class="city"><span class="dot small"></span><span class="cn">库布齐 🏜</span><span class="en">Desert</span></div>
+      <div class="link"><i></i></div>
+      <div class="city"><span class="dot small"></span><span class="cn">吉隆坡</span><span class="en">Kuala Lumpur</span></div>
+      <div class="link"><i></i></div>
+      <div class="city"><span class="dot"></span><span class="cn">亚庇 🏝</span><span class="en">Kota Kinabalu</span></div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <nav class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="plan">📅 行程计划</button>
+    <button class="tab-btn" data-tab="guide">📖 攻略</button>
+    <button class="tab-btn" data-tab="expense">🧾 支出清单</button>
+    <button class="tab-btn" data-tab="pack">🎒 备品清单</button>
+  </nav>
+
+  <!-- PANEL: PLAN -->
+  <div class="panel active" id="panel-plan">
+    <div class="p-h">
+      <h2>行程计划 · 日历联动</h2>
+      <span class="en">Itinerary + Calendar</span>
+    </div>
+    <div class="plan-wrap">
+
+      <!-- LEFT: CALENDAR -->
+      <div class="cal-col">
+        <div class="calbox">
+          <h3>九月 <span class="y mono">SEP 2026</span></h3>
+          <table class="cal">
+            <tr><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th></tr>
+            <tr>
+              <td class="cross"><span class="n">31</span><span class="cnote">8月</span></td>
+              <td><span class="n">1</span></td>
+              <td><span class="n">2</span></td>
+              <td><span class="n">3</span></td>
+              <td><span class="n">4</span></td>
+              <td class="wk"><span class="n">5</span></td>
+              <td class="wk"><span class="n">6</span></td>
+            </tr>
+            <tr>
+              <td><span class="n">7</span></td>
+              <td><span class="n">8</span></td>
+              <td><span class="n">9</span></td>
+              <td><span class="n">10</span></td>
+              <td><span class="n">11</span></td>
+              <td class="wk"><span class="n">12</span></td>
+              <td class="wk"><span class="n">13</span></td>
+            </tr>
+            <tr>
+              <td><span class="n">14</span></td>
+              <td><span class="n">15</span></td>
+              <td><span class="n">16</span></td>
+              <td><span class="n">17</span></td>
+              <td><span class="n">18</span></td>
+              <td class="wk"><span class="n">19</span></td>
+              <td class="wkd" data-date="9-20"><span class="n">20</span><span class="cnote">补班</span></td>
+            </tr>
+            <tr>
+              <td><span class="n">21</span></td>
+              <td><span class="n">22</span></td>
+              <td><span class="n">23</span></td>
+              <td><span class="n">24</span></td>
+              <td class="off" data-date="9-25"><span class="n">25</span><span class="cnote">✈ 中秋</span></td>
+              <td class="off" data-date="9-26"><span class="n">26</span><span class="cnote">🚄 包头</span></td>
+              <td class="off" data-date="9-27"><span class="n">27</span><span class="cnote">💍→🏜</span></td>
+            </tr>
+            <tr>
+              <td data-date="9-28"><span class="n">28</span><span class="cnote">✈ 吉隆坡</span></td>
+              <td data-date="9-29"><span class="n">29</span><span class="cnote">请假②</span></td>
+              <td data-date="9-30"><span class="n">30</span><span class="cnote">✈ 沙巴</span></td>
+              <td class="cross"><span class="n">1</span><span class="cnote">→10月</span></td>
+              <td class="cross"><span class="n">2</span></td>
+              <td class="cross"><span class="n">3</span></td>
+              <td class="cross"><span class="n">4</span></td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="calbox">
+          <h3>十月 <span class="y mono">OCT 2026</span></h3>
+          <table class="cal">
+            <tr><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th></tr>
+            <tr>
+              <td class="cross"><span class="n">28</span><span class="cnote">9月</span></td>
+              <td class="cross"><span class="n">29</span></td>
+              <td class="cross"><span class="n">30</span></td>
+              <td class="off hm" data-date="10-1"><span class="n">1</span><span class="cnote">🏝 蜜月</span></td>
+              <td class="off hm" data-date="10-2"><span class="n">2</span></td>
+              <td class="off hm" data-date="10-3"><span class="n">3</span></td>
+              <td class="off hm" data-date="10-4"><span class="n">4</span><span class="cnote">周日市集</span></td>
+            </tr>
+            <tr>
+              <td class="off hm" data-date="10-5"><span class="n">5</span></td>
+              <td class="off hm" data-date="10-6"><span class="n">6</span></td>
+              <td class="off hm" data-date="10-7"><span class="n">7</span><span class="cnote">✈ 返程</span></td>
+              <td><span class="n">8</span></td>
+              <td><span class="n">9</span></td>
+              <td class="wkd" data-date="10-10"><span class="n">10</span><span class="cnote">补班</span></td>
+              <td class="wk"><span class="n">11</span></td>
+            </tr>
+            <tr>
+              <td><span class="n">12</span></td>
+              <td><span class="n">13</span></td>
+              <td><span class="n">14</span></td>
+              <td><span class="n">15</span></td>
+              <td><span class="n">16</span></td>
+              <td class="wk"><span class="n">17</span></td>
+              <td class="wk"><span class="n">18</span></td>
+            </tr>
+            <tr>
+              <td><span class="n">19</span></td>
+              <td><span class="n">20</span></td>
+              <td><span class="n">21</span></td>
+              <td><span class="n">22</span></td>
+              <td><span class="n">23</span></td>
+              <td class="wk"><span class="n">24</span></td>
+              <td class="wk"><span class="n">25</span></td>
+            </tr>
+            <tr>
+              <td><span class="n">26</span></td>
+              <td><span class="n">27</span></td>
+              <td><span class="n">28</span></td>
+              <td><span class="n">29</span></td>
+              <td><span class="n">30</span></td>
+              <td class="wk"><span class="n">31</span></td>
+              <td class="cross"><span class="n">1</span><span class="cnote">11月</span></td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="note-legend">
+          <span><i class="swatch off"></i>行程 / 假日</span>
+          <span><i class="swatch wkd"></i>调休补班</span>
+          <span><i class="swatch dot"></i>蜜月段</span>
+        </div>
+        <div class="hint">💡 鼠标悬停 / 点击两侧，日期与行程联动高亮</div>
+      </div>
+
+      <!-- RIGHT: TIMELINE -->
+      <div class="tl-col">
+        <div class="tl">
+          <div class="tl-item done" data-dates="9-25">
+            <span class="tl-dot"></span>
+            <div class="date"><div class="d">09.25</div><div class="w">FRI · 中秋</div></div>
+            <div class="body">
+              <b>深圳 → 广州 → 呼和浩特 ✈</b>
+              <div class="p">深圳北 07:40 动车→广州东→地铁 3 号线北延段直达白云机场 T2；航班 11:50-15:00，落地后下午场大召寺＋塞上老街</div>
+            </div>
+          </div>
+          <div class="tl-item" data-dates="9-26">
+            <span class="tl-dot"></span>
+            <div class="date"><div class="d">09.26</div><div class="w">SAT · 中秋</div></div>
+            <div class="body">
+              <b>呼和浩特 → 包头 🚄</b>
+              <div class="p">动车抵达，为明天婚礼做准备</div>
+            </div>
+          </div>
+          <div class="tl-item" data-dates="9-27">
+            <span class="tl-dot"></span>
+            <div class="date"><div class="d">09.27</div><div class="w">SUN · 中秋</div></div>
+            <div class="body">
+              <b>包头 · 闺蜜婚礼 💍 浅浅当伴娘</b>
+              <div class="p">婚礼 14 点多结束，下午直奔库布齐：玩沙项目＋沙丘日落＋深夜银河</div>
+              <div class="t">👰 伴娘功课：防晒补水跟上，妆造时间线跟新娘对齐，别熬太狠</div>
+              <div class="t">🏜 沙漠夜可能 10℃ 以下：防风外套 + 暖宝宝安排上</div>
+              <div class="t">🚗 白天出发不用赶夜路，导航稳当；营地提前订好</div>
+            </div>
+          </div>
+          <div class="tl-item done" data-dates="9-28">
+            <span class="tl-dot"></span>
+            <div class="date"><div class="d">09.28</div><div class="w">MON · 请假①</div></div>
+            <div class="body">
+              <b>沙漠 → 包头 ✈ 南京 → 吉隆坡（转机）</b>
+              <div class="p">航班 11:20-13:35 包头→南京，18:25-23:40 南京→吉隆坡；蜜月开启</div>
+              <div class="t">🧳 廉航提醒：行李额度、提前值机；南京转机<b>行李已直挂</b>，轻装行动</div>
+            </div>
+          </div>
+          <div class="tl-item" data-dates="9-29">
+            <span class="tl-dot"></span>
+            <div class="date"><div class="d">09.29</div><div class="w">TUE · 请假②</div></div>
+            <div class="body">
+              <b>吉隆坡市区逛吃 🕌</b>
+              <div class="p">双子塔 / 茨厂街，慢慢逛</div>
+              <div class="t">🕐 吉隆坡与北京无时差（GMT+8），落地不用倒表</div>
+            </div>
+          </div>
+          <div class="tl-item" data-dates="9-30">
+            <span class="tl-dot"></span>
+            <div class="date"><div class="d">09.30</div><div class="w">WED · 请假③</div></div>
+            <div class="body">
+              <b>吉隆坡 → 亚庇 ✈</b>
+              <div class="p">落地沙巴，拥抱海岛风</div>
+            </div>
+          </div>
+          <div class="tl-item" data-dates="10-1 10-2 10-3 10-4 10-5 10-6 10-7">
+            <span class="tl-dot"></span>
+            <div class="date"><div class="d">10.01-07</div><div class="w">国庆 · 7 天</div></div>
+            <div class="body">
+              <b>亚庇 · 沙巴 🏝 蜜月度假</b>
+              <div class="p">两对新婚夫妇同游，尽情浪</div>
+              <div class="t">🎪 10/4（周日）早晨逛加雅街周日市集，本地味很足</div>
+              <div class="t">🌅 丹绒亚路日落 / 近海跳岛（沙比岛、马穆迪岛）/ 可排美人鱼岛一日游</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <span class="tl-dot"></span>
+            <div class="date"><div class="d">TBD</div><div class="w">返程</div></div>
+            <div class="body">
+              <b>亚庇 → 香港 → 深圳 🛳</b>
+              <div class="p">口岸回深，回家</div>
+              <div class="t">🛂 全程通用：护照随身；马来西亚目前对中国护照免签（出发前再确认）；经香港过境回内地一般免签 7 天</div>
+            </div>
+          </div>
+        </div>
+        <div class="warn">⚠️ 节奏提醒：9/28 沙漠 → 包头机场约 <b>1–1.5h</b> 车程，记得给还车和值机留足时间；回程若 10/8 返岗，最好 10/7 当天落地深圳，否则需再请 1 天假。10/10（周六）补班别忘。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PANEL: GUIDE (二级Tab) -->
+  <div class="panel" id="panel-guide">
+    <div class="p-h">
+      <h2>攻略</h2>
+      <span class="en">Overview + 每城一页 · 吃住行全覆盖</span>
+    </div>
+
+    <div class="sub-tabs">
+      <button class="sub-tab-btn active" data-sub="overview">📖 概览</button>
+      <button class="sub-tab-btn" data-sub="hohhot">🏙 呼和浩特</button>
+      <button class="sub-tab-btn" data-sub="baotou">💍 包头</button>
+      <button class="sub-tab-btn" data-sub="desert">🏜 库布齐</button>
+      <button class="sub-tab-btn" data-sub="kl">🕌 吉隆坡</button>
+      <button class="sub-tab-btn" data-sub="kk">🏝 亚庇</button>
+      <button class="sub-tab-btn" data-sub="hk">🛳 香港</button>
+    </div>
+
+    <!-- SUB: OVERVIEW -->
+    <div class="sub-panel active" id="sub-overview">
+      <div class="g-note">💡 点击下方任意城市卡片，直达对应城市的详细攻略页</div>
+
+      <div class="zone cn">🏔 内蒙线 · 09.25-28 <small>呼和浩特 → 包头 → 库布齐 · 白天 15-22℃ / 夜 5-10℃</small></div>
+
+      <div class="cat cat-tra clickable" data-city="hohhot">
+        <div class="cat-h">🏙 呼和浩特 · 09.25 <small>第一站</small><span class="go">→ 详情</span></div>
+        <ul class="g-list">
+          <li>🌡 <b>天气：</b>白天约 15-22℃，夜间 5-10℃，干燥风大</li>
+          <li><b>🚗 行 · 动线：</b>深圳→广州城际早班 → 白云机场 <b>11:50-15:00</b> 直飞呼市；机场→市区 30-40 分钟（打车/机场大巴）；落地后大召寺・塞上老街・内蒙古博物院（免费，提前预约）就近串联</li>
+          <li><b>🍜 吃：</b>烧麦（稍麦）、羊杂碎、锅茶奶茶、手把肉——大召寺一带小吃街一站式解决</li>
+          <li><b>🏨 住：</b>大召寺/塞上老街商圈，晚上步行逛吃最方便；预算友好住连锁，想加点内蒙味选市区民族风民宿</li>
+        </ul>
+      </div>
+
+      <div class="cat cat-fun clickable" data-city="baotou">
+        <div class="cat-h">💍 包头 · 09.26-27 <small>婚礼主场</small><span class="go">→ 详情</span></div>
+        <ul class="g-list">
+          <li>🌡 <b>天气：</b>白天 15-20℃，婚礼日注意保暖仪容</li>
+          <li><b>🚗 行 · 动线：</b>呼市→包头动车约 1-1.5h（班次密）；婚礼场地交通以新娘安排为准，市区打车方便；有空档去赛汗塔拉城中草原散步</li>
+          <li><b>🍜 吃：</b>婚宴是主战场；街头可加餐包头羊杂碎、莜面、烤焙子</li>
+          <li><b>🏨 住：</b>9/26 夜住婚礼场地附近酒店（闺蜜已安排）；伴娘当日妆造以新娘时间为准，随身带补妆包＋平底换鞋</li>
+        </ul>
+      </div>
+
+      <div class="cat cat-hot clickable" data-city="desert">
+        <div class="cat-h">🏜 库布齐 · 响沙湾一带 · 09.27 夜-09.28 <small>星空露营</small><span class="go">→ 详情</span></div>
+        <ul class="g-list">
+          <li>🌡 <b>天气：</b>白天 18-22℃，<b>夜间可能 10℃ 以下</b>＋风沙</li>
+          <li><b>🚗 行 · 动线：</b>9/27 婚礼 14 点多结束，下午 16:00 到响沙湾（包头自驾约 1-1.5h）——玩沙项目＋日落＋星空一趟齐活；9/28 早 7:20 出发返包头机场赶 11:20 转机航班（南京→吉隆坡）；地广人稀，离线地图＋手机支架备好</li>
+          <li><b>🍜 吃：</b>营地晚餐/蒙古包套餐为主；自备水＋零食＋保温杯热饮压寒；深夜牛羊肉配奶茶是内蒙灵魂</li>
+          <li><b>🏨 住：</b>营地蒙古包/星空房 ×1 晚（提前订！）；或响沙湾景区内酒店一价全包（含餐+项目，省心）；夜观银河是这趟的点睛之笔；充电稀缺，大充电宝先喂饱</li>
+          <li><b>🎡 玩：</b>滑沙、骑骆驼、沙地越野、篝火晚会</li>
+        </ul>
+      </div>
+
+      <div class="zone my">🌴 马来线 · 09.28-10.07 <small>吉隆坡 → 亚庇 → 香港 · 26-33℃ 全年夏 / 阵雨多 / 紫外线极强</small></div>
+
+      <div class="cat cat-food clickable" data-city="kl">
+        <div class="cat-h">🕌 吉隆坡 · 09.28-29 <small>蜜月第一站</small><span class="go">→ 详情</span></div>
+        <ul class="g-list">
+          <li>🌡 <b>天气：</b>26-33℃ 湿热，午后雷阵雨"来得快去得快"，带把轻便伞</li>
+          <li><b>🚗 行 · 动线：</b>9/28 南京 <b>18:25-23:40</b> 深夜落地 KLIA；深夜进市区优先 Grab（机场快线可能已收班）；市内 Grab 打车便宜方便；双子塔（KLCC）→独立广场→茨厂街可步行串联</li>
+          <li><b>🍜 吃：</b>阿罗街夜市（夜宵天堂）、肉骨茶、椰浆饭、拉茶、福建面、茨厂街小吃</li>
+          <li><b>🏨 住：</b>KLCC 或武吉免登（Bukit Bintang）商圈，吃喝交通最顺；两对新婚夫妇同酒店、2 间相邻，晚上串门聊天方便</li>
+        </ul>
+      </div>
+
+      <div class="cat cat-mint clickable" data-city="kk">
+        <div class="cat-h">🏝 亚庇 · 09.30-10.07 <small>蜜月主场 · 7 天</small><span class="go">→ 详情</span></div>
+        <ul class="g-list">
+          <li>🌡 <b>天气：</b>26-33℃，湿度 70-90%；赤道紫外线极强，防晒 SPF50+ 随身补</li>
+          <li><b>🚗 行 · 动线：</b>吉隆坡→亚庇航班约 2.5h；BKI 机场→市区 15-20 分钟车程；<b>跳岛码头 Jesselton Point</b> 就在市区；丹绒亚路看日落（住那带可步行）；10/4 周日早晨逛<b>加雅街市集</b></li>
+          <li><b>🍜 吃：</b>海鲜大排档（大茄来等）、生肉面、肉骨茶、椰子冻；榴莲山竹水果自由；市集里解决本地早餐</li>
+          <li><b>🏨 住：</b>市区（加雅街附近：市集楼下、海鲜步行圈）或丹绒亚路（日落景观房）；2 间相邻</li>
+          <li><b>🎡 玩：</b>丹绒亚路日落、东姑阿都拉曼海洋公园跳岛（马努干/沙比岛，快艇 20 分钟内）、美人鱼岛一日游（需预约）</li>
+        </ul>
+      </div>
+
+      <div class="cat cat-red clickable" data-city="hk">
+        <div class="cat-h">🛳 返程 · 香港过境（待定） <small>回家前的中转站</small><span class="go">→ 详情</span></div>
+        <ul class="g-list">
+          <li>🌡 <b>天气：</b>10 月上旬约 26-30℃，短袖即可</li>
+          <li><b>🚗 行 · 动线：</b>亚庇→香港直飞约 3h；香港→深圳：<b>西九龙高铁约 18 分钟</b>直达，或 福田口岸地铁；过境持护照＋机票免签 7 天</li>
+          <li><b>🍜 吃：</b>茶餐厅、烧腊、丝袜奶茶——回家前最后一顿港式犒劳自己</li>
+          <li><b>🏨 住：</b>当天转车回深一般无需过夜；万一航班晚，住口岸商圈酒店备选</li>
+        </ul>
+      </div>
+
+      <div class="cat cat-ink">
+        <div class="cat-h">🎒 全程通用清单 <small>13 天 · 呼和浩特 → 沙巴</small></div>
+        <ul class="g-list">
+          <li><b>证件：</b>护照＋身份证＋行程单；马来西亚对中国护照免签（<b>出发前再确认</b>最新政策）；香港过境无需港澳通行证</li>
+          <li><b>装备：</b>英规转换插头、SPF50+ 防晒、补水保湿、便携颈枕（三段长途飞行）</li>
+          <li><b>数字工具：</b>Grab（打车/外卖）、Google 地图离线包、翻译 App；12306 / 航司 App 提前值机</li>
+        </ul>
+      </div>
+    </div>
+    <!-- /SUB: OVERVIEW -->
+
+    <!-- SUB: HOHHOT -->
+    <div class="sub-panel" id="sub-hohhot">
+      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="cat cat-tra">
+        <div class="cat-h">🏙 呼和浩特 · 09.25 <small>按天攻略</small></div>
+        <div class="g-sec">🏨 住哪</div>
+        <ul class="g-list">
+          <li>大召寺/塞上老街一带：晚上步行逛吃；连锁稳妥、民族风民宿有味道，挑离老街 500 米内的</li>
+        </ul>
+        <div class="day-card">
+          <div class="day-h">📅 09.25（周五）· 飞青城 · 抵达日 <span class="tag">15:00 落地</span></div>
+          <ul class="day-list">
+            <li><b>07:40-08:00</b> 深圳北出发（动车，坐到<b>广州东站</b>，约 70 分钟）</li>
+            <li><b>09:00 前后</b> 广州东站换乘<b>地铁 3 号线北延段</b>，直达机场北站（约 50 分钟）</li>
+            <li><b>10:00 前后</b> 到<b>白云机场 T2</b>，值机安检（提前 1.5-2h ✓）</li>
+            <li><b>11:50</b> 起飞</li>
+            <li><b>15:00</b> 落地呼和浩特 → 机场 → 市区约 40 分钟，酒店放行李换装</li>
+            <li><b>16:30</b> 大召寺下午场：银佛殿（明代银佛＋壁画）＋广场骑马铜像（天黑前光线好）</li>
+            <li><b>18:30</b> 塞上老街逛吃：老绥元/德顺源烧麦＋蒙古奶茶，380 米青砖街吃到扶墙</li>
+            <li><b>20:00</b> 大召寺夜景／老街夜市收尾，非遗手工坊顺手做伴手礼</li>
+            <li><b>21:30</b> 回酒店，早睡（明天动车＋大日子）</li>
+          </ul>
+        </div>
+        <div class="g-sec">📌 本日贴士</div>
+        <ul class="g-list">
+          <li>时间够可加内蒙古博物院（地铁 1 号线直达、免费需预约，注意闭馆时间）</li>
+          <li>晚上出门套外套（夜间 5-10℃）；干燥，当晚补水面膜安排一片</li>
+          <li>两对新人以酒店为圆心活动，别跑散，先对齐"蜜月频道" 🎧</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SUB: BAOTOU -->
+    <div class="sub-panel" id="sub-baotou">
+      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="cat cat-fun">
+        <div class="cat-h">💍 包头 · 09.26-27 <small>按天攻略</small></div>
+        <div class="g-sec">🏨 住哪</div>
+        <ul class="g-list">
+          <li>9/26 夜住婚礼场地附近酒店（闺蜜已安排）——当天少折腾多休息，妆造现场随叫随到</li>
+        </ul>
+        <div class="day-card">
+          <div class="day-h">📅 09.26（周六）· 婚礼前夜 <span class="tag">踩点日</span></div>
+          <ul class="day-list">
+            <li><b>上午</b> 呼市 → 包头动车 1-1.5h，中午到、酒店入住</li>
+            <li><b>下午</b> 婚礼场地踩点＋彩排；跟新娘对流程清单：几点到位 / 拿什么 / 站哪 / 谁保管红包首饰</li>
+            <li><b>晚上</b> 婚前聚餐/单身夜（新娘安排为主）；洗头敷面膜早点睡，明天上镜</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 09.27（周日）· 婚礼日 · 浅浅当伴娘 <span class="tag">大日子 💍</span></div>
+          <ul class="day-list">
+            <li><b>早上</b> 按新娘妆造时间提前到，补妆包＋礼服随身</li>
+            <li><b>接亲</b> 堵门游戏配合新娘，帮拎包、补妆、看流程</li>
+            <li><b>仪式＋合影</b> 递戒指/手捧、理裙摆、招呼宾客；手机帮新娘多抓拍几张</li>
+            <li><b>敬酒</b> 跟紧新娘挡酒挡场，纸笔记红包名单</li>
+            <li><b>14:00-14:30</b> 婚礼收尾换装，午餐后<b>15:00 出发</b>奔沙漠（下午玩沙＋日落＋星空全安排 👇）</li>
+          </ul>
+        </div>
+        <div class="g-sec">📌 有空档才加</div>
+        <ul class="g-list">
+          <li>赛汗塔拉城中草原（亚洲最大城中草原，可骑行散步）；包头本地味：莜面、羊杂碎、烤焙子</li>
+          <li>问清新娘婚宴流程和室内外温差，礼服外套披肩备好；当天多喝水少喝咖啡</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SUB: DESERT -->
+    <div class="sub-panel" id="sub-desert">
+      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="cat cat-hot">
+        <div class="cat-h">🏜 库布齐 · 响沙湾 · 09.27 夜-09.28 早 <small>按天攻略</small></div>
+        <div class="g-sec">🏨 住哪（一价全包最省心）</div>
+        <ul class="g-list">
+          <li><b>莲花酒店</b>（莲沙岛·私属度假岛）：一价全包＝三餐＋两岛无限次畅玩＋VIP 不排队＋日出观星活动；人最少、看银河最佳</li>
+          <li><b>福沙岛度假村</b>：蒙古包房型拍照出片，一价全包性价比更高；<b>一粒沙度假村</b>：离缆车近、出门就是沙漠</li>
+        </ul>
+        <div class="day-card">
+          <div class="day-h">📅 09.27（周日）· 下午入场 · 玩沙+日落+星空 <span class="tag">婚礼 14 点结束</span></div>
+          <ul class="day-list">
+            <li><b>14:30</b> 婚礼收尾换装，午餐后出发（包头 → 响沙湾约 1-1.5h，白天开车稳稳的）</li>
+            <li><b>16:00-18:00</b> 玩沙黄金窗口：索道看沙海 → 骑骆驼绕沙丘 → 滑沙，下午光线正柔</li>
+            <li><b>18:30</b> 沙丘上看沙漠日落（红裙大片机位，金色沙脊绝了）→ 晚餐（一价全包/营地餐）</li>
+            <li><b>22:00-24:00</b> 深夜银河正片：三脚架长曝＋暖宝宝，人生照片预定</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 09.28（周一）· 晨光告别 → 三城飞行 <span class="tag">11:20 航班</span></div>
+          <ul class="day-list">
+            <li><b>05:30（可选）</b> 沙漠日出晨光大片（昨天已玩项目，不赶场）</li>
+            <li><b>06:30</b> 早餐＋退房，沙丘散个步消消食</li>
+            <li><b>07:20</b> 出发 → 包头机场约 1-1.5h（09:00 前到，值机 11:20 航班）</li>
+            <li><b>11:20-13:35</b> 包头 ✈ 南京；<b>13:35-18:25</b> 南京机场转机 4.8h：吃饭、按摩椅休息（<b>行李直挂</b>，轻装溜达）</li>
+            <li><b>18:25-23:40</b> 南京 ✈ 吉隆坡，深夜入境（节奏见吉隆坡页 09.28 卡）</li>
+          </ul>
+        </div>
+        <div class="g-sec">🗺 四岛速览 · 二选一</div>
+        <ul class="g-list">
+          <li><b>仙沙岛</b>：动感游乐区（沙漠迪士尼）——过山车、沙漠摩托、高空滑索、滑沙（听响沙核心）；年轻人/爱刺激</li>
+          <li><b>悦沙岛</b>：亲子休闲区（出片圣地）——沙雕城堡、沙漠小火车、无边泳池、水上项目、下午《鄂尔多斯婚礼》非遗演出；拍照躺平</li>
+          <li><b>莲沙岛</b>：仅莲花酒店住客进入、人最少、专属观景台；<b>福沙岛</b>：蒙古包聚落、射箭、蒙服体验</li>
+        </ul>
+        <div class="g-sec">📌 出片 &amp; 避坑</div>
+        <ul class="g-list">
+          <li>机位：索道顶端俯瞰金色沙海；沙丘顶人物剪影；驼队抓拍。穿搭：红/白/黑长裙＋大檐帽/丝巾/墨镜</li>
+          <li>9 月黄金窗口（游客少天凉风沙小）；避开正午 11-15 点暴晒（你们一早玩正好）；开园旺季约 8:00</li>
+          <li>9/27 下午 16:00 到场正好赶得上玩项目（旺季开到 18:30 停止入场），项目＋日落＋星空一趟齐活；9/28 一早专心赶 11:20 航班</li>
+          <li>鞋套景区卖 15 元/双（备品已写提前买）；自带水零食（景区餐饮一般且贵）；KFC 在仙沙岛只卖甜品不卖汉堡</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SUB: KL -->
+    <div class="sub-panel" id="sub-kl">
+      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="cat cat-food">
+        <div class="cat-h">🕌 吉隆坡 · 09.28-09.29 <small>按天攻略</small></div>
+        <div class="g-sec">🏨 住哪</div>
+        <ul class="g-list">
+          <li>KLCC（双子塔）或武吉免登商圈：吃喝交通最顺，逛回来就到家；两对新婚夫妇 2 间相邻</li>
+        </ul>
+        <div class="day-card">
+          <div class="day-h">📅 09.28（周一）· 深夜落地 <span class="tag">23:40 抵达</span></div>
+          <ul class="day-list">
+            <li><b>18:25</b> 南京起飞，<b>23:40</b> 落地吉隆坡（与北京无时差）</li>
+            <li><b>约 00:30</b> 过海关＋取行李 → 深夜进市区：机场快线若已收班则 Grab 打车（车费略高，4 人拼车更划算）</li>
+            <li><b>约 01:00</b> 酒店 check-in，睡踏实觉；阿罗街开到凌晨，还有体力就冲一份夜宵 🍢</li>
+            <li><b>次日</b> 09.29 全天行程照常（见下）</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 09.29（周二）· 全天 · 步行串联 <span class="tag">重头</span></div>
+          <ul class="day-list">
+            <li><b>09:00</b> 早餐（酒店或附近地道茶室）</li>
+            <li><b>10:00</b> 茨厂街（唐人街）：早去人少，肉骨茶、福建面午饭一起解决</li>
+            <li><b>12:00</b> 步行线：马里安曼印度庙 → 占美清真寺 → 独立广场（欧式老城，苏丹阿都沙末大楼）</li>
+            <li><b>14:30</b> 国家清真寺（长裤长裙＋围巾遮头，礼仪到位）</li>
+            <li><b>15:30</b> <b>双子塔观景台</b>（41/42 层 Skybridge＋86 层观景台，提前订票；下午 3-5 点入场先日景，16-18 点看日落＋亮灯一箭双雕）</li>
+            <li><b>18:00</b> KLCC 公园喷泉＋楼下拍塔倒影（浅色系穿搭出片）</li>
+            <li><b>19:30</b> 阿罗街二刷：肉骨茶 / 烤鱼 / 猫山王榴莲</li>
+          </ul>
+        </div>
+        <div class="g-sec">📌 本城贴士</div>
+        <ul class="g-list">
+          <li>市区 Grab 打车便宜；午后常有阵雨，轻便伞随身；清真寺穿着提前备好（长围巾在备品清单里）</li>
+          <li>09.30（周三）上午退房去机场飞亚庇，别安排太满</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SUB: KK -->
+    <div class="sub-panel" id="sub-kk">
+      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="cat cat-mint">
+        <div class="cat-h">🏝 亚庇 · 09.30-10.07 <small>蜜月主场 · 逐日攻略</small></div>
+        <div class="g-sec">🏨 住哪</div>
+        <ul class="g-list">
+          <li>市区<b>加雅街一带</b>：周日市集在楼下、海鲜步行圈、跳岛码头近（第一次来最推荐）</li>
+          <li>或<b>丹绒亚路</b>：日落景观房，适合后段躺平；两间相邻</li>
+        </ul>
+        <div class="day-card">
+          <div class="day-h">📅 09.30（周三）· 抵达日 <span class="tag">蜜月开局</span></div>
+          <ul class="day-list">
+            <li><b>下午</b> 落地 BKI → 打车 15-20 分钟到酒店，安顿换装</li>
+            <li><b>18:00 前</b> 丹绒亚路海滩抢位看日落（第一晚就来名场面 🌅）</li>
+            <li><b>晚上</b> 大茄来海鲜开戒：奶油老虎虾、咸蛋黄炒蟹必点</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 10.01（周四）· 市区漫游 <span class="tag">慢节奏</span></div>
+          <ul class="day-list">
+            <li><b>上午</b> 加雅街 / 艾京生钟楼 / 本地咖啡馆，慢慢走</li>
+            <li><b>午后</b> 酒店泳池躺平，热带午休是正经事</li>
+            <li><b>傍晚</b> 再追一场日落 → 夜市小吃扫街</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 10.02（周五）· 跳岛日 🐚 <span class="tag">出海</span></div>
+          <ul class="day-list">
+            <li><b>08:30</b> Jesselton Point 码头出发 → 东姑阿都拉曼海洋公园（马努干 / 沙比岛，快艇 15-20 分钟）</li>
+            <li><b>上午-下午</b> 浮潜玩水＋沙滩躺；防水手机袋＋晕船药＋潜水袜备好</li>
+            <li><b>15-16 点</b> 回市区 → 晚上菲律宾市场自选海鲜现烹</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 10.03（周六）· 美人鱼岛 🐠 / 红树林 <span class="tag">深入海岛</span></div>
+          <ul class="day-list">
+            <li><b>全天</b> 美人鱼岛：玻璃海＋浮潜，早出晚归（船程 1.5-2h，晕船药提前吃）</li>
+            <li><b>备选</b> 红树林萤火虫夜游：长鼻猴＋萤火虫，沙巴特色；或干脆补一个躺平日</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 10.04（周日）· 市集日 🎪 <span class="tag">本地烟火</span></div>
+          <ul class="day-list">
+            <li><b>06:30</b> 加雅街周日市集逛吃（最新鲜的本地早晨，备现金）</li>
+            <li><b>午后</b> SPA / 歇脚，给跳岛后的皮肤补补水</li>
+            <li><b>傍晚</b> 日落收官</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 10.05（周一）· 自由日 <span class="tag">二选一</span></div>
+          <ul class="day-list">
+            <li><b>方案 A</b> 神山一日游（京那巴鲁山·世界自然遗产，车程约 2h，体力活）或香格里拉度假村日落 SUP</li>
+            <li><b>方案 B</b> 酒店躺平＋泳池＋最后一顿海鲜大餐，蜜月不需要证明自己</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 10.06（周二）· 采购日 🛍 <span class="tag">收尾</span></div>
+          <ul class="day-list">
+            <li><b>上午</b> 加雅街 / 旧街场带手信：白咖啡、沙巴红、榴莲干、虾酱</li>
+            <li><b>傍晚</b> 海边酒廊看最后一场日落，跟亚庇道别</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 10.07（周三）· 返程日 ✈ <span class="tag">回家</span></div>
+          <ul class="day-list">
+            <li><b>上午</b> 退房 → 机场飞香港（按回程计划）；入境记得核对护照盖章</li>
+            <li><b>到家</b> 旅程完结 🏠 别忘了 10/10（周六）补班</li>
+          </ul>
+        </div>
+        <div class="g-sec">🌅 落日指南（每天 18:00-19:30 通用）</div>
+        <ul class="g-list">
+          <li>丹绒亚路海滩（全球三大日落观赏点）：18:00 前到抢位；免费观景点 Jalan Bandaran；椰树构图拍剪影</li>
+          <li>进阶：SUP 桨板看日落浪漫值拉满；香格里拉 Sunset Bar 点杯鸡尾酒解锁 VIP 视角</li>
+          <li>穿搭：波西米亚长裙/纯色＋防晒衣，海风大带披肩</li>
+        </ul>
+        <div class="g-sec">🍜 吃什么（按菜点名）</div>
+        <ul class="g-list">
+          <li><b>大茄来（Welcome Seafood）</b>：奶油老虎虾必点、咸蛋黄炒蟹、蒜蓉蒸蟹；整条街都是它家</li>
+          <li><b>怡丰茶室（Yee Fung）</b>：排队也要吃的叻沙＋桔子冰；<b>佑记肉骨茶 / 冯记 Fong Ip</b>：金沙排骨拉茶</li>
+          <li><b>菲律宾市场</b>：自选海鲜档主现场烹饪；水果自由（榴莲、山竹、沙巴果）</li>
+        </ul>
+        <div class="g-sec">💡 安全 &amp; 贴士</div>
+        <ul class="g-list">
+          <li>SPF50+ 随身补涂；打车用 Grab（比出租车省约 40%）；浮潜穿救生衣；入境核对护照盖章</li>
+          <li>日落每天都有，不必强求同机位；跳岛/美人鱼岛提前 1-2 天订团</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SUB: HK -->
+    <div class="sub-panel" id="sub-hk">
+      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="cat cat-red">
+        <div class="cat-h">🛳 香港 · 返程当天 <small>按天攻略</small></div>
+        <div class="g-sec">🏨 住哪</div>
+        <ul class="g-list">
+          <li>当天转回深圳一般不必过夜；航班晚点则住口岸商圈酒店备选</li>
+        </ul>
+        <div class="day-card">
+          <div class="day-h">📅 返程当天 · 半天中转 <span class="tag">回家 🏠</span></div>
+          <ul class="day-list">
+            <li><b>落地香港</b> 过境免签 7 天，持护照＋机票即可</li>
+            <li><b>午餐</b> 茶餐厅：云吞面、烧腊、冻柠茶，给东南亚之旅画个句号</li>
+            <li><b>下午</b> 西九龙高铁约 18 分钟直达深圳（高铁票 App 提前买），或福田口岸地铁回深</li>
+            <li><b>到家</b> 旅程完结！记得 10/10（周六）补班</li>
+          </ul>
+        </div>
+        <div class="g-sec">📌 买什么</div>
+        <ul class="g-list">
+          <li>免税手信在口岸商圈顺手解决；榴莲干白咖啡别囤太多，家里还有</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL: EXPENSE -->
+  <div class="panel" id="panel-expense">
+    <div class="p-h">
+      <h2>支出清单</h2>
+      <span class="en">Expenses · 2 人 · 单位 ¥</span>
+    </div>
+    <div class="grand">
+      <div class="g-item"><div class="gk">✈ 交通</div><div class="gv" id="sum-tra">¥0</div></div>
+      <div class="g-item"><div class="gk">🏨 住宿</div><div class="gv" id="sum-hot">¥0</div></div>
+      <div class="g-item"><div class="gk">🎢 游玩</div><div class="gv" id="sum-fun">¥0</div></div>
+      <div class="g-item"><div class="gk">🍜 餐饮</div><div class="gv" id="sum-food">¥0</div></div>
+      <div class="g-item total"><div class="gk">💰 总合计（已计入）</div><div class="gv big" id="grand-total">¥0</div></div>
+    </div>
+    <div class="cat cat-tra">
+      <div class="cat-h">✈ 交通 <small>单价＝元/人 · ×2 人</small></div>
+      <table id="tbl-tra">
+        <tr><th>日期</th><th>路线</th><th class="c">单价(元/人)</th><th class="c">×</th><th class="c">金额(2人)</th><th style="text-align:right">状态</th></tr>
+        <tr><td class="l">09.25</td><td>深圳北 → 广州东（🚄 动车）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">09.25</td><td>广州 → 呼和浩特（✈）</td><td class="c">917</td><td class="c">2</td><td class="c amt num2" data-amt="1834">¥1,834</td><td style="text-align:right"><span class="tbl-tag on">✓ 已订</span></td></tr>
+        <tr><td class="l">09.26</td><td>呼和浩特 → 包头（🚄）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">09.27</td><td>包头租车 → 库布齐沙漠（1辆）</td><td class="c">—</td><td class="c">AA？</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr class="srow"><td class="l">09.28</td><td>库布齐 → 包头（还车）</td><td class="c" colspan="2">含租车</td><td class="c num2 z">—</td><td></td></tr>
+        <tr><td class="l">09.28</td><td>包头 → 南京 → 吉隆坡（✈ 转机）</td><td class="c">1,310</td><td class="c">2</td><td class="c amt num2" data-amt="2620">¥2,620</td><td style="text-align:right"><span class="tbl-tag on">✓ 已订</span></td></tr>
+        <tr><td class="l">09.30</td><td>吉隆坡 → 亚庇（✈）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">TBD</td><td>亚庇 → 香港（✈）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">TBD</td><td>香港 → 深圳（口岸）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr class="subrow"><td colspan="4">交通小计（已计入·2人）</td><td class="c num2 subval" id="sub-tra">¥0</td><td></td></tr>
+      </table>
+    </div>
+
+    <div class="cat cat-hot">
+      <div class="cat-h">🏨 住宿 <small>单价＝元/间·晚 · 1 间＝2 人合住</small></div>
+      <table id="tbl-hot">
+        <tr><th>地点</th><th>单价(元/间·晚)</th><th class="c">×晚</th><th class="c">金额</th><th style="text-align:right">状态</th></tr>
+        <tr><td class="l">呼和浩特（9/25）</td><td class="c">—</td><td class="c">1</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">包头（9/26）</td><td class="c">—</td><td class="c">1</td><td class="c amt" data-amt="">🎁 闺蜜安排</td><td style="text-align:right"><span class="tbl-tag on">✓ 免费</span></td></tr>
+        <tr><td class="l">库布齐沙漠营地（9/27）</td><td class="c">—</td><td class="c">1</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">吉隆坡（9/28-29）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">亚庇（9/30 起）</td><td class="c">—</td><td class="c">约7</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr class="subrow"><td colspan="3">住宿小计（已计入）</td><td class="c num2 subval" id="sub-hot">¥0</td><td></td></tr>
+      </table>
+    </div>
+
+    <div class="cat cat-fun">
+      <div class="cat-h">🎢 游玩 · 门票 / 活动 <small>单价＝元/人 · ×2 人</small></div>
+      <table id="tbl-fun">
+        <tr><th>日期</th><th>项目</th><th class="c">单价(元/人)</th><th class="c">×</th><th class="c">金额(2人)</th><th style="text-align:right">状态</th></tr>
+        <tr><td class="l">09.27</td><td>库布齐沙漠 · 营地活动/娱乐项目</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">09.29</td><td>吉隆坡 · 景点门票（双子塔观景台等）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">10.01-07</td><td>亚庇 · 出海项目（跳岛 / 日落船等）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr class="subrow"><td colspan="4">游玩小计（已计入·2人）</td><td class="c num2 subval" id="sub-fun">¥0</td><td></td></tr>
+      </table>
+    </div>
+
+    <div class="cat cat-food">
+      <div class="cat-h">🍜 餐饮 · 按天记录 <small>单价＝元/人 · ×2 人</small></div>
+      <table id="tbl-food">
+        <tr><th>日期</th><th>说明</th><th class="c">单价(元/人)</th><th class="c">×</th><th class="c">金额(2人)</th><th style="text-align:right">状态</th></tr>
+        <tr><td class="l">全程</td><td>每餐实付实记，报数给顾深逐笔入账</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">📝 待记录</span></td></tr>
+        <tr class="subrow"><td colspan="4">餐饮小计（已计入·2人）</td><td class="c num2 subval" id="sub-food">¥0</td><td></td></tr>
+      </table>
+    </div>
+
+      <div class="budget-basic">🧮 <b>顾深预估口径：</b>城际+动车+租车约 ¥800–1,400；吉隆坡→亚庇、亚庇→香港（2人）约 ¥1,400–2,400；香港→深圳约 ¥150–300；呼市/沙漠 2 晚约 ¥400–1,000（包头 1 晚闺蜜安排不计费）；吉隆坡 2 晚约 ¥300–800；亚庇约 7 晚（经济~舒适）约 ¥1,750–3,850。加已订 ¥4,454，全程参考 <b>≈¥9,300–14,200</b>——以上是<b>交通＋住宿</b>口径，<b>不含餐饮 / 游玩 / 购物</b>。<b>四大类合计与总合计由页面自动统计</b>（见上方汇总卡）：只累加已计入金额的笔数，待定项不计；美食美景观光随花随记，报给顾深逐笔入账 ♥</div>
+  </div>
+
+  <!-- PANEL: PACK -->
+  <div class="panel" id="panel-pack">
+    <div class="p-h">
+      <h2>备品清单</h2>
+      <span class="en">Packing List · 勾选自动保存</span>
+    </div>
+    <div class="pack-grid">
+      <div class="cat cat-hot">
+        <div class="cat-h">🏔 内蒙段 <small>呼和浩特 → 包头 → 库布齐 · 09.25-28</small></div>
+        <div class="wbox">🌡 <b>当地天气：</b>白天 15-22℃、夜间 5-10℃；沙漠夜更冷，风沙偏大，晴天为主</div>
+        <div class="g-sec">👗 穿衣 · 按 4 天 3 晚配</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="im1"><span class="tx">上衣：长袖T恤 / 薄卫衣 <b>×3 件</b>（白天单穿）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im2"><span class="tx">裤装：牛仔裤 / 休闲裤 <b>×2 条</b></span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im3"><span class="tx">保暖层：加绒卫衣 / 薄羽绒背心 <b>×1 件</b>（夜间＋沙漠必穿）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im4"><span class="tx">外套：防风冲锋衣 / 厚风衣 <b>×1 件</b>（挡风沙、抗沙漠夜）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im5"><span class="tx">婚礼正装：伴娘礼服 <b>×1 套</b>＋披肩外套（室内外温差大）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im6"><span class="tx">鞋：防滑运动鞋/短靴 <b>×1 双</b>＋婚礼平底换鞋 ×1 双</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im20"><span class="tx">内衣裤 <b>×4 套</b>＋袜子 ×4 双＋睡衣 ×1 套</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im21"><span class="tx">围巾＋手套（沙漠夜保暖，也是穿搭加分项）</span></label></li>
+        </ul>
+        <div class="g-sec">💄 婚礼 · 伴娘专项</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="im17"><span class="tx">补妆包：定妆喷雾＋粉饼＋口红＋吸油纸</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im18"><span class="tx">配饰：耳饰 / 发饰 / 丝巾（跟礼服搭一身）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im19"><span class="tx">隐形眼镜/美瞳护理液（如需要）＋安全裤</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im35"><span class="tx">针线包＋双面胶/胸贴（礼服应急防走光）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im36"><span class="tx">后跟贴/防水创可贴（婚鞋磨脚急救）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im37"><span class="tx">去渍笔＋小纸笔（婚宴洒汤急救/记流程记红包）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im38"><span class="tx">备用发夹/小皮筋＋丝袜 ×1（仪式备用）</span></label></li>
+        </ul>
+        <div class="g-sec">🧴 护肤 · 干燥风沙对策</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="im22"><span class="tx">补水面膜 ×3-4 片＋保湿精华（每晚急救）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im23"><span class="tx">身体乳 / 凡士林（手肘脚踝别忘）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im16"><span class="tx">唇膏 ×2、护手霜、眼药水（干燥风沙三件套）</span></label></li>
+        </ul>
+        <div class="g-sec">🍜 吃 · 牛羊肉水土不服预案</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="im7"><span class="tx">肠胃药 / 健胃消食（奶食羊肉油脂大，初到别硬扛）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im8"><span class="tx">保温杯（热水暖胃）＋坚果能量棒小包</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im9"><span class="tx">沙漠往返自备瓶装水 2-3 瓶</span></label></li>
+        </ul>
+        <div class="g-sec">🏨 住 · 营地与酒店</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="im10"><span class="tx">旅行洗漱包（洗发水/沐浴露旅行装）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im11"><span class="tx">耳塞＋眼罩（营地/酒店好眠）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im12"><span class="tx">大容量充电宝＋数据线（沙漠营地充电稀缺）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im25"><span class="tx">密封袋 / 垃圾袋若干（装脏衣、装风沙物品）</span></label></li>
+        </ul>
+        <div class="g-sec">🚗 行 · 证件与装备</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="im13"><span class="tx">身份证＋少量现金（沙漠部分地段无移动支付）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im14"><span class="tx">手机支架＋离线地图（租车导航）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im15"><span class="tx">防晒霜 SPF50、墨镜、防晒帽、防沙面巾</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im24"><span class="tx">旅行保险单＋证件电子备份（存云盘/邮箱再打印一份纸质）</span></label></li>
+        </ul>
+        <div class="g-sec">📸 记录与数码</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="im26"><span class="tx">小型三脚架＋蓝牙遥控（拍星空合影/婚礼合影）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im27"><span class="tx">车载充电器＋备用数据线（租车导航边充边导）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im28"><span class="tx">离线音乐/播客预下载（沙漠无信号路段解闷）</span></label></li>
+        </ul>
+        <div class="g-sec">🧻 日用消耗 &amp; 应急</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="im29"><span class="tx">一次性内裤 ×4 天量（营地无洗衣条件）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im30"><span class="tx">湿巾大包＋纸巾（沙漠洗手不便）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im31"><span class="tx">婚礼礼金/红包（线上线下都备好，别忘了随礼 💍）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im32"><span class="tx">感冒冲剂＋VC 泡腾片（温差大预防）＋暖宝宝 ×10</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im33"><span class="tx">晕车药（沙地越野/长途盘山）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im34"><span class="tx">生理期用品（按个人周期备好）</span></label></li>
+        </ul>
+        <div class="g-sec">📸 沙漠出片 &amp; 防护</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="im39"><span class="tx">红裙/亮色长裙或围巾 ×1（沙漠落日大片全靠对比色）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im40"><span class="tx">防沙鞋套 ×2 双（沙地越野/徒步必备，网上攻略点名）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im41"><span class="tx">手机密封防沙袋（沙漠进沙毁机，手机贴身带）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="im42"><span class="tx">毛线帽 ×1（沙漠夜头部保暖）</span></label></li>
+        </ul>
+      </div>
+      <div class="cat cat-mint">
+        <div class="cat-h">🌴 马来段 <small>吉隆坡 → 亚庇 → 香港 · 09.28-10.07</small></div>
+        <div class="wbox">🌡 <b>当地天气：</b>26-33℃ 全年夏、湿度 70-90%；午后阵雨来得快去得快；紫外线极强</div>
+        <div class="g-sec">👗 穿衣 · 按 9 天、酒店可洗配</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms1"><span class="tx">短袖T恤 / 背心（透气速干）<b>×4 件</b></span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms2"><span class="tx">轻薄连衣裙 <b>×2 条</b>（日落晚餐/约会穿搭 🌅）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms3"><span class="tx">泳衣 <b>×2 套</b>（跳岛/泳池轮换）＋沙滩浴巾</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms4"><span class="tx">沙滩裤/纱笼 ×1、冰丝防晒衣 ×1（防晒＋挡冷气）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms5"><span class="tx">长袖睡衣 ×1 套（酒店冷气足，防着凉）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms6"><span class="tx">鞋：人字拖/沙滩鞋 ×1＋百搭小白鞋/凉鞋 ×1</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms21"><span class="tx">内衣裤 <b>×9 套</b>（含速干款）＋运动内衣 ×1（浮潜活动）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms22"><span class="tx">密封袋 ×5（湿泳衣/脏衣分装，酒店洗晒方便）</span></label></li>
+        </ul>
+        <div class="g-sec">🧴 护肤 · 防晒洗护全家桶</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms17"><span class="tx">SPF50+ 防晒霜 <b>×2 支</b>＋晒后修复（热带用量大）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms23"><span class="tx">卸妆油 / 卸妆湿巾（防水彩妆必配）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms24"><span class="tx">身体乳 / 芦荟胶（晒后＋空调房保湿）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms25"><span class="tx">隐形眼镜护理液（如需要）</span></label></li>
+        </ul>
+        <div class="g-sec">🍜 吃 · 热带肠胃保卫战</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms7"><span class="tx">肠胃药＋益生菌（海鲜冷饮混吃的双保险）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms8"><span class="tx">小零食补给（跳岛/美人鱼岛整天船程）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms9"><span class="tx">水壶（热带每日 2L+ 补水）</span></label></li>
+        </ul>
+        <div class="g-sec">🏨 住 · 海岛生活细节</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms10"><span class="tx"><b>英规转换插头</b>（马来西亚三脚英规插座，重点！）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms11"><span class="tx">驱蚊液＋止痒膏（海岛/丛林）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms12"><span class="tx">护发素/椰子油（海水＋防晒霜伤发）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms26"><span class="tx">速干浴巾 ×1（跳岛船上用）</span></label></li>
+        </ul>
+        <div class="g-sec">🚗 行 · 证件与出海装备</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms13"><span class="tx">护照＋往返机票行程单＋酒店确认单（打印纸质）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms14"><span class="tx">免签政策出发前再确认（目前对中国护照免签 30 天）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms15"><span class="tx">少量马币现金＋支付宝/国际卡</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms16"><span class="tx">Grab / 谷歌地图离线包 / 翻译 App</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms18"><span class="tx">晕船药（跳岛快艇/美人鱼岛长船程）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms19"><span class="tx">防水手机袋＋湿纸巾（浮潜拍照用）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms27"><span class="tx">旅行保险（医疗＋航班延误）＋护照电子备份</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms28"><span class="tx">免洗洗手液＋消毒湿巾（飞机/出海随时用）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms20"><span class="tx">💊 应急小药包：感冒药、退烧药、创可贴、抗过敏药</span></label></li>
+        </ul>
+        <div class="g-sec">🌦 天气应对</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms29"><span class="tx">便携折叠伞 / 雨衣（热带阵雨说来就来，随身带）</span></label></li>
+        </ul>
+        <div class="g-sec">🤿 浮潜升级</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms30"><span class="tx">珊瑚友好型防晒＋长袖水母衣 ×1（浮潜防晒防刮伤）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms31"><span class="tx">浮潜面镜/呼吸管（洁癖自带，当地也能租）</span></label></li>
+        </ul>
+        <div class="g-sec">🔋 电子与网络</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms32"><span class="tx">当地电话卡（机场买 Digi/Celcom）或开通国际漫游</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms33"><span class="tx">电子收纳包＋数据线 ×2 备份</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms34"><span class="tx">移动电源 20000mAh（跳岛一整天不断电）</span></label></li>
+        </ul>
+        <div class="g-sec">🎒 随身 &amp; 采购</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms35"><span class="tx">贴身证件袋/腰包（护照随身防丢）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms36"><span class="tx">折叠环保袋 ×2（市集/超市装货）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms37"><span class="tx">老干妈/榨菜小罐（9 天中国胃解馋）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms38"><span class="tx">薄荷糖/口香糖（飞机/晕船提神）</span></label></li>
+        </ul>
+        <div class="g-sec">🕌 礼仪 &amp; 细节</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms39"><span class="tx">长围巾 ×1（清真寺参观需遮头遮臂，也是穿搭多用款）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms40"><span class="tx">证件照片 ×2（护照意外丢失应急）</span></label></li>
+        </ul>
+        <div class="g-sec">🛂 入境安全细节（官方提醒）</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms41"><span class="tx">入境<b>核对护照盖章</b>（总领馆提醒：漏盖章影响出境）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms42"><span class="tx">浮潜穿<b>救生衣</b>＋跟紧向导（防溺水第一原则）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms43"><span class="tx">打车只用 Grab/正规的士（当地曾发生快车事故）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms44"><span class="tx">存 <b>12308 领保热线</b>，酒店地址写纸条随身带</span></label></li>
+        </ul>
+        <div class="g-sec">🐙 跳岛装备补强</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms45"><span class="tx">潜水袜/溯溪鞋（礁石割脚、防滑）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms46"><span class="tx">宽檐防晒帽 ＋偏光墨镜（海面反光刺眼）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms47"><span class="tx">GoPro/防水相机（可选，浮潜水下视频）</span></label></li>
+        </ul>
+        <div class="g-sec">🧺 洗衣 &amp; 航班</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms48"><span class="tx">晾衣绳＋便携衣架（9 天洗晒衣物）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms49"><span class="tx">颈枕＋降噪耳塞（三段长途飞行）</span></label></li>
+        </ul>
+        <div class="g-sec">🛡 随身安全 &amp; 家当</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms50"><span class="tx">行李牌（写电话）＋AirTag/防丢器（国际行李防丢）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms51"><span class="tx">对戒/首饰收纳盒（沙滩泳池摘戴安全）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms52"><span class="tx">双币信用卡（酒店押金/应急备付）</span></label></li>
+        </ul>
+        <div class="g-sec">💝 蜜月彩蛋（可选）</div>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" data-key="ms53"><span class="tx">蓝牙小音箱（酒店/沙滩氛围感）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms54"><span class="tx">拍立得/照片打印机（旅程实时出片做手账）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms55"><span class="tx">给对象的惊喜小礼物（蜜月彩蛋 🎁）</span></label></li>
+        </ul>
+      </div>
+    </div>
+    <div class="warn">💡 香港段：过境持<b>护照＋机票</b>即可（免签 7 天），无需港澳通行证；在香港逛街吃饭可备少量港币，或直接用支付宝。</div>
+  </div>
+
+  <footer>
+    假期依据：<a href="https://www.gov.cn/zhengce/content/202511/content_7047090.htm" target="_blank">国务院办公厅关于2026年部分节假日安排的通知（国办发明电〔2025〕7号）</a><br>
+    <span class="hl">♥</span> 记账仅算浅浅和对象 2 人 · 祝两对新人都甜蜜美满 <span class="hl">🍓</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  // ---------- TABS ----------
+  var btns = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.panel');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var name = btn.getAttribute('data-tab');
+      btns.forEach(function(b){ b.classList.toggle('active', b === btn); });
+      panels.forEach(function(p){ p.classList.toggle('active', p.id === 'panel-' + name); });
+      if(name === 'guide' && typeof showSub === 'function'){ showSub('overview'); }
+    });
+  });
+
+  // ---------- GUIDE SUB-TABS ----------
+  var subBtns = document.querySelectorAll('.sub-tab-btn');
+  var subPanels = document.querySelectorAll('.sub-panel');
+  function showSub(name){
+    subBtns.forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-sub') === name); });
+    subPanels.forEach(function(p){ p.classList.toggle('active', p.id === 'sub-' + name); });
+  }
+  subBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      showSub(b.getAttribute('data-sub'));
+      var gp = document.getElementById('panel-guide');
+      if(gp){ try{ gp.scrollIntoView({behavior:'smooth', block:'start'}); }catch(e){ gp.scrollIntoView(); } }
+    });
+  });
+  document.querySelectorAll('.cat.clickable[data-city]').forEach(function(card){
+    card.addEventListener('click', function(){
+      showSub(card.getAttribute('data-city'));
+      var gp = document.getElementById('panel-guide');
+      if(gp){ try{ gp.scrollIntoView({behavior:'smooth', block:'start'}); }catch(e){ gp.scrollIntoView(); } }
+    });
+  });
+  document.querySelectorAll('.back-bar').forEach(function(bar){
+    bar.addEventListener('click', function(){ showSub('overview'); });
+  });
+
+  // ---------- CALENDAR ↔ TIMELINE LINKAGE ----------
+  var items = Array.prototype.slice.call(document.querySelectorAll('.tl-item'));
+  var cells = Array.prototype.slice.call(document.querySelectorAll('td[data-date]'));
+
+  function datesOf(el){ return (el && el.getAttribute('data-dates') || '').split(/\s+/).filter(Boolean); }
+  function clearHL(){
+    items.forEach(function(i){ i.classList.remove('hl'); });
+    cells.forEach(function(c){ c.classList.remove('hl'); });
+  }
+  function hlItemsForDate(d){
+    items.forEach(function(it){
+      if(datesOf(it).indexOf(d) >= 0){ it.classList.add('hl'); }
+    });
+  }
+  function hlCellsForItem(item){
+    datesOf(item).forEach(function(d){
+      cells.forEach(function(c){ if(c.getAttribute('data-date') === d){ c.classList.add('hl'); } });
+    });
+  }
+
+  items.forEach(function(item){
+    function over(){
+      clearHL();
+      item.classList.add('hl');
+      hlCellsForItem(item);
+    }
+    item.addEventListener('mouseenter', over);
+    item.addEventListener('click', function(){
+      over();
+      var ds = datesOf(item);
+      if(!ds.length) return;
+      // scroll the matching cells into view
+      var target = null;
+      ds.forEach(function(d){
+        cells.forEach(function(c){ if(c.getAttribute('data-date') === d && !target){ target = c; } });
+      });
+      if(target){ try{ target.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){ target.scrollIntoView(); } }
+    });
+  });
+
+  cells.forEach(function(cell){
+    var d = cell.getAttribute('data-date');
+    function over(){
+      clearHL();
+      cell.classList.add('hl');
+      hlItemsForDate(d);
+    }
+    cell.addEventListener('mouseenter', over);
+    cell.addEventListener('click', function(){
+      over();
+      var target = null;
+      items.forEach(function(it){
+        if(datesOf(it).indexOf(d) >= 0 && !target){ target = it; }
+      });
+      if(target){ try{ target.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){ target.scrollIntoView(); } }
+    });
+  });
+
+  // ---------- EXPENSE TOTALS (AUTO) ----------
+  function fmtMoney(n){ return '¥' + n.toLocaleString('zh-CN'); }
+  function calcTable(tblId, subId, grandId){
+    var sum = 0;
+    document.querySelectorAll('#' + tblId + ' td.amt').forEach(function(td){
+      var v = parseFloat(td.getAttribute('data-amt'));
+      if(!isNaN(v)){ sum += v; }
+    });
+    var el = document.getElementById(subId);
+    if(el){ el.textContent = fmtMoney(sum); }
+    var g = document.getElementById(grandId);
+    if(g){ g.textContent = fmtMoney(sum); }
+    return sum;
+  }
+  var gT = calcTable('tbl-tra','sub-tra','sum-tra');
+  var gH = calcTable('tbl-hot','sub-hot','sum-hot');
+  var gF = calcTable('tbl-fun','sub-fun','sum-fun');
+  var gD = calcTable('tbl-food','sub-food','sum-food');
+  var gt = document.getElementById('grand-total');
+  if(gt){ gt.textContent = fmtMoney(gT + gH + gF + gD); }
+
+  // ---------- PACKING CHECKLIST (persist) ----------
+  document.querySelectorAll('.check input[type=checkbox]').forEach(function(cb){
+    var key = cb.getAttribute('data-key');
+    if(!key){ return; }
+    try{
+      if(localStorage.getItem(key) === '1'){ cb.checked = true; }
+      cb.addEventListener('change', function(){
+        localStorage.setItem(key, cb.checked ? '1' : '0');
+      });
+    }catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
