@@ -228,6 +228,73 @@
     font-size:12.5px;color:var(--mut);background:var(--card);border:1px dashed var(--line);
     border-radius:12px;padding:8px 12px;margin-bottom:14px;
   }
+  /* ---------- TRIP INFO CARD（交通衔接 · 每趟一卡）---------- */
+  .trip-info{
+    position:relative;overflow:hidden;
+    display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;
+    background:linear-gradient(120deg,#ffffff,#eefafb 60%,#fff);
+    color:var(--ink);border-radius:16px;padding:16px 18px;margin-bottom:14px;
+    border:1px solid rgba(27,154,170,.30);
+    box-shadow:0 4px 14px rgba(31,45,77,.07);
+  }
+  .trip-info::before{content:"";position:absolute;inset:0;background:radial-gradient(260px 130px at 100% 0%,rgba(242,134,46,.10),transparent 62%);pointer-events:none;}
+  .trip-info .ti-date{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:66px;padding-right:18px;border-right:1px dashed rgba(31,45,77,.18);}
+  .trip-info .ti-date .d{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.5px;color:var(--ink);}
+  .trip-info .ti-date .w{font-size:10px;font-weight:700;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase;}
+  .trip-info .ti-main{position:relative;flex:1;min-width:220px;}
+  .trip-info .ti-route{display:flex;align-items:center;gap:9px;font-size:16.5px;font-weight:800;letter-spacing:.5px;line-height:1.3;color:var(--ink);}
+  .trip-info .ti-route .sep{color:#cdc4b2;}
+  .trip-info .ti-route .arr{color:var(--sand-d);}
+  .trip-info .ti-time{margin-top:4px;font-size:12.5px;color:var(--mut);font-variant-numeric:tabular-nums;letter-spacing:.4px;}
+  .trip-info .ti-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;}
+  .trip-info .ti-chip{font-size:10.5px;font-weight:700;background:var(--lemon-soft);border:1px solid rgba(255,201,77,.5);color:#8a6a1d;border-radius:999px;padding:2px 10px;letter-spacing:.5px;}
+  .trip-info .ti-side{position:relative;display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right;}
+  .trip-info .ti-status{font-size:11px;font-weight:800;border-radius:999px;padding:3px 11px;letter-spacing:.5px;}
+  .trip-info .ti-status.booked{background:var(--mint);color:#05302c;}
+  .trip-info .ti-status.pending{background:var(--lemon);color:#6b5200;}
+  .trip-info .ti-amt{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--sand-d);white-space:nowrap;}
+  .trip-info .ti-amt small{display:block;font-size:10px;font-weight:600;color:var(--mut);letter-spacing:.3px;}
+  @media(max-width:560px){
+    .trip-info .ti-date{border-right:none;flex-direction:row;align-items:center;gap:8px;padding-right:0;min-width:0;}
+    .trip-info .ti-date .d{font-size:18px;}
+    .trip-info .ti-side{flex-direction:row;align-items:center;width:100%;justify-content:space-between;border-top:1px dashed rgba(31,45,77,.15);padding-top:10px;}
+  }
+
+  /* ---------- LEG（出发地 / 到达地）---------- */
+  .leg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.leg-grid{grid-template-columns:1fr;}}
+  .leg{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:0 4px 12px rgba(31,45,77,.04);}
+  .leg .leg-h{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;letter-spacing:.5px;margin-bottom:9px;}
+  .leg .leg-h .pin{width:9px;height:9px;border-radius:50%;flex:none;}
+  .leg .leg-h small{margin-left:auto;font-size:10px;font-weight:700;color:var(--mut);letter-spacing:0;white-space:nowrap;}
+  .leg.dep .pin{background:var(--mint);box-shadow:0 0 6px rgba(46,196,182,.65);}
+  .leg.arr .pin{background:var(--vio);box-shadow:0 0 6px rgba(138,111,214,.65);}
+  .leg.dep .leg-h{color:#0e6b77;}
+  .leg.arr .leg-h{color:var(--vio);}
+  .leg ul{list-style:none;display:grid;gap:6px;}
+  .leg li{position:relative;padding:7px 10px 7px 26px;background:#fdf9f0;border:1px solid var(--line);border-radius:9px;font-size:12.5px;line-height:1.7;color:var(--ink);}
+  .leg li::before{content:"●";position:absolute;left:11px;top:9px;font-size:8px;color:var(--sand);}
+  .leg li b{color:var(--sand-d);font-weight:800;}
+  .leg li .m{color:var(--sea);font-weight:700;}
+  .leg li.note{background:var(--lemon-soft);border:1px dashed rgba(242,134,46,.5);color:#8a6a1d;font-weight:600;}
+  .leg li.note::before{content:"⚠️";font-size:9px;color:var(--sand);}
+  .leg li .tip{
+    display:block;margin-top:4px;
+    padding:3px 8px 3px 24px;
+    font-size:11px;line-height:1.6;
+    color:#8a6a1d;background:var(--lemon-soft);
+    border-radius:6px;position:relative;
+  }
+  .leg li .tip::before{content:"💡";position:absolute;left:7px;top:3px;font-size:10px;}
+
+  /* ---------- WAY（交通方式 · 逐个展开）---------- */
+  .way{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(31,45,77,.04);}
+  .way .way-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14.5px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+  .way .way-h .badge{margin-left:auto;font-size:10.5px;font-weight:700;color:#fff;background:var(--grad);border-radius:999px;padding:2px 10px;letter-spacing:.5px;white-space:nowrap;}
+  .way .way-h .badge.rec{background:linear-gradient(135deg,var(--mint),var(--sea));}
+  .way .way-h .badge.no{background:#cdc4b2;}
+  .way .way-meta{font-size:12px;color:var(--sand-d);font-weight:700;margin-bottom:10px;padding:7px 10px;background:var(--lemon-soft);border-radius:8px;line-height:1.7;}
+  .way .way-meta b{color:#b8860b;}
   .cat.clickable{cursor:pointer;transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;}
   .cat.clickable:hover{transform:translateY(-2px);border-color:rgba(242,134,46,.65);box-shadow:0 8px 20px rgba(242,134,46,.15);}
   .cat.clickable .go{
@@ -422,6 +489,7 @@
   <!-- TABS -->
   <nav class="tabs" id="tabs">
     <button class="tab-btn active" data-tab="plan">📅 行程计划</button>
+    <button class="tab-btn" data-tab="traffic">🚄 交通衔接</button>
     <button class="tab-btn" data-tab="guide">📖 攻略</button>
     <button class="tab-btn" data-tab="expense">🧾 支出清单</button>
     <button class="tab-btn" data-tab="pack">🎒 备品清单</button>
@@ -628,7 +696,7 @@
             <div class="date"><div class="d">10.07</div><div class="w">WED · 亚庇收尾</div></div>
             <div class="body">
               <b>亚庇 · 沙巴 🏝 最后一天</b>
-              <div class="p">丹绒亚路日落＋海鲜大餐，给蜜月收尾</div>
+              <div class="p">白天日落＋海鲜收尾；<b>晚上 21:00 前后赴机场</b>（01:15 红眼航班）</div>
             </div>
           </div>
           <div class="tl-item" data-dates="10-8">
@@ -636,14 +704,410 @@
             <div class="date"><div class="d">10.08</div><div class="w">THU · 返程</div></div>
             <div class="body">
               <b>亚庇 → 香港 → 深圳 ✈🚄</b>
-              <div class="p">¥3,964 已订；香港过境回深，回家</div>
+              <div class="p">¥3,964 已订；<b>01:15-04:25 亚庇 T1→香港 T1</b>（红眼航班），凌晨过关回深</div>
               <div class="t">🛂 全程通用：护照随身；马来西亚目前对中国护照免签（出发前再确认）；经香港过境回内地一般免签 7 天</div>
             </div>
           </div>
         </div>
-        <div class="warn">⚠️ 节奏提醒：9/28 沙漠 → 包头机场约 <b>1–1.5h</b> 车程，记得给还车和值机留足时间；回程是 <b>10/8（周四）</b>，当天需<b>请假 1 天</b>，落地深圳后 10/9 安心上班；10/10（周六）补班别忘。</div>
+        <div class="warn">⚠️ 节奏提醒：9/28 沙漠 → 包头机场约 <b>1–1.5h</b> 车程，记得给还车和值机留足时间；回程是 <b>10/8（周四）</b>，当天落地深圳后<b>不请假</b>，回家放完行李就去上班；10/10（周六）补班别忘。</div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- PANEL: TRAFFIC -->
+  <div class="panel" id="panel-traffic">
+    <div class="p-h">
+      <h2>交通衔接 · 赶机赶车总表</h2>
+      <span class="en">Transfers · 时刻表 + 机场攻略 · 内蒙线 / 马来线</span>
+    </div>
+    <div class="warn">⚠️ <b>通用铁律：</b>国内航班提前 1.5-2h 到机场、国际航班提前 3h；红眼航班按前夜 21:00 左右到机场算；每段起飞前确认行李额度；值机后先看登机口屏幕再闲逛。</div>
+
+    <div class="zone cn">🏔 内蒙线 · 09.25-09.28 <small>白云 T2 → 呼市白塔 → 包头东河 → 南京禄口转机</small></div>
+
+    <div class="cat cat-tra">
+      <div class="cat-h">🚄 09.25 · 深圳北 → 广州东 <small>动车</small></div>
+      <div class="trip-info">
+        <div class="ti-date"><span class="d">09.25</span><span class="w">FRI</span></div>
+        <div class="ti-main">
+          <div class="ti-route"><span class="ico">🚄</span><span>深圳北</span><span class="sep">→</span><span class="arr">广州东</span></div>
+          <div class="ti-time">发车 07:40 · 约 70 分钟 · 广深动车</div>
+          <div class="ti-tags"><span class="ti-chip">🚇 站内换地铁 3 号线北延段</span></div>
+        </div>
+        <div class="ti-side"><span class="ti-status booked">✓ 已订</span><div class="ti-amt">¥174<small>动车 · 2 人</small></div></div>
+      </div>
+      <div class="leg-grid">
+        <div class="leg dep">
+          <div class="leg-h"><span class="pin"></span>出发地 · 深圳北站 <small>07:40 发车</small></div>
+          <ul>
+            <li><b>买票：</b>提前在「铁路 12306」App 买好票（身份证实名），买完记下<b>检票口</b>（App 里能看，或当天到站看大屏）<span class="tip">认准"深圳北 → <b>广州东</b>"，别买成到"广州南"（方向完全不同，换乘会绕远）</span></li>
+            <li><b>到站：</b>当天提前 40-50 分钟到「深圳北站」进站口，刷身份证过闸机、过安检进站<span class="tip">早高峰（7-9 点）安检排队约 10-15 分钟，别卡点</span></li>
+            <li><b>找检票口：</b>进站后抬头看大屏，找到你的车次对应的「检票口」，去那附近坐着等，听广播、看屏幕变绿色「正在检票」就去排队。</li>
+            <li><b>上车：</b>检票刷身份证，跟着人流下站台，看站台地标找车厢号，大件行李放车厢两端行李架、小件放头顶。</li>
+          </ul>
+        </div>
+        <div class="leg arr">
+          <div class="leg-h"><span class="pin"></span>到达地 · 广州东站 <small>约 09:00 到</small></div>
+          <ul>
+            <li><b>出站：</b>下车跟着「出站」指示牌走，刷身份证出闸机，别出到地面，直接留在站内。</li>
+            <li><b>换地铁：</b>站内找「地铁」指示牌，换<b>地铁 3 号线北延段</b>（往「机场北」方向），用微信/支付宝乘车码或售票机买票，坐约 50 分钟<span class="tip">看清方向，坐反就去了天河客运站</span></li>
+            <li><b>到机场：</b>到「机场北（白云机场 T2）」站下车，跟着「航站楼 T2」指示牌坐电梯上出发层，约 10:00 到机场<span class="tip">白云机场分 T1/T2，「机场北」站是 <b>T2</b>、「机场南」是 T1，你们航班在 T2，走错要坐穿梭巴士</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat cat-hot">
+      <div class="cat-h">✈ 09.25 · 广州 → 呼和浩特 <small>进内蒙第一飞</small></div>
+      <div class="trip-info">
+        <div class="ti-date"><span class="d">09.25</span><span class="w">FRI</span></div>
+        <div class="ti-main">
+          <div class="ti-route"><span class="ico">✈</span><span>广州白云 T2</span><span class="sep">→</span><span class="arr">呼和浩特</span></div>
+          <div class="ti-time">11:50 - 15:00 · 国内航班</div>
+          <div class="ti-tags"><span class="ti-chip">🕓 约 10:00 到白云 T2</span></div>
+        </div>
+        <div class="ti-side"><span class="ti-status booked">✓ 已订</span><div class="ti-amt">¥1,834<small>2 人</small></div></div>
+      </div>
+      <div class="leg-grid">
+        <div class="leg dep">
+          <div class="leg-h"><span class="pin"></span>出发地 · 广州白云机场 T2 <small>11:50 起飞</small></div>
+          <ul>
+            <li><b>看大屏找柜台：</b>约 10:00 到 T2 后，看大厅大屏找到航班对应的「值机柜台」（字母＋数字，如 C 区）<span class="tip">出发前先确认航班在 <b>T2</b>——T1/T2 相隔远，走错要坐穿梭巴士约 10 分钟，可能误机</span></li>
+            <li><b>办登机牌＋托运：</b>到柜台排队，出示身份证，拿登机牌、托运行李（国内航班提前 1.5-2h 到，时间够用）<span class="tip">液体单瓶超 100ml 的（防晒、化妆水、洗面奶）放进行李托运</span></li>
+            <li><b>过安检：</b>看登机牌上的「登机口」和「登机时间」，去安检口排队；外套、手机、充电宝、电脑拿出来放托盘<span class="tip">充电宝必须随身携带、不能托运（超 100Wh 需申报，160Wh 以上禁带）；随身液体单瓶别超 100ml</span></li>
+            <li><b>找登机口：</b>过完安检跟着蓝色指示牌走到你的登机口，坐下等广播，起飞前约 30 分钟开始登机。</li>
+          </ul>
+        </div>
+        <div class="leg arr">
+          <div class="leg-h"><span class="pin"></span>到达地 · 呼和浩特白塔机场 <small>15:00 落地</small></div>
+          <ul>
+            <li><b>取行李：</b>落地跟着人流走，到「行李提取」看电子屏找对应转盘，等行李出来拿上。</li>
+            <li><b>去酒店：</b>出到达厅打车去市区约 30-40 分钟，先到酒店放行李换装<span class="tip">门口有正规出租车排队点和机场大巴，<b>打表坐正规车</b>，别理揽客黑车</span></li>
+            <li><b>下午游玩：</b>约 16:30 出发去<b>大召寺</b>（银佛殿＋壁画），再去塞上老街吃烧麦、蒙古奶茶<span class="tip">呼市风大干燥，出门先补喝水</span></li>
+            <li><b>夜间保暖：</b>出门套外套（5-10℃ 天冷）；天气干燥，当晚敷一片补水面膜。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat cat-fun">
+      <div class="cat-h">🚄 09.26 · 呼和浩特东 → 包头 <small>动车</small></div>
+      <div class="trip-info">
+        <div class="ti-date"><span class="d">09.26</span><span class="w">SAT</span></div>
+        <div class="ti-main">
+          <div class="ti-route"><span class="ico">🚄</span><span>呼和浩特东</span><span class="sep">→</span><span class="arr">包头</span></div>
+          <div class="ti-time">上午发车 · 车程约 1-1.5h · 动车</div>
+          <div class="ti-tags"><span class="ti-chip">⛪ 为明天婚礼彩排做准备</span></div>
+        </div>
+        <div class="ti-side"><span class="ti-status booked">✓ 已订</span><div class="ti-amt">¥107<small>动车 · 2 人</small></div></div>
+      </div>
+      <div class="leg-grid">
+        <div class="leg dep">
+          <div class="leg-h"><span class="pin"></span>出发地 · 呼和浩特东站 <small>上午发车</small></div>
+          <ul>
+            <li><b>买票：</b>提前一天在「铁路 12306」App 买好呼市东 → 包头的动车票，记下检票口和发车时间<span class="tip">呼和浩特有「呼和浩特站」和「呼和浩特东站」两个站，确认车票是<b>呼和浩特东</b>发车，别跑错站</span></li>
+            <li><b>到站：</b>当天提前 40 分钟到「呼和浩特东站」，刷身份证过安检进站，看大屏找检票口<span class="tip">上午班次密但别大意，留足安检时间</span></li>
+            <li><b>上车：</b>车程约 1-1.5 小时，放好行李、听广播，别坐过站。</li>
+          </ul>
+        </div>
+        <div class="leg arr">
+          <div class="leg-h"><span class="pin"></span>到达地 · 包头 <small>中午到</small></div>
+          <ul>
+            <li><b>出站入住：</b>下车刷身份证出站，打车或让酒店接站去婚礼场地附近酒店（9/26 住宿闺蜜已安排，不计支出）<span class="tip">提前跟新娘确认酒店地址和接头人，出站直接报地址，别自己乱导航</span></li>
+            <li><b>下午彩排：</b>去婚礼场地踩点＋彩排，跟新娘对流程清单：几点到位 / 拿什么 / 站哪 / 谁保管红包首饰。</li>
+            <li><b>晚上：</b>洗头敷面膜早点睡，明天上镜当伴娘。</li>
+            <li class="note">伴娘礼服、补妆包随身带上动车（动车无托运、全是随身），别压箱底。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat cat-hot">
+      <div class="cat-h">✈ 09.28 · 包头 → 南京 <small>包吉转机 · 第 1 段</small></div>
+      <div class="trip-info">
+        <div class="ti-date"><span class="d">09.28</span><span class="w">MON</span></div>
+        <div class="ti-main">
+          <div class="ti-route"><span class="ico">✈</span><span>包头东河</span><span class="sep">→</span><span class="arr">南京禄口 T2</span></div>
+          <div class="ti-time">11:20 - 13:35 · 转机第 1 段</div>
+          <div class="ti-tags"><span class="ti-chip">🧳 行李直挂（不用提）</span><span class="ti-chip">🔁 转机 4.8h</span></div>
+        </div>
+        <div class="ti-side"><span class="ti-status booked">✓ 已订</span><div class="ti-amt">¥2,620<small>包头→吉隆坡 · 2 人</small></div></div>
+      </div>
+      <div class="leg-grid">
+        <div class="leg dep">
+          <div class="leg-h"><span class="pin"></span>出发地 · 包头东河机场 <small>09:00 前到值机</small></div>
+          <ul>
+            <li><b>07:20 出发：</b>响沙湾退房 → 包头东河机场车程约 1-1.5h，<b>09:00 前到机场</b><span class="tip"><b>这是底线</b>，堵车/还车都留点余量</span></li>
+            <li><b>值机：</b>小机场，进航站楼找对应航空公司柜台办登机牌＋托运行李，你问一句「行李直挂吉隆坡，对吗」<span class="tip"><b>重点确认行李直挂到吉隆坡</b>——如果柜台说只能挂到南京，要当场处理</span></li>
+            <li><b>过安检登机：</b>过安检后找登机口，等 11:20 起飞<span class="tip">机场餐饮少，早餐提前在沙漠营地解决</span></li>
+          </ul>
+        </div>
+        <div class="leg arr">
+          <div class="leg-h"><span class="pin"></span>到达地 · 南京禄口国际机场 T2 <small>13:35 到</small></div>
+          <ul>
+            <li><b>落地：</b>行李已直挂，不用去取行李，跟着「<b>国际转机</b>」指示走，<b>轻装行动</b><span class="tip">禄口 T2 有国际中转/通程通道，行李直挂走通程通道，不用重新托运</span></li>
+            <li><b>看下一段登机口：</b>到中转厅后看大屏，确认 18:25 南京 → 吉隆坡的登机口<span class="tip">别逛免税店忘记时间，<b>17:00 前回登机口</b>附近最稳妥</span></li>
+            <li><b>下一程：</b>4.8h 转机怎么过，见下一卡「南京 → 吉隆坡」。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat cat-food">
+      <div class="cat-h">✈ 09.28 · 南京 → 吉隆坡 <small>包吉转机 · 第 2 段 · 蜜月启航</small></div>
+      <div class="trip-info">
+        <div class="ti-date"><span class="d">09.28</span><span class="w">MON</span></div>
+        <div class="ti-main">
+          <div class="ti-route"><span class="ico">✈</span><span>南京禄口 T2</span><span class="sep">→</span><span class="arr">吉隆坡 T1</span></div>
+          <div class="ti-time">18:25 - 23:40 · 与北京无时差（GMT+8）</div>
+          <div class="ti-tags"><span class="ti-chip">🧳 行李直挂</span><span class="ti-chip">🕐 落地不用倒表</span></div>
+        </div>
+        <div class="ti-side"><span class="ti-status booked">✓ 已订</span><div class="ti-amt">¥2,620<small>含包头段 · 2 人</small></div></div>
+      </div>
+      <div class="leg-grid">
+        <div class="leg dep">
+          <div class="leg-h"><span class="pin"></span>出发地 · 南京禄口国际机场 T2 <small>13:35 落地 · 候机 4.8h</small></div>
+          <ul>
+            <li><b>先吃饭：</b>13:35 落地后先吃一碗<b>南京鸭血粉丝汤</b>（禄口机场名片，转机必吃）＋盐水鸭<span class="tip">行李已直挂不用管，全程轻装行动，别在免税店迷路误机</span></li>
+            <li><b>休息：</b>找按摩椅按一场，或找安静角落眯一会儿；机场航班多，<b>17:00 前后开始留意登机广播</b>。</li>
+            <li><b>16:00 办出境边检：</b>18:25 起飞，<b>16:00 前</b>到边检柜台排队办好出境；护照随身、行程单在手<span class="tip">出国段安检更严：充电宝、手机、电脑随身，液体仍执行 100ml 规则</span></li>
+            <li><b>17:00 回登机口：</b>17:00 前回到登机口附近，安检后别走远；18:25 起飞。</li>
+          </ul>
+        </div>
+        <div class="leg arr">
+          <div class="leg-h"><span class="pin"></span>到达地 · 吉隆坡国际机场 T1 <small>23:40 落地</small></div>
+          <ul>
+            <li><b>入境：</b>落地跟着人流走到入境大厅排队，护照＋<b>MDAC 截图</b>递给海关，<b>核对有没有盖章</b><span class="tip"><b>MDAC 必填</b>：入境前 3 天内在线填 imigresen-online.imi.gov.my/mdac，<b>免费</b>别信收费网站</span><span class="tip">免签 30 天但入境要<b>扫双手食指指纹＋面部拍照</b>；护照不能污损/撕裂，否则可能被拒</span><span class="tip">深夜 00:30 过关人多，备好酒店订单、回程机票（电子版即可），海关可能问行程，答得上就放行</span></li>
+            <li><b>取行李＋进城：</b>取完行李出海关，机场快线若还开就坐快线；若收班就 <b>Grab</b> 打车（4 人拼车更划算、省一半车费）<span class="tip">提前下好 Grab App 并绑卡</span></li>
+            <li><b>到酒店：</b>约 01:00 到酒店 check-in；阿罗街开到凌晨，还有体力就冲一份夜宵 🍢。</li>
+            <li><b>时差：</b>吉隆坡与北京无时差（GMT+8），落地不用倒表。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="zone my">🌴 马来线 · 09.30-10.08 <small>吉隆坡 KLIA2 → 斗湖 → 亚庇 BKI → 香港 HKG</small></div>
+
+    <div class="cat cat-mint">
+      <div class="cat-h">✈ 09.30 · 吉隆坡 → 斗湖 <small>进岛航班</small></div>
+      <div class="trip-info">
+        <div class="ti-date"><span class="d">09.30</span><span class="w">WED</span></div>
+        <div class="ti-main">
+          <div class="ti-route"><span class="ico">✈</span><span>吉隆坡 KLIA2 · T2</span><span class="sep">→</span><span class="arr">斗湖 Tawau</span></div>
+          <div class="ti-time">15:00 - 17:38 · 马国内航线 · 亚航大本营</div>
+          <div class="ti-tags"><span class="ti-chip">🛂 MDAC 入境卡（出发前 3 天内填）</span></div>
+        </div>
+        <div class="ti-side"><span class="ti-status booked">✓ 已订</span><div class="ti-amt">¥1,752<small>2 人 · 含税</small></div></div>
+      </div>
+      <div class="leg-grid">
+        <div class="leg dep">
+          <div class="leg-h"><span class="pin"></span>出发地 · 吉隆坡 KLIA2（T2） <small>12:30 前到</small></div>
+          <ul>
+            <li><b>上午去机场：</b>住 KLCC/武吉免登，上午吃个早午餐，<b>12:30 前</b> Grab 打车去 KLIA2（T2），车程约 45-60 分钟<span class="tip">提前 2.5h 是底线，KLIA2 人流大、安检严格，宁可多留</span></li>
+            <li><b>值机：</b>进 T2 找 AirAsia 自助值机机器或柜台，用护照＋订单号办登机牌＋托运行李<span class="tip">亚航是廉航，<b>手提行李限 7kg</b>（登机口可能查重量），超重当场补费很贵</span></li>
+            <li><b>过安检：</b>去安检口排队（约 20-30 分钟）<span class="tip">登机口可能较远，过完安检留 15 分钟走过去；确认亚航在 T2、斗湖是<b>马国内航线</b>，国内线和国际线登机口分开，看清登机牌上的登机口区域，别排到国际队</span></li>
+            <li><b>机场吃：</b>安检后吃椰浆饭、拉茶、马来小食——登机前最后一顿马来味。</li>
+            <li>🛂 <b>MDAC 入境卡（必做！）：</b>入境马来西亚前 3 天内在线填 <b>Malaysia Digital Arrival Card</b>（官网 imigresen-online.imi.gov.my/mdac），截图/打印备用，不填可能影响入境。</li>
+          </ul>
+        </div>
+        <div class="leg arr">
+          <div class="leg-h"><span class="pin"></span>到达地 · 斗湖机场 <small>17:38 落地</small></div>
+          <ul>
+            <li><b>入境盖章（超重要！）：</b>落地斗湖先办入境<span class="tip">吉隆坡在西马、斗湖在沙巴州（东马），<b>两套移民系统，务必检查有没有盖「沙巴入境章」</b>，漏盖离开沙巴/出境会受阻</span></li>
+            <li><b>取行李：</b>机场很小，只有两个行李转盘<span class="tip">行李慢，耐心等转盘</span></li>
+            <li><b>找拼车：</b>只有一个到达口，出门就是 Mini Van/拼车点（绿白涂装小巴揽客），拼车去仙本那约 1.5h，参考 <b>RM25-30/人</b>，4 人正好拼一辆<span class="tip">可讲价，通常载满才走</span></li>
+            <li><b>去仙本那：</b>详细走法见下一卡「斗湖 → 仙本那镇」。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat cat-hot">
+      <div class="cat-h">🚗 09.30 · 斗湖 → 仙本那镇 <small>地面接驳</small></div>
+      <div class="trip-info">
+        <div class="ti-date"><span class="d">09.30</span><span class="w">WED</span></div>
+        <div class="ti-main">
+          <div class="ti-route"><span class="ico">🚗</span><span>斗湖机场</span><span class="sep">→</span><span class="arr">仙本那镇</span></div>
+          <div class="ti-time">17:38 落地后出发 · 车程约 1-1.5h · 拼车 / Mini Van</div>
+          <div class="ti-tags"><span class="ti-chip">4 人正好拼一辆</span></div>
+        </div>
+        <div class="ti-side"><span class="ti-status pending">⏳ 待定</span><div class="ti-amt">RM25-30<small>/人 · 可讲价</small></div></div>
+      </div>
+      <div class="leg-grid">
+        <div class="leg dep">
+          <div class="leg-h"><span class="pin"></span>出发地 · 斗湖机场出口 <small>Mini Van 揽客点</small></div>
+          <ul>
+            <li><b>找车：</b>出出口看到绿白涂装 Mini Van/拼车点，直接谈价拼车去仙本那，参考 <b>RM25-30/人</b>（可讲价）<span class="tip">拼车通常<b>载满 4 人</b>才走，赶时间可加钱包车（价格翻倍起）</span></li>
+            <li><b>更省心的走法：</b>提前让度假村/酒店订接驳（前台就能办），司机会在出口举牌等你。</li>
+            <li><b>付款：</b>现金马币支付，上车前谈好「送到仙本那哪里」<span class="tip">出机场先换点现金（机场 ATM/换汇柜台），镇上很多店只收现金</span></li>
+          </ul>
+        </div>
+        <div class="leg arr">
+          <div class="leg-h"><span class="pin"></span>到达地 · 仙本那镇 <small>约 19:00 到</small></div>
+          <ul>
+            <li><b>当晚住镇：</b>傍晚到镇，快艇晚班少——当晚住镇上第一晚，第二天早上再上岛（度假村接驳按约定时间）<span class="tip">住宿条件朴素、隔音一般，早睡别熬夜，贵重物品（护照、现金）随身带</span></li>
+            <li><b>吃第一顿：</b>先去酒店办入住放行李再出门，镇上海鲜市场/大排档吃第一顿，热带水果收尾<span class="tip">用现金，问清价格再点</span></li>
+            <li><b>回程提前订：</b>10/5 要飞亚庇，提前一天联系司机订返程车，返程预留 4h（见 10.05 卡）。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat cat-mint">
+      <div class="cat-h">🚌 10.05 · 仙本那 → 亚庇 · 方式待定 <small>飞机 / 大巴 / 拼车逐个讲透</small></div>
+      <div class="trip-info">
+        <div class="ti-date"><span class="d">10.05</span><span class="w">MON</span></div>
+        <div class="ti-main">
+          <div class="ti-route"><span class="ico">🚌</span><span>仙本那</span><span class="sep">→</span><span class="arr">亚庇 BKI</span></div>
+          <div class="ti-time">上午出发 · 交通方式未定 · 下面一种一种拆开讲</div>
+          <div class="ti-tags"><span class="ti-chip">🌅 落地赶丹绒亚路日落</span></div>
+        </div>
+        <div class="ti-side"><span class="ti-status pending">⏳ 待定</span><div class="ti-amt">¥122-260<small>/人 · 飞机 / 大巴 / 拼车</small></div></div>
+      </div>
+
+      <div class="way">
+        <div class="way-h">✈ 方式一 · 飞机 <span class="badge rec">最推荐</span></div>
+        <div class="way-meta">⏱ 全程约 <b>3-4 小时</b>　💰 参考 <b>¥180-260/人</b>　✈ 亚航直飞 45-50 分钟</div>
+        <div class="leg-grid">
+          <div class="leg dep">
+            <div class="leg-h"><span class="pin"></span>出发地 · 仙本那 → 斗湖机场 <small>最晚 08:00 出发</small></div>
+            <ul>
+              <li><b>买票：</b>提前 3-5 天在「AirAsia MOVE」App 买好斗湖→亚庇的票，<b>勾选 20kg 托运行李</b>一起付掉（到机场再补买贵好几倍），截图存相册<span class="tip">国庆档价格会涨，早买早安心</span></li>
+              <li><b>订车：</b>出发前一天联系 9/30 送你们的司机订车（参考 RM25-40/人），约好早上几点到酒店门口接、问清车牌。</li>
+              <li><b>去机场：</b>仙本那镇没有直达机场的公交/火车，全靠汽车——让酒店/度假村前台帮订送机（最省心），或路边找 Mini Van 包车/拼车。</li>
+              <li><b>车程：</b>约 1.5 小时、多山路弯道，司机爱顺路接客，<b>最晚 08:00 出发</b><span class="tip">容易晕车就出发前半小时吃晕车药；<b>总预算按 4 小时留</b>（车程 1.5h＋值机＋司机接客，别卡点）</span></li>
+              <li><b>值机：</b>到斗湖机场找「AirAsia 亚航」柜台或自助机器，用护照＋订单号换登机牌、托运行李<span class="tip">斗湖是<b>国内航线</b>别排到国际柜台；值机提前 1.5-2h 足够</span></li>
+              <li><b>安检登机：</b>过安检约 15-20 分钟；登机牌上印着 Gate，跟着蓝色指示牌找登机口，起飞前 30 分钟登机<span class="tip">液体单瓶别超 100ml、充电宝随身别托运</span></li>
+              <li><b>备现金：</b>备点<b>现金马币</b>（司机多收现金），出发前在镇上换好或 ATM 取。</li>
+            </ul>
+          </div>
+          <div class="leg arr">
+            <div class="leg-h"><span class="pin"></span>到达地 · 亚庇 BKI <small>落地安顿</small></div>
+            <ul>
+              <li><b>入境：</b>排队把护照递给海关，<b>看清有没有盖章</b><span class="tip">斗湖入境时已盖过<b>沙巴入境章</b>，亚庇同属沙巴州无需再盖，但把已盖的章保管好，出境要核验</span></li>
+              <li><b>取行李：</b>看电子屏找对应转盘，别拿错别人的箱子<span class="tip">行李牌提前贴好</span></li>
+              <li><b>出机场：</b>出口就是 Grab 叫车点和出租车排队点，到丹绒亚路/加雅街市区约 15-20 分钟<span class="tip">亚庇用 <b>Grab</b> 比路边出租车便宜约 40%，别坐拉客的</span></li>
+              <li><b>换汇：</b>机场有换汇柜台和 ATM，现金马币在这补一点，打车、路边小吃都用得上。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="way">
+        <div class="way-h">🚌 方式二 · 长途大巴</div>
+        <div class="way-meta">⏱ 全程约 <b>8-10 小时</b>　💰 参考约 <b>¥122/人</b>　🚌 沿海岸线 · 班次少</div>
+        <div class="leg-grid">
+          <div class="leg dep">
+            <div class="leg-h"><span class="pin"></span>出发地 · 仙本那长途车站 <small>提前 40 分钟到</small></div>
+            <ul>
+              <li><b>找车站：</b>位置问酒店前台：「bus terminal / Sabariah Express 上车点在哪」，一般在镇中心/码头附近。</li>
+              <li><b>确认班次：</b>班次少且可能临时变动，<b>务必提前一天到站或电话确认</b>，别当天扑空。</li>
+              <li><b>到站放行李：</b>当天提前 40 分钟到站，大件行李交给司机放进车底行李舱，随身包（含证件）带上车。</li>
+              <li><b>上车选座：</b>选靠前靠窗的位置舒服点<span class="tip">车上空调冷，带件薄外套；8-10 小时车程，晕车的提前吃晕车药</span></li>
+              <li><b>备补给：</b>上车前买好水、零食、纸巾<span class="tip">8-10 小时路上只有简陋休息站</span></li>
+            </ul>
+          </div>
+          <div class="leg arr">
+            <div class="leg-h"><span class="pin"></span>到达地 · 亚庇长途车站 <small>市区下车</small></div>
+            <ul>
+              <li><b>到市区：</b>终点一般在市区（如 Inanam 一带），下车后叫 Grab 或出租车去加雅街/丹绒亚路，约 10-20 分钟<span class="tip">先确认酒店能存行李，放下包再活动</span></li>
+              <li><b>落地休整：</b>坐了快一天车，落地先补水吃饭，再去看日落<span class="tip">10/8 还有红眼航班，别把自己熬垮</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="way">
+        <div class="way-h">🚐 方式三 · 全程拼车 / Mini Van</div>
+        <div class="way-meta">⏱ 全程约 <b>5-6 小时</b>　💰 参考 <b>RM80-120/人</b>　🚐 点对点 · 比大巴快</div>
+        <div class="leg-grid">
+          <div class="leg dep">
+            <div class="leg-h"><span class="pin"></span>出发地 · 仙本那镇上 <small>司机上门接</small></div>
+            <ul>
+              <li><b>对接司机：</b>司机会到酒店/民宿门口接，确认好车牌和司机电话，别上错车。</li>
+              <li><b>谈价：</b>现金马币支付，上车前谈好「送到亚庇哪里」<span class="tip">拼车是私人运营，把目的地<b>谈死在纸上/手机备忘录</b>，拍车牌防加价</span></li>
+              <li><b>出发时间：</b>白天走更稳，山路夜间视野差，尽量选上午出发。</li>
+            </ul>
+          </div>
+          <div class="leg arr">
+            <div class="leg-h"><span class="pin"></span>到达地 · 亚庇市区 <small>送到市区</small></div>
+            <ul>
+              <li><b>落点：</b>拼车一般送到亚庇市区，离加雅街/丹绒亚路不远，补个 Grab 或步行就到。</li>
+              <li><b>小结：</b>比飞机省钱、比大巴快，但舒适度和安全性看司机，别选太晚的班次。</li>
+              <li class="note">拼车舒适度参差，山路颠簸，晕车体质备好药；累了别硬撑，安全第一。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="way">
+        <div class="way-h">⛴ 方式四 · 船 + 陆路组合 <span class="badge no">不推荐</span></div>
+        <div class="way-meta">仙本那 → 亚庇没有直达船，需船＋车多段倒腾，又慢又累，蜜月直接跳过，不展开。</div>
+      </div>
+    </div>
+
+    <div class="cat cat-red">
+      <div class="cat-h">✈ 10.08 · 亚庇 → 香港 <small>红眼返程</small></div>
+      <div class="trip-info">
+        <div class="ti-date"><span class="d">10.08</span><span class="w">THU</span></div>
+        <div class="ti-main">
+          <div class="ti-route"><span class="ico">✈</span><span>亚庇 BKI · T1</span><span class="sep">→</span><span class="arr">香港 HKG · T1</span></div>
+          <div class="ti-time">01:15 - 04:25 · 红眼航班 · 10/7 晚 21:00 赴机场</div>
+          <div class="ti-tags"><span class="ti-chip">💤 机上补觉</span></div>
+        </div>
+        <div class="ti-side"><span class="ti-status booked">✓ 已订</span><div class="ti-amt">¥3,964<small>2 人</small></div></div>
+      </div>
+      <div class="leg-grid">
+        <div class="leg dep">
+          <div class="leg-h"><span class="pin"></span>出发地 · 亚庇 BKI T1 <small>10/7 21:00 到</small></div>
+          <ul>
+            <li><b>先在市区吃晚饭：</b>10/7 晚上在市区吃完晚饭再出发，机场餐饮简单。</li>
+            <li><b>21:00 到机场：</b>退房赴亚庇机场（01:15 国际航班提前 3h）<span class="tip"><b>前一晚别嗨太晚、留足 3h</b>；深夜机场人少、值机安检快，机场空调冷带件外套</span></li>
+            <li><b>值机：</b>到 T1 找航空公司柜台办登机牌＋托运行李，确认是国际航班 T1<span class="tip"><b>严格核对国际行李额度</b>——亚航超重现场买贵，出发前在 App 上买好 20kg 最划算</span></li>
+            <li><b>过安检候机：</b>过安检后找登机口坐下等，别睡过头误机。</li>
+            <li><b>机上补觉：</b>颈枕＋眼罩随身，机上补觉。</li>
+          </ul>
+        </div>
+        <div class="leg arr">
+          <div class="leg-h"><span class="pin"></span>到达地 · 香港 HKG T1 <small>04:25 落地</small></div>
+          <ul>
+            <li><b>过关：</b>落地后持护照＋机票走「过境/入境」通道（<b>过境免签 7 天</b>），自助 e 道刷护照很快<span class="tip">备好回内地的机票/订单；凌晨人少过关快</span></li>
+            <li><b>取行李出机场：</b>过关后取行李，约 05:30 出机场<span class="tip">别在机场逗留，直接按下一卡方案回深，时间刚好赶上上班</span></li>
+            <li><b>回深圳：</b>交通方案见下一卡「香港 → 深圳」。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat cat-red">
+      <div class="cat-h">🚌 10.08 · 香港 → 深圳 <small>口岸过境 · 回家</small></div>
+      <div class="trip-info">
+        <div class="ti-date"><span class="d">10.08</span><span class="w">THU</span></div>
+        <div class="ti-main">
+          <div class="ti-route"><span class="ico">🚌</span><span>香港机场</span><span class="sep">→</span><span class="arr">深圳 · 皇岗口岸</span></div>
+          <div class="ti-time">凌晨 05:30 出机场后出发 · 24h 通关 · 永东巴士约 15-20 分钟一班</div>
+          <div class="ti-tags"><span class="ti-chip">🛂 护照＋机票过境免签 7 天</span></div>
+        </div>
+        <div class="ti-side"><span class="ti-status pending">⏳ 待定</span><div class="ti-amt">约 ¥80<small>/人 · 永东巴士</small></div></div>
+      </div>
+      <div class="leg-grid">
+        <div class="leg dep">
+          <div class="leg-h"><span class="pin"></span>出发地 · 香港机场 <small>05:30 出机场</small></div>
+          <ul>
+            <li><b>过境：</b>持护照＋机票走「过境/入境」通道（免签 7 天），无需港澳通行证。</li>
+            <li><b>首选皇岗口岸（24h）：</b>机场有<b>永东巴士</b>跨境小车直通（04:00-01:00 每 15-20 分钟一班，约 <b>¥80/人</b>），直达皇岗口岸；或打车拼车<span class="tip"><b>新皇岗口岸 2026 年 9 月启用后「一地两检」最快 5 分钟过关</b>；备好八达通/港币零钱或支付宝付款</span></li>
+            <li><b>备选高铁：</b>机场快线首班约 05:50 到市区，转早班西九龙高铁回深（约 18 分钟）。</li>
+          </ul>
+        </div>
+        <div class="leg arr">
+          <div class="leg-h"><span class="pin"></span>到达地 · 深圳 🏠 <small>清晨到家</small></div>
+          <ul>
+            <li><b>过关回家：</b>顺路吃顿港式早餐（茶餐厅云吞面/烧腊），过关回深圳，回家放行李后去上班<span class="tip"><b>10/8 是周四工作日</b>，过关后是早高峰，别磨蹭，放完行李直接通勤</span></li>
+            <li><b>休假提醒：</b>10/8 不请假、回家放行李就去上班；10/10（周六）补班别忘<span class="tip">提前把公司地址/Memo 存好、手机闹钟别关错</span></li>
+            <li><b>注意：</b>红眼航班后别硬撑开车，安全第一。</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -675,7 +1139,7 @@
         <div class="cat-h">🏙 呼和浩特 · 09.25 <small>第一站</small><span class="go">→ 详情</span></div>
         <ul class="g-list">
           <li>🌡 <b>天气：</b>白天约 15-22℃，夜间 5-10℃，干燥风大</li>
-          <li><b>🚗 行 · 动线：</b>深圳→广州城际早班 → 白云机场 <b>11:50-15:00</b> 直飞呼市；机场→市区 30-40 分钟（打车/机场大巴）；落地后大召寺・塞上老街・内蒙古博物院（免费，提前预约）就近串联</li>
+          <li><b>🚗 行 · 动线：</b>深圳→广州→呼市（赶机链见「🚄 交通衔接」页）；落地后大召寺・塞上老街・内蒙古博物院（免费，提前预约）就近串联</li>
           <li><b>🍜 吃：</b>烧麦（稍麦）、羊杂碎、锅茶奶茶、手把肉——大召寺一带小吃街一站式解决</li>
           <li><b>🏨 住：</b>大召寺/塞上老街商圈，晚上步行逛吃最方便；预算友好住连锁，想加点内蒙味选市区民族风民宿</li>
         </ul>
@@ -695,7 +1159,7 @@
         <div class="cat-h">🏜 库布齐 · 响沙湾一带 · 09.27 夜-09.28 <small>星空露营</small><span class="go">→ 详情</span></div>
         <ul class="g-list">
           <li>🌡 <b>天气：</b>白天 18-22℃，<b>夜间可能 10℃ 以下</b>＋风沙</li>
-          <li><b>🚗 行 · 动线：</b>9/27 婚礼 14 点多结束，下午 16:00 到响沙湾（包头自驾约 1-1.5h）——玩沙项目＋日落＋星空一趟齐活；9/28 早 7:20 出发返包头机场赶 11:20 转机航班（南京→吉隆坡）；地广人稀，离线地图＋手机支架备好</li>
+          <li><b>🚗 行 · 动线：</b>包头自驾约 1-1.5h 到响沙湾（9/27 婚礼后直奔）；9/28 一早返包头机场转机（详见「🚄 交通衔接」页）；地广人稀，离线地图＋手机支架备好</li>
           <li><b>🍜 吃：</b>营地晚餐/蒙古包套餐为主；自备水＋零食＋保温杯热饮压寒；深夜牛羊肉配奶茶是内蒙灵魂</li>
           <li><b>🏨 住：</b>营地蒙古包/星空房 ×1 晚（提前订！）；或响沙湾景区内酒店一价全包（含餐+项目，省心）；夜观银河是这趟的点睛之笔；充电稀缺，大充电宝先喂饱</li>
           <li><b>🎡 玩：</b>滑沙、骑骆驼、沙地越野、篝火晚会</li>
@@ -708,7 +1172,7 @@
         <div class="cat-h">🕌 吉隆坡 · 09.28-29 <small>蜜月第一站</small><span class="go">→ 详情</span></div>
         <ul class="g-list">
           <li>🌡 <b>天气：</b>26-33℃ 湿热，午后雷阵雨"来得快去得快"，带把轻便伞</li>
-          <li><b>🚗 行 · 动线：</b>9/28 南京 <b>18:25-23:40</b> 深夜落地 KLIA；深夜进市区优先 Grab（机场快线可能已收班）；市内 Grab 打车便宜方便；双子塔（KLCC）→独立广场→茨厂街可步行串联</li>
+          <li><b>🚗 行 · 动线：</b>9/28 深夜落地 KLIA（见「🚄 交通衔接」页）；市内 Grab 打车便宜方便；双子塔（KLCC）→独立广场→茨厂街可步行串联</li>
           <li><b>🍜 吃：</b>阿罗街夜市（夜宵天堂）、肉骨茶、椰浆饭、拉茶、福建面、茨厂街小吃</li>
           <li><b>🏨 住：</b>KLCC 或武吉免登（Bukit Bintang）商圈，吃喝交通最顺；两对新婚夫妇同酒店、2 间相邻，晚上串门聊天方便</li>
         </ul>
@@ -718,7 +1182,7 @@
         <div class="cat-h">🐠 仙本那 · 09.30-10.05 <small>潜水天堂 · 蜜月主场</small><span class="go">→ 详情</span></div>
         <ul class="g-list">
           <li>🌡 <b>天气：</b>26-33℃ 热带海洋性气候；晴热多阵雨，紫外线极强</li>
-          <li><b>🚗 行 · 动线：</b>吉隆坡 T2 <b>15:00-17:38</b> 飞斗湖（已订 ¥1,752）→ 接驳车/拼车约 1-1.5h 到仙本那（约 19:00 到镇）；度假村多在<b>卡帕莱/马布岛/马达京</b>等外海，需快艇接送</li>
+          <li><b>🚗 行 · 动线：</b>吉隆坡 ✈ 斗湖（已订，见「🚄 交通衔接」页）→ 接驳约 1-1.5h 到仙本那；度假村多在<b>卡帕莱/马布岛/马达京</b>等外海，需快艇接送</li>
           <li><b>🤿 玩：</b>浮潜/深潜看海龟珊瑚、西巴丹/马布/马达京跳岛一日游、水上屋躺平看海</li>
           <li><b>🍜 吃：</b>镇上海鲜市场现买现做、海边大排档；热带水果自由</li>
           <li><b>🏨 住：</b>卡帕莱/马布岛水上屋（一价全包含吃住潜水）或镇上酒店＋跳岛</li>
@@ -729,7 +1193,7 @@
         <div class="cat-h">🏝 亚庇 · 10.06-10.07 <small>收尾 2 天</small><span class="go">→ 详情</span></div>
         <ul class="g-list">
           <li>🌡 <b>天气：</b>26-33℃，湿度 70-90%；赤道紫外线极强，防晒 SPF50+ 随身补</li>
-          <li><b>🚗 行 · 动线：</b>斗湖 ✈ 亚庇（待定）；BKI 机场→市区 15-20 分钟车程；<b>丹绒亚路日落</b>必看（全球三大日落之一）</li>
+          <li><b>🚗 行 · 动线：</b>斗湖 ✈ 亚庇（待定，见「🚄 交通衔接」页）；BKI 机场→市区 15-20 分钟车程；<b>丹绒亚路日落</b>必看（全球三大日落之一）</li>
           <li><b>🍜 吃：</b>海鲜大排档（大茄来等）：奶油老虎虾、咸蛋黄炒蟹；生肉面、肉骨茶</li>
           <li><b>🏨 住：</b>市区（加雅街一带）或丹绒亚路（日落景观房）；2 间相邻</li>
           <li><b>🎡 玩：</b>丹绒亚路日落、市区慢逛、海鲜收尾；时间紧以放松为主</li>
@@ -740,7 +1204,7 @@
         <div class="cat-h">🛳 返程 · 香港过境（待定） <small>回家前的中转站</small><span class="go">→ 详情</span></div>
         <ul class="g-list">
           <li>🌡 <b>天气：</b>10 月上旬约 26-30℃，短袖即可</li>
-          <li><b>🚗 行 · 动线：</b>亚庇→香港直飞约 3h；香港→深圳：<b>西九龙高铁约 18 分钟</b>直达，或 福田口岸地铁；过境持护照＋机票免签 7 天</li>
+          <li><b>🚗 行 · 动线：</b>红眼航班回程（10/8 凌晨 01:15-04:25，见「🚄 交通衔接」页）；香港→深圳优先<b>皇岗口岸（24 小时）</b>或早班西九龙高铁；过境持护照＋机票免签 7 天</li>
           <li><b>🍜 吃：</b>茶餐厅、烧腊、丝袜奶茶——回家前最后一顿港式犒劳自己</li>
           <li><b>🏨 住：</b>当天转车回深一般无需过夜；万一航班晚，住口岸商圈酒店备选</li>
         </ul>
@@ -769,10 +1233,7 @@
         <div class="day-card">
           <div class="day-h">📅 09.25（周五）· 飞青城 · 抵达日 <span class="tag">15:00 落地</span></div>
           <ul class="day-list">
-            <li><b>07:40-08:00</b> 深圳北出发（动车，坐到<b>广州东站</b>，约 70 分钟）</li>
-            <li><b>09:00 前后</b> 广州东站换乘<b>地铁 3 号线北延段</b>，直达机场北站（约 50 分钟）</li>
-            <li><b>10:00 前后</b> 到<b>白云机场 T2</b>，值机安检（提前 1.5-2h ✓）</li>
-            <li><b>11:50</b> 起飞</li>
+            <li><b>上午</b> 赶机链（深圳北🚄→广州东→地铁→白云机场 T2，07:40 发车、11:50 起飞）详见「🚄 交通衔接」页</li>
             <li><b>15:00</b> 落地呼和浩特 → 机场 → 市区约 40 分钟，酒店放行李换装</li>
             <li><b>16:30</b> 大召寺下午场：银佛殿（明代银佛＋壁画）＋广场骑马铜像（天黑前光线好）</li>
             <li><b>18:30</b> 塞上老街逛吃：老绥元/德顺源烧麦＋蒙古奶茶，380 米青砖街吃到扶墙</li>
@@ -844,13 +1305,11 @@
           </ul>
         </div>
         <div class="day-card">
-          <div class="day-h">📅 09.28（周一）· 晨光告别 → 三城飞行 <span class="tag">11:20 航班</span></div>
+          <div class="day-h">📅 09.28（周一）· 晨光告别 <span class="tag">转机飞吉隆坡</span></div>
           <ul class="day-list">
             <li><b>05:30（可选）</b> 沙漠日出晨光大片（昨天已玩项目，不赶场）</li>
             <li><b>06:30</b> 早餐＋退房，沙丘散个步消消食</li>
-            <li><b>07:20</b> 出发 → 包头机场约 1-1.5h（09:00 前到，值机 11:20 航班）</li>
-            <li><b>11:20-13:35</b> 包头 ✈ 南京；<b>13:35-18:25</b> 南京机场转机 4.8h：吃饭、按摩椅休息（<b>行李直挂</b>，轻装溜达）</li>
-            <li><b>18:25-23:40</b> 南京 ✈ 吉隆坡，深夜入境（节奏见吉隆坡页 09.28 卡）</li>
+            <li><b>07:20</b> 出发返包头机场（11:20 转机航班，详见「🚄 交通衔接」页）</li>
           </ul>
         </div>
         <div class="g-sec">🗺 四岛速览 · 二选一</div>
@@ -902,7 +1361,7 @@
         <div class="g-sec">📌 本城贴士</div>
         <ul class="g-list">
           <li>市区 Grab 打车便宜；午后常有阵雨，轻便伞随身；清真寺穿着提前备好（长围巾在备品清单里）</li>
-          <li>09.30（周三）<b>下午 15:00 吉隆坡 T2 起飞</b>飞仙本那（斗湖 17:38 到）——上午还能慢悠悠早午餐＋收拾，12:30 前出发去机场即可</li>
+          <li>09.30（周三）下午航班飞<b>仙本那</b>（15:00 吉隆坡 T2 起飞）——上午慢悠悠早午餐＋收拾；赶机安排见「🚄 交通衔接」页</li>
         </ul>
       </div>
     </div>
@@ -920,8 +1379,7 @@
         <div class="day-card">
           <div class="day-h">📅 09.30（周三）· 抵达日 <span class="tag">进岛</span></div>
           <ul class="day-list">
-            <li><b>12:30 前</b> 出发去吉隆坡 T2（15:00 起飞）</li>
-            <li><b>15:00-17:38</b> 吉隆坡 ✈ 斗湖（已订）→ 接驳车/拼车约 1-1.5h</li>
+            <li><b>下午</b> 吉隆坡 T2 飞斗湖（15:00-17:38，已订）→ 接驳车约 1-1.5h，详见「🚄 交通衔接」页</li>
             <li><b>约 19:00</b> 到仙本那镇：当晚住镇（快艇晚班少，明早再上岛）或联系度假村接驳</li>
             <li><b>晚上</b> 镇上海鲜市场/大排档第一顿，热带水果收尾</li>
           </ul>
@@ -987,11 +1445,12 @@
           </ul>
         </div>
         <div class="day-card">
-          <div class="day-h">📅 10.07（周三）· 亚庇慢游 <span class="tag">最后一天</span></div>
+          <div class="day-h">📅 10.07（周三）· 亚庇慢游＋夜赴机场 <span class="tag">最后一天</span></div>
           <ul class="day-list">
             <li><b>上午</b> 市区慢逛＋买手信（白咖啡、沙巴红、榴莲干）</li>
             <li><b>午后</b> 泳池／SPA 躺平，给 14 天旅程回血</li>
-            <li><b>傍晚</b> 再看一场日落（如果还有体力）→ 早点休息，明天飞香港</li>
+            <li><b>傍晚</b> 丹绒亚路再看一场日落（蜜月最后一场 🌅）→ 早点吃晚饭</li>
+            <li><b>晚上</b> 早点吃晚饭，赴机场搭红眼航班（安排见「🚄 交通衔接」页）</li>
           </ul>
         </div>
         <div class="g-sec">🌅 落日指南（每天 18:00-19:30 通用）</div>
@@ -1007,7 +1466,7 @@
         <div class="g-sec">💡 安全 &amp; 贴士</div>
         <ul class="g-list">
           <li>SPF50+ 随身补涂；打车用 Grab（比出租车省约 40%）；入境核对护照盖章</li>
-          <li>10/8 一早退房飞香港，值机时间提前留足；行李额度确认</li>
+          <li>10/7 晚上 21:00 赴机场（01:15 红眼航班）；行李额度确认；颈枕随身，机上补觉</li>
         </ul>
       </div>
     </div>
@@ -1016,18 +1475,18 @@
     <div class="sub-panel" id="sub-hk">
       <div class="back-bar" data-back="overview">← 返回概览</div>
       <div class="cat cat-red">
-        <div class="cat-h">🛳 香港 · 返程当天 <small>按天攻略</small></div>
+        <div class="cat-h">🛳 香港 · 凌晨到达 <small>红眼航班版</small></div>
         <div class="g-sec">🏨 住哪</div>
         <ul class="g-list">
-          <li>当天转回深圳一般不必过夜；航班晚点则住口岸商圈酒店备选</li>
+          <li>04:25 到香港 → 当天早上直接回深圳，放行李后去上班（不请假）；一般不过夜，如航班延误需要，口岸商圈酒店备选</li>
         </ul>
         <div class="day-card">
-          <div class="day-h">📅 返程当天 · 半天中转 <span class="tag">回家 🏠</span></div>
+          <div class="day-h">📅 10.08（周四）· 凌晨抵港 · 清晨回深 <span class="tag">回家 🏠</span></div>
           <ul class="day-list">
-            <li><b>落地香港</b> 过境免签 7 天，持护照＋机票即可</li>
-            <li><b>午餐</b> 茶餐厅：云吞面、烧腊、冻柠茶，给东南亚之旅画个句号</li>
-            <li><b>下午</b> 西九龙高铁约 18 分钟直达深圳（高铁票 App 提前买），或福田口岸地铁回深</li>
-            <li><b>到家</b> 旅程完结！记得 10/10（周六）补班</li>
+            <li><b>04:25</b> 落地香港国际机场 T1，过境免签 7 天（持护照＋机票即可）</li>
+            <li><b>05:00-06:00</b> 过关＋取行李：去深圳优先 <b>皇岗口岸（24 小时）</b>——机场乘通宵大巴/打车，或等早班西九龙高铁</li>
+            <li><b>清晨-上午</b> 顺路来顿港式早餐（茶餐厅云吞面/烧腊）→ 过关回深圳</li>
+            <li><b>白天</b> 回家放完行李就去上班，旅程完结 🏠 记得 10/10（周六）补班</li>
           </ul>
         </div>
         <div class="g-sec">📌 买什么</div>
@@ -1225,6 +1684,7 @@
         <ul class="check-list">
           <li><label class="check"><input type="checkbox" data-key="ms13"><span class="tx">护照＋往返机票行程单＋酒店确认单（打印纸质）</span></label></li>
           <li><label class="check"><input type="checkbox" data-key="ms14"><span class="tx">免签政策出发前再确认（目前对中国护照免签 30 天）</span></label></li>
+          <li><label class="check"><input type="checkbox" data-key="ms41"><span class="tx">🛂 <b>MDAC 入境卡</b>：入境马来前 3 天内线上填写（imigresen-online.imi.gov.my/mdac），截图/打印备用</span></label></li>
           <li><label class="check"><input type="checkbox" data-key="ms15"><span class="tx">少量马币现金＋支付宝/国际卡</span></label></li>
           <li><label class="check"><input type="checkbox" data-key="ms16"><span class="tx">Grab / 谷歌地图离线包 / 翻译 App</span></label></li>
           <li><label class="check"><input type="checkbox" data-key="ms18"><span class="tx">晕船药（跳岛快艇/美人鱼岛长船程）</span></label></li>
