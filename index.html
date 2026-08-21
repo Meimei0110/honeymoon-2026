@@ -129,7 +129,7 @@
     display:block;background:var(--lemon-soft);color:#8a6a1d;font-size:11.5px;line-height:1.6;
     border-radius:8px;padding:4px 9px;margin-top:5px;width:fit-content;
   }
-  .amt{display:none;}
+  .amt{display:table-cell;}
   .warn{
     display:block;margin-top:14px;padding:12px 15px;border-radius:14px;font-size:12.5px;line-height:1.8;
     background:var(--lemon-soft);border:1px dashed rgba(255,201,77,.9);color:#8a6a1d;
@@ -207,7 +207,12 @@
   .cat-mint .cat-h{color:#2e8f85;}
   .cat-red .cat-h{color:var(--red);}
   .cat-ink .cat-h{color:var(--ink);}
-  .sub-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+  .sub-tabs{
+    position:sticky;top:56px;z-index:40;
+    display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;
+    padding:8px 2px 12px;border-bottom:1px solid var(--line);
+    background:rgba(250,243,231,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  }
   .sub-tab-btn{
     border:1px solid var(--line);background:var(--card);color:var(--mut);
     font-family:inherit;font-size:12.5px;font-weight:700;letter-spacing:.5px;
@@ -339,6 +344,20 @@
   @media(max-width:520px){.zone small{width:100%;margin-left:0;}}
   .zone.cn{background:linear-gradient(92deg,#f2862e,#ff5d73);box-shadow:0 4px 14px rgba(242,134,46,.32);}
   .zone.my{background:linear-gradient(92deg,#1b9aaa,#2ec4b6);box-shadow:0 4px 14px rgba(27,154,170,.30);}
+  /* 折叠：内蒙线/马来线 zone 可点击展开收起 */
+  .zone[data-zone]{cursor:pointer;user-select:none;transition:filter .15s ease,box-shadow .15s ease;}
+  .zone[data-zone]:hover{filter:brightness(1.06);box-shadow:0 6px 18px rgba(31,45,77,.14);}
+  .zone .zone-toggle{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;color:#fff;
+    background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.45);
+    border-radius:50%;flex:none;
+    transition:transform .2s ease;box-shadow:0 1px 4px rgba(31,45,77,.15);
+  }
+  .zone .zone-toggle svg{display:block;}
+  .zone.collapsed .zone-toggle{transform:rotate(-90deg);}
+  .zone-body{display:none;}
+  .zone-body.open{display:block;}
   .pack-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
   @media(max-width:760px){.pack-grid{grid-template-columns:1fr;}}
   .check-list{list-style:none;display:grid;gap:7px;}
@@ -402,6 +421,21 @@
   footer a{color:var(--mut);}
   footer .hl{color:var(--sand-d);}
 
+  /* ---------- BACK TO TOP ---------- */
+  #backTop{
+    position:fixed;right:18px;bottom:24px;z-index:999;
+    width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--sand),var(--red));
+    color:#fff;border:none;cursor:pointer;
+    box-shadow:0 6px 18px rgba(242,134,46,.4);
+    display:none;align-items:center;justify-content:center;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  #backTop.show{display:flex;}
+  #backTop:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(242,134,46,.5);}
+  #backTop svg{display:block;}
+  @media(max-width:480px){#backTop{width:42px;height:42px;right:12px;bottom:16px;}}
+
   /* ========== MOBILE ADAPT ========== */
   @media (max-width: 780px){
     body{padding:18px 10px 44px;}
@@ -413,7 +447,7 @@
     .route .en{display:none;}
     .tabs{gap:6px;padding:9px 2px;}
     .tab-btn{padding:7px 13px;font-size:12.5px;}
-    .sub-tabs{gap:6px;}
+    .sub-tabs{gap:6px;top:50px;}
     .sub-tab-btn{padding:5px 11px;font-size:12px;}
     section{margin-bottom:20px;}
     .p-h h2{font-size:18px;}
@@ -488,11 +522,12 @@
 
   <!-- TABS -->
   <nav class="tabs" id="tabs">
-    <button class="tab-btn active" data-tab="plan">📅 行程计划</button>
-    <button class="tab-btn" data-tab="traffic">🚄 交通衔接</button>
-    <button class="tab-btn" data-tab="guide">📖 攻略</button>
-    <button class="tab-btn" data-tab="expense">🧾 支出清单</button>
-    <button class="tab-btn" data-tab="pack">🎒 备品清单</button>
+    <button class="tab-btn active" data-tab="plan">行程计划</button>
+    <button class="tab-btn" data-tab="traffic">交通攻略</button>
+    <button class="tab-btn" data-tab="stay">住宿攻略</button>
+    <button class="tab-btn" data-tab="guide">游玩攻略</button>
+    <button class="tab-btn" data-tab="expense">支出清单</button>
+    <button class="tab-btn" data-tab="pack">备品清单</button>
   </nav>
 
   <!-- PANEL: PLAN -->
@@ -673,22 +708,30 @@
               <div class="p">¥1,752 已订；吉隆坡 T2 <b>15:00-17:38</b> 飞斗湖，接驳车约 1-1.5h → 19:00 前后到仙本那镇</div>
             </div>
           </div>
-          <div class="tl-item" data-dates="10-1 10-2 10-3 10-4 10-5">
+          <div class="tl-item" data-dates="10-1 10-2 10-3 10-4">
             <span class="tl-dot"></span>
-            <div class="date"><div class="d">10.01-05</div><div class="w">国庆 · 仙本那 🐠</div></div>
+            <div class="date"><div class="d">10.01-04</div><div class="w">国庆 · 仙本那 🐠</div></div>
             <div class="body">
               <b>仙本那 · 潜水胜地 🐠 度假</b>
-              <div class="p">卡帕莱/马布岛/马达京水上屋，浮潜潜水看海龟；两对新婚夫妇尽情浪</div>
+              <div class="p">镇上酒店＋离岛沙滩度假村（不去水屋），浮潜潜水看海龟；两对新婚夫妇尽情浪</div>
               <div class="t">🤿 浮潜潜水：面镜呼吸管、水母衣、潜水袜、珊瑚友好防晒（备品清单已备）</div>
-              <div class="t">⛵ 跳岛：西巴丹/马布岛/马达京一日游需提前订；晕船药随身</div>
+              <div class="t">⛵ 跳岛：敦沙卡兰/马布岛/马达京一日游需提前订；晕船药随身</div>
+            </div>
+          </div>
+          <div class="tl-item" data-dates="10-5">
+            <span class="tl-dot"></span>
+            <div class="date"><div class="d">10.05</div><div class="w">MON · 转场</div></div>
+            <div class="body">
+              <b>仙本那 → 亚庇 ✈</b>
+              <div class="p">离岛回镇上 → 斗湖机场飞亚庇（待定）；下午抵达安顿，丹绒亚路首场日落</div>
             </div>
           </div>
           <div class="tl-item" data-dates="10-6">
             <span class="tl-dot"></span>
-            <div class="date"><div class="d">10.06</div><div class="w">TUE · 转场</div></div>
+            <div class="date"><div class="d">10.06</div><div class="w">TUE · 亚庇</div></div>
             <div class="body">
-              <b>仙本那 → 亚庇 ✈</b>
-              <div class="p">斗湖飞亚庇（待定），落地收尾</div>
+              <b>亚庇 · 市区游 / 可选海岛 🏝</b>
+              <div class="p">美人鱼岛/环滩岛一日游，或市区加雅街＋菲律宾市场＋IMAGO；傍晚二刷丹绒亚路日落</div>
             </div>
           </div>
           <div class="tl-item" data-dates="10-7">
@@ -723,7 +766,8 @@
     </div>
     <div class="warn">⚠️ <b>通用铁律：</b>国内航班提前 1.5-2h 到机场、国际航班提前 3h；红眼航班按前夜 21:00 左右到机场算；每段起飞前确认行李额度；值机后先看登机口屏幕再闲逛。</div>
 
-    <div class="zone cn">🏔 内蒙线 · 09.25-09.28 <small>白云 T2 → 呼市白塔 → 包头东河 → 南京禄口转机</small></div>
+    <div class="zone cn" data-zone="zone-cn"><span class="zone-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>🏔 内蒙线 · 09.25-09.28 <small>白云 T2 → 呼市白塔 → 包头东河 → 南京禄口转机</small></div>
+    <div class="zone-body open" id="zone-cn">
 
     <div class="cat cat-tra">
       <div class="cat-h">🚄 09.25 · 深圳北 → 广州东 <small>动车</small></div>
@@ -886,7 +930,10 @@
       </div>
     </div>
 
-    <div class="zone my">🌴 马来线 · 09.30-10.08 <small>吉隆坡 KLIA2 → 斗湖 → 亚庇 BKI → 香港 HKG</small></div>
+    </div>
+
+    <div class="zone my" data-zone="zone-my"><span class="zone-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>🌴 马来线 · 09.30-10.08 <small>吉隆坡 KLIA2 → 斗湖 → 亚庇 BKI → 香港 HKG</small></div>
+    <div class="zone-body open" id="zone-my">
 
     <div class="cat cat-mint">
       <div class="cat-h">✈ 09.30 · 吉隆坡 → 斗湖 <small>进岛航班</small></div>
@@ -1109,6 +1156,170 @@
         </div>
       </div>
     </div>
+    </div>
+  </div>
+
+  <!-- PANEL: STAY -->
+  <div class="panel" id="panel-stay">
+    <div class="p-h">
+      <h2>住宿攻略 · 按天规划</h2>
+      <span class="en">Hotels · 10 晚 · 1 间计</span>
+    </div>
+    <div class="g-note">💡 每城 10 个候选，全部 <b>≤¥1,500/晚</b>，按你<b>当天行程</b>分组推荐（到站时间、游玩动线、次日动线都考虑到了）。仙本那<b>不去水屋</b>：镇上 3 晚 + 离岛非水屋 2 晚；包头那晚闺蜜安排不计支出。按<b>经济/舒适档</b>选，全程 10 晚参考合计 <b>¥5,000–7,000</b>（1 间计，国庆上浮）。</div>
+
+    <div class="zone cn" data-zone="zone-stay-cn"><span class="zone-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>🏔 内蒙线 · 09.25-27 <small>呼和浩特 → 包头 → 响沙湾</small></div>
+    <div class="zone-body open" id="zone-stay-cn">
+    <div class="cat cat-tra">
+      <div class="cat-h">🏙 09.25 · 呼和浩特 <small>1 晚 · 10 选 · ¥180-1,000</small></div>
+      <div class="g-note">📅 当天情况：15:00 落地（白天）→ 16:30 大召寺 → 塞上老街逛吃 → 早睡赶次日动车。优先 <b>离大召寺/塞上老街近</b>；住市区打车 10-20 分钟也可。</div>
+      <div class="g-sec">🎯 顾深建议</div>
+      <ul class="g-list">
+        <li>首选 <b>如家精选</b>（景点旁最省事）；想住好点选 <b>亚朵</b>；犒劳才上高端三件套。</li>
+      </ul>
+      <div class="lg">
+        <table>
+          <tr><th>酒店</th><th class="c">价格/晚</th><th>位置</th><th>点评（✅ 优点 ｜ ❌ 槽点）</th></tr>
+          <tr class="srow"><td colspan="4">💵 经济档（¥180-350）</td></tr>
+          <tr><td class="l"><b>汉庭</b>（满都海公园店）</td><td class="c">¥180-280</td><td>满都海公园旁</td><td>✅ 华住连锁稳定　❌ 离大召寺 15 分钟</td></tr>
+          <tr><td class="l"><b>如家精选</b>（大召寺塞上老街店）</td><td class="c">¥200-300</td><td>塞上老街旁</td><td>✅ 景点旁逛吃步行直达　❌ 标准化无特色</td></tr>
+          <tr><td class="l"><b>锦江之星</b>（鼓楼将军衙署店）</td><td class="c">¥200-300</td><td>鼓楼/将军衙署</td><td>✅ 市区连锁干净　❌ 离景点 10-15 分钟</td></tr>
+          <tr class="srow"><td colspan="4">🏨 舒适档（¥250-550）</td></tr>
+          <tr><td class="l"><b>召暮青城</b>（大召寺景区店）</td><td class="c">¥250-400</td><td>大召寺旁</td><td>✅ 民族风出片、步行到景点　❌ 口碑看房型</td></tr>
+          <tr><td class="l"><b>维也纳国际</b>（高铁东站店）</td><td class="c">¥300-450</td><td>高铁东站附近</td><td>✅ 房间大　❌ 离景点远</td></tr>
+          <tr><td class="l"><b>全季</b>（金桥开发区店）</td><td class="c">¥350-500</td><td>金桥开发区</td><td>✅ 品质稳床品好　❌ 离景点 20 分钟</td></tr>
+          <tr><td class="l"><b>亚朵</b>（大召寺海亮广场店）</td><td class="c">¥400-550</td><td>海亮广场商圈</td><td>✅ 品质高、吃喝购物一圈　❌ 贵一档</td></tr>
+          <tr class="srow"><td colspan="4">✨ 高端档（¥500-1,000）</td></tr>
+          <tr><td class="l"><b>希尔顿惠庭</b>（大召寺海亮广场店）</td><td class="c">¥600-900</td><td>大召寺/海亮广场</td><td>✅ 希尔顿、近景点带小厨房　❌ 国庆上浮</td></tr>
+          <tr><td class="l"><b>呼和浩特香格里拉</b></td><td class="c">¥600-1,000</td><td>市区</td><td>✅ 五星回血　❌ 离景点稍远</td></tr>
+          <tr><td class="l"><b>呼和浩特喜来登</b></td><td class="c">¥500-900</td><td>市中心</td><td>✅ 万豪系五星　❌ 离大召寺一段车程</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="cat cat-fun">
+      <div class="cat-h">💍 09.26 · 包头 <small>1 晚 · 🎁 闺蜜安排免费</small></div>
+      <ul class="g-list">
+        <li><b>行程衔接：</b>中午动车到包头 → 酒店入住 → 下午婚礼彩排 → 晚上早睡（明天当伴娘＋赶场）。</li>
+        <li><b>住哪：</b>婚礼场地附近酒店，<b>闺蜜统一安排</b>——当天少折腾多休息，妆造随叫随到。</li>
+        <li>Tip：提前跟新娘确认酒店名和地址，出站直接打车报地址。</li>
+      </ul>
+    </div>
+
+    <div class="cat cat-hot">
+      <div class="cat-h">🏜 09.27 · 库布齐·响沙湾 <small>1 晚 · 10 选 · ¥150-1,400</small></div>
+      <div class="g-note">📅 当天情况：婚礼 14 点结束 → 15:00 出发 → 16:00 玩沙 → 沙丘日落 → 深夜银河；次日 07:20 出发赶 11:20 航班。优先 <b>景区内一价全包</b>（含餐+项目+观星）；订不到退周边民宿/达拉特旗。</div>
+      <div class="g-sec">🎯 顾深建议</div>
+      <ul class="g-list">
+        <li>优先 <b>福沙岛 / 顺沙</b>（一价全包含观星省心）；国庆订不到就景区周边民宿；包头/机场备选是最后兜底。</li>
+        <li>⚠️ 国庆房紧务必提前订；09.28 退房核对接驳/还车时间。</li>
+      </ul>
+      <div class="lg">
+        <table>
+          <tr><th>酒店</th><th class="c">价格/晚</th><th>位置</th><th>点评（✅ 优点 ｜ ❌ 槽点）</th></tr>
+          <tr class="srow"><td colspan="4">🏨 景区内一价全包（¥600-1,400）</td></tr>
+          <tr><td class="l"><b>福沙岛</b></td><td class="c">¥800-1,400</td><td>景区·蒙古包</td><td>✅ 含餐含项目、出片省心　❌ 人较多、观星位稍逊</td></tr>
+          <tr><td class="l"><b>顺沙度假酒店</b></td><td class="c">¥700-1,200</td><td>景区内</td><td>✅ 四岛酒店、含餐含项目人少　❌ 观星一般</td></tr>
+          <tr><td class="l"><b>一粒沙度假村</b></td><td class="c">¥600-1,000</td><td>离缆车近</td><td>✅ 最省、出门即沙漠　❌ 设施一般、含得少</td></tr>
+          <tr class="srow"><td colspan="4">🏡 景区周边民宿（¥200-500）</td></tr>
+          <tr><td class="l"><b>前苑后院民宿</b>（响沙湾店）</td><td class="c">¥300-500</td><td>景区附近</td><td>✅ 离景区近、有院子　❌ 项目另买票</td></tr>
+          <tr><td class="l"><b>达旗响沙湾民宿</b>（安答街店）</td><td class="c">¥200-400</td><td>达拉特旗</td><td>✅ 经济　❌ 到景区一段车程</td></tr>
+          <tr><td class="l"><b>云水之沙度假露营民宿</b></td><td class="c">¥250-450</td><td>达拉特旗</td><td>✅ 露营风性价比　❌ 设施看房源</td></tr>
+          <tr><td class="l"><b>达拉特旗市区商务酒店</b></td><td class="c">¥200-400</td><td>达拉特旗市区</td><td>✅ 便宜好订　❌ 离景区 30-40 分钟</td></tr>
+          <tr class="srow"><td colspan="4">🅿 备选 · 包头市区（仅景区/周边订不到）</td></tr>
+          <tr><td class="l"><b>包头香格里拉</b></td><td class="c">¥400-800</td><td>包头市区</td><td>✅ 五星舒适　❌ 次日赶机更累</td></tr>
+          <tr><td class="l"><b>包头市区连锁</b>（如家/全季类）</td><td class="c">¥200-400</td><td>包头市中心</td><td>✅ 便宜好订　❌ 回程 1-1.5h 车</td></tr>
+          <tr><td class="l"><b>包头东河机场快捷</b>（7天/如家类）</td><td class="c">¥150-300</td><td>东河机场旁</td><td>✅ 离次日航班最近　❌ 放弃沙漠夜景</td></tr>
+        </table>
+      </div>
+    </div>
+
+        </div>
+    <div class="zone my" data-zone="zone-stay-my"><span class="zone-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>🌴 马来线 · 09.28-10.06 <small>吉隆坡 → 仙本那 → 亚庇</small></div>
+    <div class="zone-body open" id="zone-stay-my">
+    <div class="cat cat-food">
+      <div class="cat-h">🕌 09.28-29 · 吉隆坡 <small>2 晚（可连住）· 10 选 · ¥150-1,000</small></div>
+      <div class="g-note">📅 两天情况：<b>09.28</b> 深夜 01:00 到店——要 24h check-in、入住别折腾；<b>09.29</b> 全天步行游（茨厂街→独立广场→双子塔→阿罗街）——要在步行圈。两天连住一家即可。</div>
+      <div class="g-sec">🎯 顾深建议</div>
+      <ul class="g-list">
+        <li>两天连住别折腾：首选 <b>宜必思尚品武吉免登</b>（商圈+深夜友好）；想省、爱逛唐人街选 <b>南洋饭店</b>；想犒劳选 <b>雅居乐套房</b>（泳池+双子塔夜景）。</li>
+      </ul>
+      <div class="lg">
+        <table>
+          <tr><th>酒店</th><th class="c">价格/晚</th><th>位置</th><th>点评（✅ 优点 ｜ ❌ 槽点）</th></tr>
+          <tr class="srow"><td colspan="4">💵 经济档 · 茨厂街/市区（¥150-300）</td></tr>
+          <tr><td class="l"><b>OYO 茨厂街</b></td><td class="c">¥150-250</td><td>茨厂街·24h</td><td>✅ 超平价、夜宵楼下　❌ 极简</td></tr>
+          <tr><td class="l"><b>南洋饭店</b>（Nan Yeang）</td><td class="c">¥150-250</td><td>茨厂街</td><td>✅ 行程第一站就在这　❌ 房小隔音一般</td></tr>
+          <tr><td class="l"><b>Hotel Chinatown 2</b></td><td class="c">¥150-250</td><td>茨厂街</td><td>✅ 便宜　❌ 设施简单</td></tr>
+          <tr><td class="l"><b>Tune Hotels</b>（亚航系）</td><td class="c">¥150-300</td><td>市区/车站旁</td><td>✅ 亚航配套、干净够睡　❌ 极简</td></tr>
+          <tr class="srow"><td colspan="4">🏨 舒适档 · 武吉免登/市中心/KLCC（¥300-600）</td></tr>
+          <tr><td class="l"><b>宜必思市中心</b>（ibis KLCC）</td><td class="c">¥300-450</td><td>市中心·24h</td><td>✅ 夜机到店友好　❌ 房间紧凑</td></tr>
+          <tr><td class="l"><b>宜必思尚品武吉免登</b></td><td class="c">¥300-450</td><td>武吉免登</td><td>✅ 商圈最顺、深夜 check-in 稳　❌ 无景观</td></tr>
+          <tr><td class="l"><b>美利亚</b>（Meliá）</td><td class="c">¥350-550</td><td>武吉免登一带</td><td>✅ 中级连锁性价比　❌ 离茨厂街稍远</td></tr>
+          <tr><td class="l"><b>雅居乐套房 KLCC</b></td><td class="c">¥400-600</td><td>近双子塔·泳池</td><td>✅ 套房大、双子塔夜景　❌ 略贵</td></tr>
+          <tr class="srow"><td colspan="4">✨ 高端档 · KLCC/市区（¥600-1,000）</td></tr>
+          <tr><td class="l"><b>吉隆坡万丽</b>（Renaissance）</td><td class="c">¥700-1,000</td><td>市中心</td><td>✅ 万豪系品质、房间大　❌ 距双子塔 10 分钟</td></tr>
+          <tr><td class="l"><b>吉隆坡希尔顿</b>（Hilton）</td><td class="c">¥600-1,000</td><td>双子塔片区</td><td>✅ 国际大牌、位置好（预算内）　❌ 比中端贵</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="cat cat-mint">
+      <div class="cat-h">🐠 09.30-10.04 · 仙本那 <small>5 晚 · 10 选 · ¥300-1,400</small></div>
+      <div class="g-note">📅 五天分三种情况：<b>09.30</b> 晚 19:00 到镇——干净好入住即可；<b>10.01-02</b> 跳岛——离码头近、出发方便；<b>10.03-04</b> 度假——离岛、要沙滩/含餐/接送。不去水屋：镇上 3 晚 + 离岛 2 晚。</div>
+      <div class="g-sec">🎯 顾深建议</div>
+      <ul class="g-list">
+        <li>09.30 到镇晚选 <b>Paly/憨豆</b>（快入住）；10.01-02 跳岛选 <b>海丰</b>（码头集合方便）；10.03-04 度假选 <b>白珍珠</b>（性价比+活动），潜水党可选 Uncle Chang/Borneo。</li>
+        <li>⚠️ 跳岛必须跟团（不能独自上船）：提前订「马布/卡帕莱」「马达京·汀巴汀巴·邦邦」线；沙巴入境章别漏；10.05 离岛回程提前约接送。</li>
+      </ul>
+      <div class="lg">
+        <table>
+          <tr><th>酒店</th><th class="c">价格/晚</th><th>位置</th><th>点评（✅ 优点 ｜ ❌ 槽点）</th></tr>
+          <tr class="srow"><td colspan="4">📍 镇上（09.30-10.02 · 到镇/跳岛适用）</td></tr>
+          <tr><td class="l"><b>Paly Hotel</b>（新民宿）</td><td class="c">¥300-450</td><td>镇上</td><td>✅ 房间新干净、可帮订跳岛　❌ 规模小隔音看店</td></tr>
+          <tr><td class="l"><b>憨豆先生民宿</b></td><td class="c">¥300-450</td><td>镇上</td><td>✅ 高分新民宿性价比　❌ 房少要早订</td></tr>
+          <tr><td class="l"><b>龙门客栈</b>（浮式度假村）</td><td class="c">¥350-500</td><td>码头旁·水上</td><td>✅ "伪水屋"便宜、离码头近　❌ 木屋隔音一般</td></tr>
+          <tr><td class="l"><b>海丰大酒店</b>（Seafest）</td><td class="c">¥400-600</td><td>码头附近·泳池</td><td>✅ 最大最稳、跳岛集合方便、海鲜多　❌ 房间偏旧略吵</td></tr>
+          <tr><td class="l"><b>爱潜海浪</b>（Wave View）</td><td class="c">¥400-600</td><td>海滨</td><td>✅ 看海、离码头不远　❌ 老牌设施一般</td></tr>
+          <tr><td class="l"><b>太平洋酒店</b></td><td class="c">¥400-700</td><td>码头附近</td><td>✅ 位置好　❌ 设备旧、攻略普遍不推</td></tr>
+          <tr class="srow"><td colspan="4">📍 离岛（10.03-10.04 · 一价全包非水屋）</td></tr>
+          <tr><td class="l"><b>Uncle Chang's</b>（马布岛潜店）</td><td class="c">¥400-600</td><td>马布岛·含吃</td><td>✅ 离岛最省、出门即潜点　❌ 设施朴素</td></tr>
+          <tr><td class="l"><b>Borneo Divers</b>（马布岛度假村）</td><td class="c">¥800-1,200</td><td>马布岛·含三餐</td><td>✅ 老牌潜店、含吃含潜配套　❌ 比 Uncle Chang 贵</td></tr>
+          <tr><td class="l"><b>邦邦岛白珍珠</b></td><td class="c">¥900-1,400</td><td>邦邦岛·一价全包</td><td>✅ 沙滩+无边泳池+免费出海　❌ 岛上信号一般</td></tr>
+          <tr><td class="l"><b>邦邦岛龙珠</b>（沙屋）</td><td class="c">¥800-1,400</td><td>邦邦岛·含三餐</td><td>✅ 沙屋不超预算、有海龟基地　❌ 比白珍珠贵一点</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="cat cat-red">
+      <div class="cat-h">🏝 10.05-06 · 亚庇 <small>2 晚 · 10 选 · ¥150-1,200</small></div>
+      <div class="g-note">📅 两天情况：<b>10.05</b> 下午到 → 丹绒亚路日落——想看日落选海景/码头；<b>10.06</b> 市区慢游+海鲜+买手信——选加雅街吃喝方便；10.07 白天收尾 21:00 退房赴机场。可连住或换房。</div>
+      <div class="g-sec">🎯 顾深建议</div>
+      <ul class="g-list">
+        <li>10.05 想先看日落选 <b>海景公寓 / 艾美</b>（码头）；10.06 市区逛吃选 <b>舒怡</b>（加雅街）；要五星体验收尾选 <b>万豪</b>。</li>
+        <li>⚠️ 只订 10.05、10.06 两晚；10.07 白天退房、行李寄存前台，21:00 直接去机场。</li>
+      </ul>
+      <div class="lg">
+        <table>
+          <tr><th>酒店</th><th class="c">价格/晚</th><th>位置</th><th>点评（✅ 优点 ｜ ❌ 槽点）</th></tr>
+          <tr class="srow"><td colspan="4">💵 经济档 · 码头/加雅街（¥150-300）</td></tr>
+          <tr><td class="l"><b>Homy Seafront</b>（海滨民宿）</td><td class="c">¥150-300</td><td>杰塞尔顿码头·海景</td><td>✅ 看海含早餐、超便宜　❌ 青旅配置</td></tr>
+          <tr><td class="l"><b>善旅民宿</b></td><td class="c">¥250-400</td><td>近加雅街/海边</td><td>✅ 海景、步行加雅街　❌ 规模小</td></tr>
+          <tr class="srow"><td colspan="4">🏨 舒适档 · 加雅街/码头（¥250-500）</td></tr>
+          <tr><td class="l"><b>舒怡酒店</b>（KK Suites）</td><td class="c">¥300-450</td><td>加雅街</td><td>✅ 吃喝直达、去机场 15-20 分钟　❌ 无海景略吵</td></tr>
+          <tr><td class="l"><b>京那巴鲁达雅</b>（Kinabalu Daya）</td><td class="c">¥250-400</td><td>加雅街</td><td>✅ 平价连锁位置好　❌ 设施中规中矩</td></tr>
+          <tr><td class="l"><b>No.5 酒店</b></td><td class="c">¥250-400</td><td>市中心商业区</td><td>✅ 位置方便性价比　❌ 房间普通</td></tr>
+          <tr><td class="l"><b>日落海景度假公寓</b></td><td class="c">¥350-500</td><td>码头海滨·公寓</td><td>✅ 海景日落、有的无边泳池　❌ 公寓管理看房源</td></tr>
+          <tr><td class="l"><b>智选假日</b>（市中心）</td><td class="c">¥350-500</td><td>市中心</td><td>✅ 国际连锁 24h 稳定　❌ 离加雅街 10 分钟</td></tr>
+          <tr class="srow"><td colspan="4">✨ 高端档 · 海景/五星（¥600-1,200）</td></tr>
+          <tr><td class="l"><b>亚庇希尔顿</b>（Hilton）</td><td class="c">¥600-900</td><td>市中心</td><td>✅ 国际五星服务好　❌ 非海景</td></tr>
+          <tr><td class="l"><b>艾美</b>（Le Méridien）</td><td class="c">¥700-1,000</td><td>杰塞尔顿码头·海景</td><td>✅ 万豪系、码头海景看日落　❌ 贵</td></tr>
+          <tr><td class="l"><b>亚庇万豪</b>（Marriott）</td><td class="c">¥800-1,200</td><td>市中心海滨·部分海景</td><td>✅ 五星海景看日落、近加雅街　❌ 预算上限</td></tr>
+        </table>
+      </div>
+    </div>
+    </div>
+
+    <div class="warn">📚 参考来源：<a href="https://hk.trip.com/moments/detail/semporna-14898-139578279/" target="_blank">仙本那住宿全攻略</a> · <a href="https://blog.divepai.com/2019/03/06/7551/" target="_blank">仙本那镇上住宿</a> · <a href="https://m.ctrip.com/html5/hotel/hoteldetail/6843162.html" target="_blank">响沙湾福沙度假岛</a> · <a href="https://all.accor.com/hotel/C3K9/index.zh.shtml" target="_blank">宜必思尚品吉隆坡</a> · <a href="https://www.agoda.com/zh-hk/kk-suites-hotel-gaya-street/hotel/kota-kinabalu-my.html" target="_blank">亚庇加雅街酒店</a> 等。价格为 2025-2026 出行参考，国庆随行就市，以预订页为准。</div>
   </div>
 
   <!-- PANEL: GUIDE (二级Tab) -->
@@ -1119,8 +1330,7 @@
     </div>
 
     <div class="sub-tabs">
-      <button class="sub-tab-btn active" data-sub="overview">📖 概览</button>
-      <button class="sub-tab-btn" data-sub="hohhot">🏙 呼和浩特</button>
+      <button class="sub-tab-btn active" data-sub="hohhot">🏙 呼和浩特</button>
       <button class="sub-tab-btn" data-sub="baotou">💍 包头</button>
       <button class="sub-tab-btn" data-sub="desert">🏜 库布齐</button>
       <button class="sub-tab-btn" data-sub="kl">🕌 吉隆坡</button>
@@ -1129,103 +1339,24 @@
       <button class="sub-tab-btn" data-sub="hk">🛳 香港</button>
     </div>
 
-    <!-- SUB: OVERVIEW -->
-    <div class="sub-panel active" id="sub-overview">
-      <div class="g-note">💡 点击下方任意城市卡片，直达对应城市的详细攻略页</div>
-
-      <div class="zone cn">🏔 内蒙线 · 09.25-28 <small>呼和浩特 → 包头 → 库布齐 · 白天 15-22℃ / 夜 5-10℃</small></div>
-
-      <div class="cat cat-tra clickable" data-city="hohhot">
-        <div class="cat-h">🏙 呼和浩特 · 09.25 <small>第一站</small><span class="go">→ 详情</span></div>
-        <ul class="g-list">
-          <li>🌡 <b>天气：</b>白天约 15-22℃，夜间 5-10℃，干燥风大</li>
-          <li><b>🚗 行 · 动线：</b>深圳→广州→呼市（赶机链见「🚄 交通衔接」页）；落地后大召寺・塞上老街・内蒙古博物院（免费，提前预约）就近串联</li>
-          <li><b>🍜 吃：</b>烧麦（稍麦）、羊杂碎、锅茶奶茶、手把肉——大召寺一带小吃街一站式解决</li>
-          <li><b>🏨 住：</b>大召寺/塞上老街商圈，晚上步行逛吃最方便；预算友好住连锁，想加点内蒙味选市区民族风民宿</li>
-        </ul>
-      </div>
-
-      <div class="cat cat-fun clickable" data-city="baotou">
-        <div class="cat-h">💍 包头 · 09.26-27 <small>婚礼主场</small><span class="go">→ 详情</span></div>
-        <ul class="g-list">
-          <li>🌡 <b>天气：</b>白天 15-20℃，婚礼日注意保暖仪容</li>
-          <li><b>🚗 行 · 动线：</b>呼市→包头动车约 1-1.5h（班次密）；婚礼场地交通以新娘安排为准，市区打车方便；有空档去赛汗塔拉城中草原散步</li>
-          <li><b>🍜 吃：</b>婚宴是主战场；街头可加餐包头羊杂碎、莜面、烤焙子</li>
-          <li><b>🏨 住：</b>9/26 夜住婚礼场地附近酒店（闺蜜已安排）；伴娘当日妆造以新娘时间为准，随身带补妆包＋平底换鞋</li>
-        </ul>
-      </div>
-
-      <div class="cat cat-hot clickable" data-city="desert">
-        <div class="cat-h">🏜 库布齐 · 响沙湾一带 · 09.27 夜-09.28 <small>星空露营</small><span class="go">→ 详情</span></div>
-        <ul class="g-list">
-          <li>🌡 <b>天气：</b>白天 18-22℃，<b>夜间可能 10℃ 以下</b>＋风沙</li>
-          <li><b>🚗 行 · 动线：</b>包头自驾约 1-1.5h 到响沙湾（9/27 婚礼后直奔）；9/28 一早返包头机场转机（详见「🚄 交通衔接」页）；地广人稀，离线地图＋手机支架备好</li>
-          <li><b>🍜 吃：</b>营地晚餐/蒙古包套餐为主；自备水＋零食＋保温杯热饮压寒；深夜牛羊肉配奶茶是内蒙灵魂</li>
-          <li><b>🏨 住：</b>营地蒙古包/星空房 ×1 晚（提前订！）；或响沙湾景区内酒店一价全包（含餐+项目，省心）；夜观银河是这趟的点睛之笔；充电稀缺，大充电宝先喂饱</li>
-          <li><b>🎡 玩：</b>滑沙、骑骆驼、沙地越野、篝火晚会</li>
-        </ul>
-      </div>
-
-      <div class="zone my">🌴 马来线 · 09.28-10.08 <small>吉隆坡 → 仙本那 → 亚庇 → 香港 · 26-33℃ 全年夏 / 阵雨多 / 紫外线极强</small></div>
-
-      <div class="cat cat-food clickable" data-city="kl">
-        <div class="cat-h">🕌 吉隆坡 · 09.28-29 <small>蜜月第一站</small><span class="go">→ 详情</span></div>
-        <ul class="g-list">
-          <li>🌡 <b>天气：</b>26-33℃ 湿热，午后雷阵雨"来得快去得快"，带把轻便伞</li>
-          <li><b>🚗 行 · 动线：</b>9/28 深夜落地 KLIA（见「🚄 交通衔接」页）；市内 Grab 打车便宜方便；双子塔（KLCC）→独立广场→茨厂街可步行串联</li>
-          <li><b>🍜 吃：</b>阿罗街夜市（夜宵天堂）、肉骨茶、椰浆饭、拉茶、福建面、茨厂街小吃</li>
-          <li><b>🏨 住：</b>KLCC 或武吉免登（Bukit Bintang）商圈，吃喝交通最顺；两对新婚夫妇同酒店、2 间相邻，晚上串门聊天方便</li>
-        </ul>
-      </div>
-
-      <div class="cat cat-mint clickable" data-city="semporna">
-        <div class="cat-h">🐠 仙本那 · 09.30-10.05 <small>潜水天堂 · 蜜月主场</small><span class="go">→ 详情</span></div>
-        <ul class="g-list">
-          <li>🌡 <b>天气：</b>26-33℃ 热带海洋性气候；晴热多阵雨，紫外线极强</li>
-          <li><b>🚗 行 · 动线：</b>吉隆坡 ✈ 斗湖（已订，见「🚄 交通衔接」页）→ 接驳约 1-1.5h 到仙本那；度假村多在<b>卡帕莱/马布岛/马达京</b>等外海，需快艇接送</li>
-          <li><b>🤿 玩：</b>浮潜/深潜看海龟珊瑚、西巴丹/马布/马达京跳岛一日游、水上屋躺平看海</li>
-          <li><b>🍜 吃：</b>镇上海鲜市场现买现做、海边大排档；热带水果自由</li>
-          <li><b>🏨 住：</b>卡帕莱/马布岛水上屋（一价全包含吃住潜水）或镇上酒店＋跳岛</li>
-        </ul>
-      </div>
-
-      <div class="cat cat-tra clickable" data-city="kk">
-        <div class="cat-h">🏝 亚庇 · 10.06-10.07 <small>收尾 2 天</small><span class="go">→ 详情</span></div>
-        <ul class="g-list">
-          <li>🌡 <b>天气：</b>26-33℃，湿度 70-90%；赤道紫外线极强，防晒 SPF50+ 随身补</li>
-          <li><b>🚗 行 · 动线：</b>斗湖 ✈ 亚庇（待定，见「🚄 交通衔接」页）；BKI 机场→市区 15-20 分钟车程；<b>丹绒亚路日落</b>必看（全球三大日落之一）</li>
-          <li><b>🍜 吃：</b>海鲜大排档（大茄来等）：奶油老虎虾、咸蛋黄炒蟹；生肉面、肉骨茶</li>
-          <li><b>🏨 住：</b>市区（加雅街一带）或丹绒亚路（日落景观房）；2 间相邻</li>
-          <li><b>🎡 玩：</b>丹绒亚路日落、市区慢逛、海鲜收尾；时间紧以放松为主</li>
-        </ul>
-      </div>
-
-      <div class="cat cat-red clickable" data-city="hk">
-        <div class="cat-h">🛳 返程 · 香港过境（待定） <small>回家前的中转站</small><span class="go">→ 详情</span></div>
-        <ul class="g-list">
-          <li>🌡 <b>天气：</b>10 月上旬约 26-30℃，短袖即可</li>
-          <li><b>🚗 行 · 动线：</b>红眼航班回程（10/8 凌晨 01:15-04:25，见「🚄 交通衔接」页）；香港→深圳优先<b>皇岗口岸（24 小时）</b>或早班西九龙高铁；过境持护照＋机票免签 7 天</li>
-          <li><b>🍜 吃：</b>茶餐厅、烧腊、丝袜奶茶——回家前最后一顿港式犒劳自己</li>
-          <li><b>🏨 住：</b>当天转车回深一般无需过夜；万一航班晚，住口岸商圈酒店备选</li>
-        </ul>
-      </div>
-
-      <div class="cat cat-ink">
-        <div class="cat-h">🎒 全程通用清单 <small>14 天 · 呼和浩特 → 沙巴</small></div>
-        <ul class="g-list">
-          <li><b>证件：</b>护照＋身份证＋行程单；马来西亚对中国护照免签（<b>出发前再确认</b>最新政策）；香港过境无需港澳通行证</li>
-          <li><b>装备：</b>英规转换插头、SPF50+ 防晒、补水保湿、便携颈枕（三段长途飞行）</li>
-          <li><b>数字工具：</b>Grab（打车/外卖）、Google 地图离线包、翻译 App；12306 / 航司 App 提前值机</li>
-        </ul>
-      </div>
-    </div>
-    <!-- /SUB: OVERVIEW -->
-
     <!-- SUB: HOHHOT -->
     <div class="sub-panel" id="sub-hohhot">
-      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="back-bar" data-back="hohhot">← 返回顶部</div>
       <div class="cat cat-tra">
         <div class="cat-h">🏙 呼和浩特 · 09.25 <small>按天攻略</small></div>
+        <div class="g-sec">🗺 景点 / 逛街全览 <small>当晚 16:30 后主攻大召寺＋塞上老街，其余看体力和时间</small></div>
+        <div class="lg">
+          <table>
+            <tr><th>景点/街</th><th class="c">票价参考</th><th>玩什么</th><th>优劣势（✅ ｜ ❌）</th></tr>
+            <tr><td class="l"><b>大召寺</b></td><td class="c">约 ¥35</td><td>明代银佛殿＋壁画、广场铜像</td><td>✅ 呼市必到、下午光线好　❌ 游客稍多</td></tr>
+            <tr><td class="l"><b>塞上老街</b></td><td class="c">免费</td><td>380 米青砖街：烧麦、蒙古奶茶、非遗手作</td><td>✅ 一站式逛吃、出片　❌ 游客街价格偏高</td></tr>
+            <tr><td class="l"><b>内蒙古博物院</b></td><td class="c">免费（需预约）</td><td>草原文明、恐龙化石、民族文物</td><td>✅ 免费长知识　❌ 周一闭馆、时间紧</td></tr>
+            <tr><td class="l"><b>五塔寺</b></td><td class="c">约 ¥10-15</td><td>金刚座舍利宝塔、砖雕</td><td>✅ 小众清净　❌ 规模小</td></tr>
+            <tr><td class="l"><b>将军衙署</b></td><td class="c">约 ¥20</td><td>清代衙署古建筑</td><td>✅ 顺路看　❌ 内容一般</td></tr>
+            <tr><td class="l"><b>伊斯兰风情街</b></td><td class="c">免费</td><td>清真寺建筑、夜景小吃</td><td>✅ 夜景出片　❌ 白天一般</td></tr>
+            <tr><td class="l"><b>中山西路 / 海亮广场商圈</b></td><td class="c">—</td><td>商场购物、奶茶、吃饭</td><td>✅ 现代商圈方便　❌ 无本地特色</td></tr>
+          </table>
+        </div>
         <div class="g-sec">🏨 住哪</div>
         <ul class="g-list">
           <li>大召寺/塞上老街一带：晚上步行逛吃；连锁稳妥、民族风民宿有味道，挑离老街 500 米内的</li>
@@ -1252,9 +1383,19 @@
 
     <!-- SUB: BAOTOU -->
     <div class="sub-panel" id="sub-baotou">
-      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="back-bar" data-back="hohhot">← 返回顶部</div>
       <div class="cat cat-fun">
         <div class="cat-h">💍 包头 · 09.26-27 <small>按天攻略</small></div>
+        <div class="g-sec">🗺 景点 / 逛街全览 <small>包头主要是婚礼主场，以下仅婚礼/彩排之余有空档才加</small></div>
+        <div class="lg">
+          <table>
+            <tr><th>景点/街</th><th class="c">票价参考</th><th>玩什么</th><th>优劣势（✅ ｜ ❌）</th></tr>
+            <tr><td class="l"><b>赛汗塔拉城中草原</b></td><td class="c">免费</td><td>亚洲最大城中草原，骑行／散步／看草原日落</td><td>✅ 离市区近、出片　❌ 需抽出 1-2h</td></tr>
+            <tr><td class="l"><b>北方兵器城</b></td><td class="c">约 ¥30</td><td>坦克大炮兵器展陈</td><td>✅ 特色军工风　❌ 兴趣分人</td></tr>
+            <tr><td class="l"><b>南海湿地</b></td><td class="c">约 ¥20</td><td>湿地公园、泛舟</td><td>✅ 轻松休闲　❌ 一般</td></tr>
+            <tr><td class="l"><b>阿尔丁广场商圈</b></td><td class="c">—</td><td>逛街、吃饭</td><td>✅ 方便　❌ 无特色</td></tr>
+          </table>
+        </div>
         <div class="g-sec">🏨 住哪</div>
         <ul class="g-list">
           <li>9/26 夜住婚礼场地附近酒店（闺蜜已安排）——当天少折腾多休息，妆造现场随叫随到</li>
@@ -1287,9 +1428,22 @@
 
     <!-- SUB: DESERT -->
     <div class="sub-panel" id="sub-desert">
-      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="back-bar" data-back="hohhot">← 返回顶部</div>
       <div class="cat cat-hot">
         <div class="cat-h">🏜 库布齐 · 响沙湾 · 09.27 夜-09.28 早 <small>按天攻略</small></div>
+        <div class="g-sec">🗺 景点 / 项目全览 <small>下午 16:00 进场玩到日落＋深夜银河，项目挑重点玩</small></div>
+        <div class="lg">
+          <table>
+            <tr><th>景点/项目</th><th class="c">票价参考</th><th>玩什么</th><th>优劣势（✅ ｜ ❌）</th></tr>
+            <tr><td class="l"><b>响沙湾 · 仙沙岛</b></td><td class="c">门票＋索道约 ¥120-160</td><td>滑沙、沙漠摩托、高空滑索、过山车</td><td>✅ 沙漠迪士尼、刺激　❌ 旺季排队</td></tr>
+            <tr><td class="l"><b>响沙湾 · 悦沙岛</b></td><td class="c">含景区票</td><td>沙雕、无边泳池、水上项目、《鄂尔多斯婚礼》演出</td><td>✅ 出片休闲　❌ 亲子向</td></tr>
+            <tr><td class="l"><b>滑沙</b></td><td class="c">含票／租板</td><td>听"响沙"下坡</td><td>✅ 必玩项目　❌ 排队</td></tr>
+            <tr><td class="l"><b>骑骆驼</b></td><td class="c">约 ¥50-60</td><td>驼队巡游、沙漠大片机位</td><td>✅ 出片　❌ 颠、慢</td></tr>
+            <tr><td class="l"><b>沙漠越野车</b></td><td class="c">约 ¥100-150</td><td>沙地冲浪</td><td>✅ 刺激　❌ 价格高</td></tr>
+            <tr><td class="l"><b>沙丘日落</b></td><td class="c">免费</td><td>金色沙脊、红裙大片</td><td>✅ 免费绝景　❌ 18:30 前后光线窗口短</td></tr>
+            <tr><td class="l"><b>深夜银河</b></td><td class="c">免费</td><td>三脚架长曝星空</td><td>✅ 这趟点睛之笔　❌ 需天晴＋夜间 10℃ 下保暖</td></tr>
+          </table>
+        </div>
         <div class="g-sec">🏨 住哪（一价全包最省心）</div>
         <ul class="g-list">
           <li><b>莲花酒店</b>（莲沙岛·私属度假岛）：一价全包＝三餐＋两岛无限次畅玩＋VIP 不排队＋日出观星活动；人最少、看银河最佳</li>
@@ -1330,9 +1484,24 @@
 
     <!-- SUB: KL -->
     <div class="sub-panel" id="sub-kl">
-      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="back-bar" data-back="hohhot">← 返回顶部</div>
       <div class="cat cat-food">
         <div class="cat-h">🕌 吉隆坡 · 09.28-09.29 <small>按天攻略</small></div>
+        <div class="g-sec">🗺 景点 / 逛街全览 <small>09.29 一整天步行串联，按这个顺序走最顺</small></div>
+        <div class="lg">
+          <table>
+            <tr><th>景点/街</th><th class="c">票价参考</th><th>玩什么</th><th>优劣势（✅ ｜ ❌）</th></tr>
+            <tr><td class="l"><b>茨厂街（唐人街）</b></td><td class="c">免费</td><td>小吃、肉骨茶、手信、夜宵</td><td>✅ 烟火气、便宜　❌ 人多、A货多</td></tr>
+            <tr><td class="l"><b>独立广场</b></td><td class="c">免费</td><td>欧式老城建筑、苏丹阿都沙末大楼</td><td>✅ 出片打卡　❌ 纯拍照</td></tr>
+            <tr><td class="l"><b>国家清真寺</b></td><td class="c">免费</td><td>伊斯兰建筑、穿长袍参观</td><td>✅ 庄重出片　❌ 穿着礼仪要求</td></tr>
+            <tr><td class="l"><b>双子塔（KLCC）</b></td><td class="c">观景台约 ¥50-80</td><td>86 层观景、Skybridge、KLCC 公园拍倒影</td><td>✅ 吉隆坡地标必去　❌ 需提前订票</td></tr>
+            <tr><td class="l"><b>阿罗街</b></td><td class="c">免费逛</td><td>夜市大排档：烤鱼、榴莲、肉骨茶</td><td>✅ 夜宵天堂　❌ 游客价偏高</td></tr>
+            <tr><td class="l"><b>中央艺术坊</b></td><td class="c">免费</td><td>手工艺品、纪念品店</td><td>✅ 买伴手礼　❌ 规模小</td></tr>
+            <tr><td class="l"><b>马里安曼印度庙 / 占美清真寺</b></td><td class="c">免费</td><td>异域宗教建筑、顺路打卡</td><td>✅ 路过就拍　❌ 不懂门道浅看</td></tr>
+            <tr><td class="l"><b>柏威年 / 武吉免登商圈</b></td><td class="c">—</td><td>大牌购物、商场冷气</td><td>✅ 买买买方便　❌ 费钱</td></tr>
+            <tr><td class="l"><b>黑风洞</b></td><td class="c">免费（需车程）</td><td>大佛雕像、272 级彩色阶梯</td><td>✅ 壮观出片　❌ 离市区一段路、猴多</td></tr>
+          </table>
+        </div>
         <div class="g-sec">🏨 住哪</div>
         <ul class="g-list">
           <li>KLCC（双子塔）或武吉免登商圈：吃喝交通最顺，逛回来就到家；两对新婚夫妇 2 间相邻</li>
@@ -1368,9 +1537,24 @@
 
     <!-- SUB: SEMPORNA -->
     <div class="sub-panel" id="sub-semporna">
-      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="back-bar" data-back="hohhot">← 返回顶部</div>
       <div class="cat cat-mint">
-        <div class="cat-h">🐠 仙本那 · 09.30-10.05 <small>潜水天堂 · 按天攻略</small></div>
+        <div class="cat-h">🐠 仙本那 · 09.30-10.05 <small>潜水天堂 · 景点&岛全览</small></div>
+        <div class="g-sec">🗺 景点 / 岛屿全览 <small>跳岛须跟团，价格约 RM/人，以当天平台为准</small></div>
+        <div class="lg">
+          <table>
+            <tr><th>岛屿/景点</th><th class="c">参考价/人</th><th>玩什么</th><th>优劣势（✅ ｜ ❌）</th></tr>
+            <tr><td class="l"><b>马布岛</b> Mabul</td><td class="c">一日游 RM150-250</td><td>巴瑶族水上村、浮潜、微距海底生物</td><td>✅ 离镇近、潜点丰富　❌ 人较多、能见度中等</td></tr>
+            <tr><td class="l"><b>卡帕莱</b> Kapalai</td><td class="c">含马布线</td><td>浮潜看海龟、拍水屋群</td><td>✅ 海龟多、出片　❌ 无沙滩、不能上岛</td></tr>
+            <tr><td class="l"><b>马达京</b> Mataking</td><td class="c">一日游 RM150-250</td><td>拖尾沙滩、珊瑚礁浮潜</td><td>✅ 沙滩绝美、浮潜条件好　❌ 上岛费/度假村管控</td></tr>
+            <tr><td class="l"><b>汀巴汀巴</b> Timba-Timba</td><td class="c">含马京线</td><td>长条沙滩、拍照、浮潜</td><td>✅ 人少、沙滩出片　❌ 玩法单一</td></tr>
+            <tr><td class="l"><b>邦邦岛</b> Pompom</td><td class="c">含邦邦线/住宿</td><td>海龟保护区、沙滩、浮潜</td><td>✅ 海龟基地、适合亲子　❌ 部分区域度假村管理</td></tr>
+            <tr><td class="l"><b>敦沙卡兰海洋公园</b>（珍珠岛）</td><td class="c">一日游 RM150-250＋登山费</td><td>登顶俯瞰"海上吉普赛"泻湖全景、军舰岛浮潜</td><td>✅ 仙本那必去绝景、一条线最丰富　❌ 登山约 600 米台阶较累</td></tr>
+            <tr><td class="l"><b>军舰岛</b> Sibuan</td><td class="c">含海洋公园线</td><td>长尾沙滩、浅滩浮潜水清见底</td><td>✅ 水清适合浮潜　❌ 设施少</td></tr>
+            <tr><td class="l"><b>西巴丹</b> Sipadan</td><td class="c">深潜约 RM500-700</td><td>世界顶级深潜：海龟、鲨鱼、海狼风暴</td><td>✅ 顶级海底世界　❌ 需潜水证、每日限 120 名额、贵</td></tr>
+            <tr><td class="l"><b>镇上海鲜市场</b></td><td class="c">海鲜＋加工 人均 RM50-150</td><td>龙虾/螃蟹/石斑现买现做</td><td>✅ 新鲜便宜　❌ 要砍价、称重看仔细</td></tr>
+          </table>
+        </div>
         <div class="g-sec">🏨 住哪（两种玩法）</div>
         <ul class="g-list">
           <li><b>水上屋度假村</b>（卡帕莱 / 马布岛 / 马达京）：一价全包含吃住＋浮潜，快艇上岛，躺平看海看海龟——蜜月首选</li>
@@ -1429,19 +1613,43 @@
 
     <!-- SUB: KK -->
     <div class="sub-panel" id="sub-kk">
-      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="back-bar" data-back="hohhot">← 返回顶部</div>
       <div class="cat cat-mint">
-        <div class="cat-h">🏝 亚庇 · 10.06-10.07 <small>收尾 2 天 · 按天攻略</small></div>
+        <div class="cat-h">🏝 亚庇 · 10.05-10.07 <small>10.05 下午到 · 2.5 天</small></div>
+        <div class="g-sec">🗺 景点 / 岛屿全览 <small>价格约 RM/人，以当天平台为准（你们 10.05 下午到，有 10.06 整天＋10.07 上午，挑 1-2 个深度玩）</small></div>
+        <div class="lg">
+          <table>
+            <tr><th>景点/岛</th><th class="c">参考价/人</th><th>玩什么</th><th>优劣势（✅ ｜ ❌）</th></tr>
+            <tr><td class="l"><b>丹绒亚路日落</b> Tanjung Aru</td><td class="c">免费</td><td>全球三大日落、椰树剪影、看火烧云</td><td>✅ 免费绝景、离市区近　❌ 旺季人多要抢位</td></tr>
+            <tr><td class="l"><b>美人鱼岛</b> Mantanani</td><td class="c">一日游 RM300-450</td><td>浮潜、白沙海滩、偶遇海豚</td><td>✅ 海水清、浮潜好　❌ 车＋船约 3h、天气影响大</td></tr>
+            <tr><td class="l"><b>环滩岛</b> Mengalum</td><td class="c">一日游 RM350-500</td><td>私密白沙滩、浮潜</td><td>✅ 人少水清、私密度高　❌ 贵、船程远</td></tr>
+            <tr><td class="l"><b>神山</b> 京那巴鲁山</td><td class="c">一日游 RM250-400</td><td>东南亚最高峰、波令温泉、吊桥树冠步道</td><td>✅ 山景壮丽　❌ 车程久、一日游紧凑</td></tr>
+            <tr><td class="l"><b>迪加岛</b> Tiga</td><td class="c">一日游 RM300-400</td><td>火山泥浆浴 SPA、海蛇岛、浮潜</td><td>✅ 泥浆浴特色体验　❌ 行程长、上岛费另收</td></tr>
+            <tr><td class="l"><b>红树林萤火虫</b></td><td class="c">半日游 RM150-250</td><td>傍晚游船看长鼻猴，入夜看萤火虫</td><td>✅ 浪漫治愈　❌ 看天气，下雨萤火虫少</td></tr>
+            <tr><td class="l"><b>马里马里文化村</b></td><td class="c">约 RM200-300</td><td>原住民村落体验：钻木取火、竹筒饭、舞蹈</td><td>✅ 文化体验新奇　❌ 较观光化</td></tr>
+            <tr><td class="l"><b>加雅街周日市场</b></td><td class="c">免费逛</td><td>手信、小吃、街市烟火气</td><td>✅ 好逛好买　❌ 仅周日早上有——你们行程没有周日，去不了</td></tr>
+            <tr><td class="l"><b>菲律宾市场</b></td><td class="c">海鲜＋手信</td><td>买海鲜、珍珠手信</td><td>✅ 便宜　❌ 要砍价、盯紧称重</td></tr>
+            <tr><td class="l"><b>IMAGO 购物中心</b></td><td class="c">—</td><td>商场购物、吹冷气</td><td>✅ 避暑买买　❌ 无特色</td></tr>
+          </table>
+        </div>
         <div class="g-sec">🏨 住哪</div>
         <ul class="g-list">
           <li>市区<b>加雅街一带</b>（吃喝方便）或<b>丹绒亚路</b>（日落景观房）；两间相邻</li>
         </ul>
         <div class="day-card">
-          <div class="day-h">📅 10.06（周二）· 到达 · 日落首秀 🌅 <span class="tag">转场</span></div>
+          <div class="day-h">📅 10.05（周一）· 到达 · 首场日落 🌅 <span class="tag">转场</span></div>
           <ul class="day-list">
-            <li><b>白天</b> 斗湖 ✈ 亚庇（待定航班）→ 打车 15-20 分钟到市区/丹绒亚路，安顿</li>
-            <li><b>18:00 前</b> 丹绒亚路海滩抢位看日落（全球三大日落之一）</li>
+            <li><b>白天</b> 仙本那 → 斗湖机场 → 飞亚庇（详见「🚄 交通攻略」页）→ 打车 15-20 分钟到市区/丹绒亚路，安顿</li>
+            <li><b>18:00 前</b> 丹绒亚路海滩抢位看<b>第一场日落</b>（全球三大日落之一）</li>
             <li><b>晚上</b> 大茄来海鲜收尾大餐：奶油老虎虾、咸蛋黄炒蟹必点</li>
+          </ul>
+        </div>
+        <div class="day-card">
+          <div class="day-h">📅 10.06（周二）· 市区整天游 / 可选海岛 <span class="tag">重头</span></div>
+          <ul class="day-list">
+            <li><b>二选一（提前一天订）：</b>上午出发 <b>美人鱼岛</b>或<b>环滩岛</b>一日游（浮潜＋白沙，全天约 8h）；或留市区——加雅街逛吃＋菲律宾市场＋IMAGO 购物</li>
+            <li><b>傍晚</b> 丹绒亚路<b>二刷日落</b> → 晚餐大茄来/怡丰茶室</li>
+            <li><b>晚上</b> 市区夜宵：叻沙、肉骨茶收尾</li>
           </ul>
         </div>
         <div class="day-card">
@@ -1473,7 +1681,7 @@
 
     <!-- SUB: HK -->
     <div class="sub-panel" id="sub-hk">
-      <div class="back-bar" data-back="overview">← 返回概览</div>
+      <div class="back-bar" data-back="hohhot">← 返回顶部</div>
       <div class="cat cat-red">
         <div class="cat-h">🛳 香港 · 凌晨到达 <small>红眼航班版</small></div>
         <div class="g-sec">🏨 住哪</div>
@@ -1510,8 +1718,11 @@
       <div class="g-item"><div class="gk">🍜 餐饮</div><div class="gv" id="sum-food">¥0</div></div>
       <div class="g-item total"><div class="gk">💰 总合计（已计入）</div><div class="gv big" id="grand-total">¥0</div></div>
     </div>
+    <div class="budget-basic">✈ 已订交通 <b>¥10,451</b> · 🏨 住宿按「住宿攻略」<b>经济/舒适档</b>选，10 晚约 <b>¥5,000–7,000</b>（选贵的会更多）· 🎢 游玩/跳岛另计。<br>四大类合计由页面自动统计（只计已录入，待定不计）；每笔支出报我，逐笔入账 ♥</div>
+
     <div class="cat cat-tra">
       <div class="cat-h">✈ 交通 <small>单价＝元/人 · ×2 人</small></div>
+      <div class="lg">
       <table id="tbl-tra">
         <tr><th>日期</th><th>路线</th><th class="c">单价(元/人)</th><th class="c">×</th><th class="c">金额(2人)</th><th style="text-align:right">状态</th></tr>
         <tr><td class="l">09.25</td><td>深圳北 → 广州东（🚄 动车）</td><td class="c">87</td><td class="c">2</td><td class="c amt num2" data-amt="174">¥174</td><td style="text-align:right"><span class="tbl-tag on">✓ 已订</span></td></tr>
@@ -1526,44 +1737,50 @@
         <tr><td class="l">10.08</td><td>香港 → 深圳（口岸）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
         <tr class="subrow"><td colspan="4">交通小计（已计入·2人）</td><td class="c num2 subval" id="sub-tra">¥0</td><td></td></tr>
       </table>
+      </div>
     </div>
 
     <div class="cat cat-hot">
       <div class="cat-h">🏨 住宿 <small>单价＝元/间·晚 · 1 间＝2 人合住</small></div>
+      <div class="lg">
       <table id="tbl-hot">
         <tr><th>地点</th><th>单价(元/间·晚)</th><th class="c">×晚</th><th class="c">金额</th><th style="text-align:right">状态</th></tr>
         <tr><td class="l">呼和浩特（9/25）</td><td class="c">—</td><td class="c">1</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
         <tr><td class="l">包头（9/26）</td><td class="c">—</td><td class="c">1</td><td class="c amt" data-amt="">🎁 闺蜜安排</td><td style="text-align:right"><span class="tbl-tag on">✓ 免费</span></td></tr>
         <tr><td class="l">库布齐沙漠营地（9/27）</td><td class="c">—</td><td class="c">1</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
         <tr><td class="l">吉隆坡（9/28-29）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
-        <tr><td class="l">仙本那 · 水上屋/度假村（10/1-10/5）</td><td class="c">—</td><td class="c">约4-5</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
-        <tr><td class="l">亚庇（10/6-10/7）</td><td class="c">—</td><td class="c">约2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">仙本那 · 镇上＋离岛度假村（10/1-10/4）</td><td class="c">—</td><td class="c">约4</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">亚庇（10/5-10/6）</td><td class="c">—</td><td class="c">约2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
         <tr class="subrow"><td colspan="3">住宿小计（已计入）</td><td class="c num2 subval" id="sub-hot">¥0</td><td></td></tr>
       </table>
+      </div>
     </div>
 
     <div class="cat cat-fun">
       <div class="cat-h">🎢 游玩 · 门票 / 活动 <small>单价＝元/人 · ×2 人</small></div>
+      <div class="lg">
       <table id="tbl-fun">
         <tr><th>日期</th><th>项目</th><th class="c">单价(元/人)</th><th class="c">×</th><th class="c">金额(2人)</th><th style="text-align:right">状态</th></tr>
         <tr><td class="l">09.27</td><td>库布齐沙漠 · 营地活动/娱乐项目</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
         <tr><td class="l">09.29</td><td>吉隆坡 · 景点门票（双子塔观景台等）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
-        <tr><td class="l">10.01-05</td><td>仙本那 · 跳岛/浮潜潜水（西巴丹·马布·马达京）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
-        <tr><td class="l">10.06-07</td><td>亚庇 · 日落/海鲜收尾</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">10.01-04</td><td>仙本那 · 跳岛/浮潜潜水（敦沙卡兰·马布·马达京）</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
+        <tr><td class="l">10.05-07</td><td>亚庇 · 日落/海鲜收尾</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">⏳</span></td></tr>
         <tr class="subrow"><td colspan="4">游玩小计（已计入·2人）</td><td class="c num2 subval" id="sub-fun">¥0</td><td></td></tr>
       </table>
+      </div>
     </div>
 
     <div class="cat cat-food">
       <div class="cat-h">🍜 餐饮 · 按天记录 <small>单价＝元/人 · ×2 人</small></div>
+      <div class="lg">
       <table id="tbl-food">
         <tr><th>日期</th><th>说明</th><th class="c">单价(元/人)</th><th class="c">×</th><th class="c">金额(2人)</th><th style="text-align:right">状态</th></tr>
         <tr><td class="l">全程</td><td>每餐实付实记，报数给顾深逐笔入账</td><td class="c">—</td><td class="c">2</td><td class="c amt num2 z" data-amt="">待定</td><td style="text-align:right"><span class="tbl-tag pd">📝 待记录</span></td></tr>
         <tr class="subrow"><td colspan="4">餐饮小计（已计入·2人）</td><td class="c num2 subval" id="sub-food">¥0</td><td></td></tr>
       </table>
+      </div>
     </div>
 
-      <div class="budget-basic">🧮 <b>顾深预估口径：</b>已订交通 <b>¥10,451</b>（广呼 1,834＋包吉转机 2,620＋吉隆坡→仙本那 1,752＋亚庇→香港 3,964＋动车 281）；待定：租车约 ¥800–1,400、仙本那→亚庇约 ¥800–1,500、香港→深圳约 ¥150–300；住宿：呼市/沙漠约 ¥400–1,000、吉隆坡 2 晚约 ¥300–800、<b>仙本那水上屋 4-5 晚是大头</b>（卡帕莱/马布岛类一价全包 2,000-5,000/晚，或镇上酒店＋跳岛 1,000-2,000）、亚庇 2 晚约 ¥400–1,000。全程交通＋住宿参考 <b>≈¥22,000–38,000</b>（丰俭由人，水上屋日光决定上限）——<b>不含餐饮 / 游玩 / 购物</b>。<b>四大类合计与总合计由页面自动统计</b>（见上方汇总卡）：只累加已计入金额的笔数，待定项不计；美食美景观光随花随记，报给顾深逐笔入账 ♥</div>
   </div>
 
   <!-- PANEL: PACK -->
@@ -1762,6 +1979,8 @@
 
 </div>
 
+<button id="backTop" aria-label="返回顶部"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+
 <script>
 (function(){
   // ---------- TABS ----------
@@ -1772,7 +1991,7 @@
       var name = btn.getAttribute('data-tab');
       btns.forEach(function(b){ b.classList.toggle('active', b === btn); });
       panels.forEach(function(p){ p.classList.toggle('active', p.id === 'panel-' + name); });
-      if(name === 'guide' && typeof showSub === 'function'){ showSub('overview'); }
+      if(name === 'guide' && typeof showSub === 'function'){ showSub('hohhot'); }
     });
   });
 
@@ -1798,7 +2017,7 @@
     });
   });
   document.querySelectorAll('.back-bar').forEach(function(bar){
-    bar.addEventListener('click', function(){ showSub('overview'); });
+    bar.addEventListener('click', function(){ showSub(bar.getAttribute('data-back') || 'hohhot'); });
   });
 
   // ---------- CALENDAR ↔ TIMELINE LINKAGE ----------
@@ -1891,6 +2110,28 @@
       });
     }catch(e){}
   });
+
+  // ---------- ZONE COLLAPSE (内蒙线 / 马来线 展开收起) ----------
+  document.querySelectorAll('.zone[data-zone]').forEach(function(z){
+    var body = document.getElementById(z.getAttribute('data-zone'));
+    if(!body){ return; }
+    z.addEventListener('click', function(){
+      body.classList.toggle('open');
+      z.classList.toggle('collapsed', !body.classList.contains('open'));
+    });
+  });
+
+  // ---------- BACK TO TOP ----------
+  var backTop = document.getElementById('backTop');
+  if(backTop){
+    window.addEventListener('scroll', function(){
+      backTop.classList.toggle('show', (window.scrollY || document.documentElement.scrollTop) > 400);
+    }, {passive:true});
+    backTop.addEventListener('click', function(){
+      try{ window.scrollTo({top:0, behavior:'smooth'}); }
+      catch(e){ window.scrollTo(0,0); }
+    });
+  }
 })();
 </script>
 </body>
