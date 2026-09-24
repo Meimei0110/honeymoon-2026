@@ -83,13 +83,20 @@ a:focus-visible{outline:3px solid rgba(255,93,115,.38);outline-offset:2px}
 }
 .honeymoon-line::before{content:"♥";color:var(--rose);margin-right:6px;font-size:10px}
 .sweet-surprise{
-  margin:0 0 9px;padding:9px 11px;border:1px dashed #efbf68;border-radius:12px;
-  background:#fff9e8;animation:card-in .25s ease both
+  position:relative;overflow:hidden;margin:0 0 9px;padding:9px 11px;border:1px dashed #f09ab5;border-radius:12px;
+  background:linear-gradient(135deg,#fff4f8 0,#ffe4ef 56%,#fff0e8 100%);
+  box-shadow:0 5px 14px rgba(214,72,112,.11),inset 0 0 0 1px rgba(255,255,255,.72);animation:card-in .25s ease both
+}
+.sweet-surprise::after{
+  content:"♥  ♥";position:absolute;right:9px;bottom:-11px;color:rgba(255,93,115,.13);
+  font-size:30px;letter-spacing:5px;line-height:1;transform:rotate(-7deg);pointer-events:none
 }
 .sweet-surprise[hidden]{display:none}
-.surprise-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.surprise-heading strong{font-size:11px;color:var(--rose-deep);font-weight:650}
-.sweet-surprise p{margin:3px 0 0;color:var(--ink);font-size:12px;line-height:1.55}
+.surprise-heading{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.surprise-heading strong{font-size:11px;color:#d33f68;font-weight:750}
+.surprise-heading strong::before{content:"🍓";margin-right:5px}
+.surprise-heading strong::after{content:"♥";margin-left:5px;color:#ff5d73;font-size:10px}
+.sweet-surprise p{position:relative;z-index:1;margin:3px 0 0;color:#674052;font-size:12px;line-height:1.55}
 .surprise-close{
   position:relative;flex:none;min-height:30px;padding:4px 8px;border:1px solid var(--button-line);
   border-radius:6px;color:var(--button-blue);background:var(--button-soft);font-size:11px;cursor:pointer
