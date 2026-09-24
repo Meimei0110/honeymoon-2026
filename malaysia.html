@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#914454">
+<title>马来线攻略 · 09.28—10.08</title>
+<style>
+:root{
+  --paper:#fff8f3;--card:#fffdfb;--ink:#563743;--muted:#8c747c;
+  --rose:#b85f6d;--rose-deep:#914454;--peach:#f3a48d;--blush:#fde6e2;
+  --champagne:#c99b58;--champagne-soft:#fff2d7;--line:#efd9d7;
+  --shadow:0 12px 30px rgba(126,67,80,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--paper)}
+body{
+  margin:0;color:var(--ink);font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:
+    radial-gradient(circle at 8% 0,rgba(243,164,141,.18),transparent 21rem),
+    radial-gradient(circle at 100% 14rem,rgba(201,155,88,.12),transparent 24rem),
+    linear-gradient(180deg,#fff5f2 0,#fffaf5 20rem,var(--paper) 100%);
+  min-height:100vh;overflow-x:hidden;
+}
+button,summary{font:inherit}
+a{color:var(--rose-deep);font-weight:760;text-decoration-color:rgba(145,68,84,.38);text-decoration-thickness:1px;text-underline-offset:2px;overflow-wrap:anywhere}
+.shell{width:min(100%,760px);margin:0 auto;padding:0 12px 34px}
+.compact-title{
+  min-height:42px;display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 6px 7px;font-size:15px;font-weight:900;letter-spacing:.25px;color:var(--rose-deep)
+}
+.compact-title::before{content:"♥";color:var(--rose);font-size:12px}
+.compact-title small{font-size:11px;color:var(--muted);font-weight:760}
+.date-shell{
+  position:sticky;top:0;z-index:30;margin:0 -12px 10px;padding:6px 12px 7px;
+  background:rgba(255,248,243,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(184,95,109,.12)
+}
+.date-nav{
+  display:flex;gap:6px;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:none;
+  padding:1px 0;scroll-snap-type:x proximity
+}
+.date-nav::-webkit-scrollbar{display:none}
+.date-btn{
+  flex:0 0 46px;min-height:44px;border:1px solid var(--line);border-radius:14px;background:rgba(255,253,251,.88);
+  color:var(--muted);display:grid;place-content:center;gap:1px;cursor:pointer;scroll-snap-align:center;
+  box-shadow:0 2px 8px rgba(126,67,80,.04);transition:background .18s ease,color .18s ease,transform .18s ease,border-color .18s ease
+}
+.date-btn span{font-size:15px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+.date-btn small{font-size:9px;font-weight:760}
+.date-btn[aria-selected="true"]{
+  color:#fff;border-color:transparent;background:linear-gradient(145deg,var(--rose),var(--rose-deep));
+  box-shadow:0 6px 15px rgba(145,68,84,.22);transform:translateY(-1px)
+}
+button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid rgba(243,164,141,.48);outline-offset:2px}
+.card-stage{touch-action:pan-y;min-height:50vh}
+.day-card{
+  background:linear-gradient(180deg,#fffdfb 0,#fffaf6 100%);border:1px solid rgba(184,95,109,.18);border-radius:22px;
+  overflow:hidden;box-shadow:var(--shadow);animation:card-in .22s ease both
+}
+.day-card[hidden]{display:none}
+.day-h{
+  min-height:76px;padding:11px 13px;background:
+    linear-gradient(135deg,rgba(255,242,233,.98),rgba(253,230,226,.9));
+  border-bottom:1px solid rgba(201,155,88,.32);color:var(--ink);position:relative;
+  display:grid;grid-template-columns:48px minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;align-items:center
+}
+.day-h::after{
+  content:"♥";position:absolute;right:13px;top:8px;color:rgba(184,95,109,.18);font-size:27px;transform:rotate(9deg)
+}
+.day-count{
+  grid-row:1/3;width:48px;height:48px;border-radius:50%;display:grid;place-content:center;text-align:center;
+  border:1px solid rgba(201,155,88,.72);box-shadow:inset 0 0 0 3px rgba(255,253,251,.75);
+  color:var(--rose-deep);font-size:9px;line-height:1.2;letter-spacing:.8px;font-weight:900;background:rgba(255,253,251,.7)
+}
+.day-h h2{font-size:16px;line-height:1.35;margin:0 30px 3px 0;font-weight:900;position:relative;z-index:1;color:var(--rose-deep)}
+.tag{
+  justify-self:start;display:inline-flex;align-items:center;min-height:22px;padding:2px 9px;border-radius:999px;
+  background:rgba(255,253,251,.72);border:1px solid rgba(184,95,109,.17);color:#7d5a61;
+  font-size:10px;font-weight:760;line-height:1.35;position:relative;z-index:1
+}
+.timeline{padding:3px 12px 4px}
+.day-row{
+  display:grid;grid-template-columns:76px minmax(0,1fr);gap:9px;padding:11px 1px;
+  border-bottom:1px solid var(--line);position:relative
+}
+.day-row:last-child{border-bottom:0}
+.dr-tag{
+  align-self:start;display:flex;gap:6px;align-items:flex-start;font-size:11px;line-height:1.45;
+  font-weight:880;color:var(--rose-deep);padding-top:2px
+}
+.dr-tag i{width:3px;height:16px;border-radius:4px;background:var(--rose);flex:none;margin-top:0}
+.dr-tag.t2 i{background:var(--champagne)}.dr-tag.t3 i{background:var(--peach)}
+.dr-tag.t4 i{background:#d48b91}.dr-tag.t5 i{background:#ce6d5c}.dr-tag.t6 i{background:#aa7b96}
+.dr-body{min-width:0;font-size:13px;line-height:1.58;color:var(--ink);overflow-wrap:anywhere}
+.row-main{font-weight:540}
+.dr-body b{font-weight:850;color:var(--ink)}
+.dr-body b.hl,.hl{color:#b54f5f}.dr-body b.geo,.geo{color:#8c5260}
+.row-details{margin-top:2px;border:0;background:transparent;overflow:visible}
+.row-details summary{
+  position:relative;min-height:32px;display:inline-flex;align-items:center;padding:4px 18px 4px 0;cursor:pointer;
+  color:var(--rose-deep);font-size:11.5px;font-weight:850;list-style:none
+}
+.row-details summary::before{content:"";position:absolute;inset:-6px -8px}
+.row-details summary::-webkit-details-marker{display:none}
+.row-details summary::after{content:"＋";position:absolute;right:0;font-size:13px;line-height:1;color:var(--champagne)}
+.row-details[open] summary::after{content:"−"}
+.detail-content{margin:1px 0 4px;padding:3px 0 3px 10px;border-left:2px solid rgba(201,155,88,.38)}
+.inline-details{margin-top:5px}\n.quick-facts{margin-top:5px;color:#765f66;font-size:11.5px;line-height:1.5}\n.quick-facts::before{content:"◇";color:var(--champagne);margin-right:5px;font-weight:900}
+.dr-subs{list-style:none;padding:0;margin:5px 0 0;display:grid;gap:5px}
+.dr-subs li{position:relative;padding-left:0}
+.dr-subs .dr-subs{padding-left:9px;border-left:2px solid var(--line)}
+.dr-note,.tip{
+  display:block;margin-top:5px;padding:6px 8px;border-radius:8px;background:var(--champagne-soft);
+  color:#76552b;font-size:11.5px;line-height:1.5;border-left:2px solid var(--champagne)
+}
+.inline-note{margin-bottom:1px}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.pager button{
+  min-height:44px;border:1px solid rgba(184,95,109,.22);border-radius:14px;background:#fffdfb;color:var(--rose-deep);
+  font-weight:850;cursor:pointer;padding:7px 9px
+}
+.pager button:last-child{background:linear-gradient(145deg,var(--rose),var(--rose-deep));color:#fff;border-color:transparent}
+.pager button:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.sr-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;padding:16px 8px 0}
+@keyframes card-in{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:none}}
+@media(max-width:480px){
+  .shell{padding-inline:9px}.date-shell{margin-inline:-9px;padding-inline:9px}
+  .day-h{min-height:70px;padding:9px 11px;grid-template-columns:44px minmax(0,1fr);column-gap:9px}
+  .day-count{width:44px;height:44px}.day-h h2{font-size:15px;margin-right:26px}
+  .timeline{padding-inline:10px}.day-row{grid-template-columns:64px minmax(0,1fr);gap:8px;padding:10px 0}
+  .dr-tag{font-size:10.5px;gap:5px}.dr-body{font-size:12.5px;line-height:1.56}
+}
+@media(min-width:600px){
+  .shell{padding-top:8px}.compact-title{font-size:16px}.date-btn{flex-basis:50px}
+  .day-card{border-radius:24px}.day-h{padding-inline:18px}.timeline{padding-inline:19px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="compact-title">马来线蜜月手账 <small>09.28—10.08</small></header>
+  <div class="date-shell">
+    <nav class="date-nav" id="dateNav" role="tablist" aria-label="选择行程日期">
+      <button class="date-btn" id="tab-0928" role="tab" aria-controls="day-0928" aria-selected="true" data-target="0928" tabindex="0"><span>28</span><small>周一</small></button>
+<button class="date-btn" id="tab-0929" role="tab" aria-controls="day-0929" aria-selected="false" data-target="0929" tabindex="-1"><span>29</span><small>周二</small></button>
+<button class="date-btn" id="tab-0930" role="tab" aria-controls="day-0930" aria-selected="false" data-target="0930" tabindex="-1"><span>30</span><small>周三</small></button>
+<button class="date-btn" id="tab-1001" role="tab" aria-controls="day-1001" aria-selected="false" data-target="1001" tabindex="-1"><span>01</span><small>周四</small></button>
+<button class="date-btn" id="tab-1002" role="tab" aria-controls="day-1002" aria-selected="false" data-target="1002" tabindex="-1"><span>02</span><small>周五</small></button>
+<button class="date-btn" id="tab-1003" role="tab" aria-controls="day-1003" aria-selected="false" data-target="1003" tabindex="-1"><span>03</span><small>周六</small></button>
+<button class="date-btn" id="tab-1004" role="tab" aria-controls="day-1004" aria-selected="false" data-target="1004" tabindex="-1"><span>04</span><small>周日</small></button>
+<button class="date-btn" id="tab-1005" role="tab" aria-controls="day-1005" aria-selected="false" data-target="1005" tabindex="-1"><span>05</span><small>周一</small></button>
+<button class="date-btn" id="tab-1006" role="tab" aria-controls="day-1006" aria-selected="false" data-target="1006" tabindex="-1"><span>06</span><small>周二</small></button>
+<button class="date-btn" id="tab-1007" role="tab" aria-controls="day-1007" aria-selected="false" data-target="1007" tabindex="-1"><span>07</span><small>周三</small></button>
+<button class="date-btn" id="tab-1008" role="tab" aria-controls="day-1008" aria-selected="false" data-target="1008" tabindex="-1"><span>08</span><small>周四</small></button>
+    </nav>
+  </div>
+  <section class="card-stage" id="cardStage" aria-label="每日行程攻略">
+    <article class="day-card" id="day-0928" data-day="0928" role="tabpanel" aria-labelledby="tab-0928">
+  <header class="day-h">
+    <span class="day-count">DAY 01</span>
+    <h2>📅 09.28（周一）· 长途转机落地日</h2>
+    <span class="tag">转机 · 入境 · 入住</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>✈️ 交通</div><div class="dr-body"><div class="row-main">从<b class="geo">包头东河机场</b>飞往<b class="geo">南京禄口机场</b>，航班 <b>11:20-13:35</b>；在南京转机后飞往<b class="geo">吉隆坡国际机场 T1</b>，航班 <b>18:25-23:40</b></div><span class="dr-note inline-note">❗ 出发机场再次确认行李是否直挂吉隆坡；若不能直挂，按柜台指引预留提取和重新托运时间</span></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🛂 入境</div><div class="dr-body"><div class="row-main">出发前按要求填写 <b>MDAC 马来西亚电子入境卡</b>；落地后跟随标识步行到入境区，约 <b>10-15 分钟</b>、费用 <b>RM0（约 ¥0）</b>，再按现场指引走外国护照自助通道或人工通道</div><span class="dr-note inline-note">❗ 使用自助设备时取下护照保护套并保留电子入境记录；入境方式以机场当晚开放情况为准</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>📱 手机卡</div><div class="dr-body"><div class="row-main">完成入境、取完行李后步行去到达大厅通信柜台，约 <b>5-10 分钟</b>、费用 <b>RM0（约 ¥0）</b>；<b class="hl">4 人各自带护照原件完成实名</b>。优先询问 CelcomDigi 的短期游客套餐，参考方案为 <b class="hl">RM35（约 ¥57）/人 / 14 天</b>，现场确认流量、通话、热点和限速规则。</div><span class="dr-note inline-note">❗ 实名和套餐规则可能调整，按柜台当晚要求办理；不要购买无法现场完成激活和测试的卡</span><details class="row-details"><summary>查看行程细节（2）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🌙 若官方柜台已经关闭，就询问<b class="geo">T1 到达大厅 Tune Talk 柜台</b>能否现场开通合适套餐；无法确认套餐时，先买能正常联网和通话的短期卡，不在柜台反复折腾</li>
+                <li>✅ 离柜前现场测试网络、拨号和热点，并核对套餐有效期；整个办卡环节尽量控制在 <b>15-30 分钟</b></li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🚕 交通</div><div class="dr-body"><div class="row-main">办完卡后打开<b>携程接机订单</b>，直接按照软件内的<b class="hl">上车点指引图</b>前往集合点；到达前通过订单联系司机，核对订车人姓名、车牌和车型。</div><span class="dr-note inline-note">❗ 只认携程订单内展示的司机和上车点；上车前核对车牌，若司机位置有变化，直接按订单聊天或电话沟通</span><details class="row-details"><summary>查看交通细节</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🚗 <b class="hl">4人共乘1辆已订包车</b>，2个箱子和4个背包随车；订单包含<b>无限免费等待</b>，入境、取行李或办卡稍慢时直接通过订单联系司机</li>
+                <li>🕐 机场到酒店约 <b>45-60分钟</b>，结合23:40落地、入境取行李和办卡，预计约 <b>01:30-02:15</b>完成入住</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🏨 住宿</div><div class="dr-body"><div class="row-main"><b class="geo">#91TBPA Staycation 2 卧公寓</b>（Victory Suites / The Face 2）｜地址：<b class="geo">1020, Jalan Sultan Ismail, Victory Suites, 吉隆坡 50250</b>｜已订两晚 <b class="hl">约 RM251（¥412）</b>，每晚 <b class="hl">约 RM126（¥206）</b>｜<b>屋顶泳池正对双子塔</b></div><span class="dr-note inline-note">❗ 预计深夜 <b>01:30-02:15</b> 到店，提前联系房东确认 <b>24h</b> 自助入住/钥匙交接；人民币按订单价，马币为参考换算</span></div></div>
+          <div class="day-row"><div class="dr-tag t6"><i></i>🥤 补给</div><div class="dr-body"><div class="row-main">在机场先买一轮饮用水和能垫肚子的简单食物；入住后仍需补给时，优先使用 <b class="hl">Grab App</b>，点正餐进入「<b>Food</b>」，买水、饮料、零食、纸巾或早餐进入「<b>Mart</b>」。附近便利店可步行往返约 <b>5-10分钟</b>、费用 <b>RM0（约 ¥0）</b>。</div><span class="dr-note inline-note">❗ 凌晨最终顺序：<b class="hl">入住确认大堂入口 → 设置准确图钉 → 下单 → 1人下楼取餐</b>；机场已买齐水和食物时，入住后直接休息</span><details class="row-details"><summary>查看餐厅备选（8）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>📱 <b>下单前：</b>提前在国内注册Grab并绑定可境外支付的Visa／Mastercard；抵达后切换到马来西亚当地网络。信用卡／借记卡可支付GrabFood；外国发行的卡可能产生外卡服务费，付款前会显示。现金仅部分订单可选且通常限额，<b>不要把现金支付当唯一方案</b></li>
+                <li>📍 <b>地址与定位：</b>入住并确认真实大堂入口后再下单；地址填写<b class="geo">#91TBPA Staycation／Victory Suites（The Face 2），1020 Jalan Sultan Ismail, 50250 Kuala Lumpur</b>，地图图钉必须落在房东指引的<b>大堂或保安入口</b>，不要只靠建筑名称自动定位，也不要把房号写在公开备注里</li>
+                <li>🛎 <b>收餐位置：</b>公寓保安通常不会让外卖员上住宅楼层，默认到大堂、保安岗或指定外卖架领取。App显示骑手还剩约 <b>5-10分钟</b>时安排1人下楼，手机保持响铃并留意GrabChat</li>
+                <li>💬 <b>给骑手的话：</b>在备注或GrabChat发送：<b>“Please deliver to the lobby of Victory Suites / The Face 2. We will come downstairs to collect it. Please message me in GrabChat when you arrive.”</b>；若实际楼名与订单不同，以房东确认的名称替换</li>
+                <li>💳 <b>付款前核对：</b>先看商品价，再看配送费、服务费、小额订单费、外卡服务费和优惠券后的<b>最终马币总价</b>；按 <b>RM1≈¥1.64</b>换算人民币。不要接受骑手要求脱离平台转账，也不要提供验证码、护照照片或房门密码</li>
+                <li>🌙 <b>凌晨策略：</b>你们预计01:30-02:15入住，正餐商户会明显减少；先筛选「Open now／营业中」，没有合适餐厅就改用GrabMart购买水、面包、泡面和次日早餐。部分便利店支持24小时配送，但是否可送以当晚App显示为准；预计配送约 <b>30-60分钟</b>，不要在车辆尚未抵达酒店时提前下单</li>
+                <li>🍴 <b>饮食备注：</b>需要餐具就在结算页勾选；不吃辣可写 <b>“No spicy / Tak pedas”</b>，花生过敏写 <b>“No peanuts / Tanpa kacang”</b>，严重过敏不要只依赖备注，应选择标注明确的商户并通过聊天再次确认</li>
+                <li>📦 <b>少件或洒漏：</b>先拍外包装、封签、订单小票和缺失内容，再进入订单的Help Centre提交问题；不要先点“已收到且无问题”后才找证据</li>
+              </ul></div></details></div></div></div>
+</article>
+<article class="day-card" id="day-0929" data-day="0929" role="tabpanel" aria-labelledby="tab-0929" hidden>
+  <header class="day-h">
+    <span class="day-count">DAY 02</span>
+    <h2>📅 09.29（周二）· 城市精华线</h2>
+    <span class="tag">老城 · 商圈 · 夜景</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main"><b class="hl">早餐确定吃永兴城茶室</b>，吃完直接去老城区：</div><span class="dr-note inline-note">❗ 店里是开放式环境，越早越凉快；猪肉粉和热门档口可能提前卖完，<b class="hl">到店先占位再分头点餐</b></span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🛏 <b class="hl">08:30起床，09:00出门</b>；从酒店叫 Grab 到<b class="geo">Win Heng Seng 永兴城茶室</b>（<span class="geo">183, Jalan Imbi, Imbi</span>），约 <b>10-15 分钟</b>，参考 <b class="hl">RM10-16（约 ¥16-26）/车</b></li>
+                <li>🍜 4 人分着点云吞面、猪肉粉、槟城虾面、半熟蛋＋烤面包，参考人均 <b class="hl">RM15-21（约 ¥25-35）</b>；用餐安排在 <b>09:15-10:05</b></li>
+                <li>🚕 吃完直接叫 Grab 去<b class="geo">独立广场</b>，约 <b>10-15 分钟</b>，参考 <b class="hl">RM10-18（约 ¥16-30）/车</b>，预计 <b>10:20-10:30</b>抵达</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main"><b>老城区步行串联</b>，从北向南一路走，不回头：</div><span class="dr-note inline-note">❗ 清真寺需脱鞋、衣着端庄并避开礼拜区域；<b class="hl">防晒和伞随身带</b>，老城区严格按当前步行线推进并准时到柏威年</span><details class="row-details"><summary>查看交通细节</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🏛 <b class="geo">独立广场 Dataran Merdeka＋苏丹阿都沙末大厦</b>：下车即开始游览，草坪、钟楼和殖民建筑一起拍 <b>10:30-11:05</b></li>
+                <li>🚶 步行去<b class="geo">占美清真寺 Masjid Jamek</b>，约 <b>8-10 分钟</b>，费用 <b>RM0（约 ¥0）</b>；游客免费进入，安排在 <b>11:15-11:40</b></li>
+                <li>🚶 步行去<b class="geo">中央艺术坊 Central Market</b>，约 <b>8-10 分钟</b>，费用 <b>RM0（约 ¥0）</b>；逛本地文创和伴手礼 <b>11:50-12:20</b></li>
+                <li>🚶 步行串联<b class="geo">茨厂街＋鬼仔巷</b>，约 <b>5-8 分钟</b>，费用 <b>RM0（约 ¥0）</b>；重点看壁画和老街布景 <b>12:25-13:05</b></li>
+                <li>🚕 从鬼仔巷叫 Grab 去<b class="geo">柏威年广场 Pavilion</b>，约 <b>15-25 分钟</b>，参考 <b class="hl">RM10-18（约 ¥16-30）/车</b> <b>13:05-13:30</b></li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>💱 换马币</div><div class="dr-body"><div class="row-main"><b class="hl">抵达柏威年后分组并行</b>，不用4个人一起等待换钱；晚餐兴记只按现金准备：</div><details class="row-details"><summary>查看餐厅备选（4）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>👥 <b>换钱组1-2人：</b>下车后步行进入 Pavilion Elite 1 楼，约 <b>5-8 分钟</b>，费用 <b>RM0（约 ¥0）</b>；到<b class="geo">JAGS Money</b>（Lot TL1.105.0-TL1.106.0）换钱 <b>13:30-13:50</b>，办完直接上8楼与另外两人会合</li>
+                <li>🦀 <b>餐厅组2人：</b>带好肥肥蟹预约姓名和确认截图，直接乘电梯到8楼门店，约 <b>5-10分钟</b>；提前报到、落座并确认螃蟹重量与菜单，把价格和菜品发到4人群里快速确认后先下单，不必等换钱组到齐</li>
+                <li>💰 实测参考 <b class="hl">¥100 约换 RM52-53</b>且不另收手续费；汇率实时浮动，先对比柜台买入价与支付宝、微信实时汇率，再确认实际到手金额</li>
+                <li>🪪 <b class="hl">护照原件最稳</b>；若只带护照照片，先问柜台当天是否接受。拿到现金当场点清并保留凭证</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🦀 午餐</div><div class="dr-body"><div class="row-main"><b class="hl">午餐确定吃肥肥蟹</b>，餐厅组先到店、换钱组随后会合：</div><span class="dr-note inline-note">❗ 周二14:00属于午餐错峰，通常等位约 <b>0-15分钟</b>，客流集中时可能 <b>20-30分钟</b>；已确认预约也提前约5分钟报姓名到店，预约尚未确认时直接拨打同一号码确认</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>📱 <b class="hl">提前预约09.29 14:00、4人普通座位</b>：通过<a href="https://wa.me/60162148911" target="_blank" rel="noopener noreferrer">WhatsApp +60 16-214 8911</a>联系Pavilion KL门店，发送“<b>Hi, I'd like to reserve a table for 4 people at Fei Fei Crab Pavilion KL on Tuesday, 29 September 2026, at 2:00 PM. Please confirm the reservation. Name: Chen.</b>”；必须收到对方明确回复“confirmed”、预约编号或姓名记录才算成功，仅显示已读不算</li>
+                <li>🚶 <b class="geo">肥肥蟹 Fei Fei Crab</b>位于8楼 <b>Lot 8.106.00</b>，餐厅组先到门口报预约，换钱组从JAGS Money乘电梯上楼会合；官方营业时间为每日 <b>11:00-次日01:00</b></li>
+                <li>🦀 现炒蟹选新加坡辣蟹、胡椒蟹或咖喱蟹，配小馒头蘸汁；参考人均 <b class="hl">RM100-150（约 ¥164-246）</b>，4 人点菜先问螃蟹重量和时价 <b>13:50-15:10</b></li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main"><b>柏威年短逛＋武吉免登榴莲三选一</b>，午餐后根据当天果况决定门店，不提前锁死一家：</div><span class="dr-note inline-note">❗ 询价可统一发送：“Hi, we are 4 adults. What fresh durian varieties and prices per kg are available today? Do you have a tasting platter?”；肥肥蟹出餐延误时压缩柏威年逛街，不挤压KLCC、泳池和宵夜时间</span><details class="row-details"><summary>查看餐厅备选（7）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🛍 <b class="geo">柏威年广场 Pavilion</b>：约 <b>15:15</b>开始轻量逛街，4人提前约定集合点；为了给鲜榴莲和KLCC留出时间，<b class="hl">最晚15:30离开商场</b></li>
+                <li>🥭 <b class="hl">榴莲安排15:35-16:00，以下三家平级选择，只吃一家</b>；当天午餐结束前查看回复、鲜果品种、公斤价和排队情况，优先选择可以当面开果且路线最顺的一家：
+                  <ul class="dr-subs">
+                    <li><b class="geo">Durian Bros 榴莲兄弟</b>：<span class="geo">5, Jalan Bukit Bintang</span>，从柏威年步行约 <b>5分钟</b>，费用 <b>RM0（约 ¥0）</b>；每日 <b>12:00-23:00</b>，可选鲜果或五品种拼盘，参考拼盘 <b class="hl">RM90（约 ¥148）起</b>；通过<a href="https://wa.me/601110812876" target="_blank" rel="noopener noreferrer">WhatsApp +60 11-1081 2876</a>询问当天果况，或查看<a href="https://www.durianbros.com.my/durian-bukit-bintang" target="_blank" rel="noopener noreferrer">官方门店页</a></li>
+                    <li><b class="geo">DKing Bukit Bintang 帝一榴</b>：<span class="geo">231, Jalan Bukit Bintang</span>，从柏威年步行约 <b>5-10分钟</b>，费用 <b>RM0（约 ¥0）</b>；每日 <b>12:00-22:30</b>，可比较猫山王、黑刺、D24和红虾等当天鲜果；通过<a href="https://wa.me/60128277023" target="_blank" rel="noopener noreferrer">WhatsApp +60 12-827 7023</a>询价，或查看<a href="https://dking.com.my/visit-us/" target="_blank" rel="noopener noreferrer">官方门店页</a></li>
+                    <li><b class="geo">DurianBB Lot 10 榴莲BB</b>：位于<b class="geo">Lot 10商场3楼 T23</b>，从柏威年步行约 <b>5-8分钟</b>，费用 <b>RM0（约 ¥0）</b>；每日 <b>10:00-22:00</b>，有鲜榴莲、品种体验和榴莲甜品，鲜果以当天到货为准；通过<a href="https://wa.me/60102082787" target="_blank" rel="noopener noreferrer">WhatsApp +60 10-208 2787</a>确认，或查看<a href="https://www.durianbb.com/pages/durianbb-lot10" target="_blank" rel="noopener noreferrer">官方门店页</a></li>
+                  </ul>
+                  <span class="tip">4人共享一份拼盘或一颗小果，参考总预算 <b class="hl">RM90-160（约 ¥148-262）</b>；先确认每公斤价格和总重，现场开果，不买看不到原果的预装果肉</span>
+                </li>
+                <li>🚶 <b class="hl">16:00结束榴莲</b>后步行到 Lot 10 对面的<b class="geo">网红麦当劳路口</b>，约 <b>5-10分钟</b>，费用 <b>RM0（约 ¥0）</b>；快速拍照后直接叫车，不为等机位拖延</li>
+                <li>🚕 从武吉免登直接叫 Grab 去<b class="geo">KLCC</b>，约 <b>10-20 分钟</b>，参考 <b class="hl">RM10-18（约 ¥16-30）/车</b>；预计 <b>16:20-16:40</b>抵达，继续执行18:40离开商场的硬截止时间</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t1"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main"><b>KLCC 休息＋双子塔夜景</b>，把体力留给拍照和晚餐：</div><span class="dr-note inline-note">❗ 傍晚若雨势较大，直接从 KLCC 回酒店，<b class="hl">优先保证泳池开放时间</b></span><details class="row-details"><summary>查看餐厅备选（8）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🍰 <b class="hl">Suria KLCC下午茶确定按四站顺序走</b>，全部位于商场内；根据实际抵达时间开始，按各店参考时长自行把控，<b class="hl">18:40前完成并离开商场</b>：
+                  <ul class="dr-subs">
+                    <li>① <b class="geo">Nadeje 千层蛋糕</b>堂食约 <b>25-30分钟</b>：4楼 <b>OS402</b>、Petrosains旁，每日 <b>10:00-22:00</b>；推荐原味、马六甲椰糖和抹茶，4人分享2-3块即可，参考 <b class="hl">RM33-59（约 ¥54-97）</b>，饮料留到Bacha再点</li>
+                    <li>② <b class="geo">Salon Du Chocolat</b>打包约 <b>10-15分钟</b>：下到3楼 <b>Lot OS303</b>，每日 <b>10:00-22:00</b>；选布朗尼、巧克力或其他便于携带的常温甜点，参考 <b class="hl">RM30-60（约 ¥49-98）</b><span class="tip">不打包熔岩蛋糕、冰品、可丽饼和带大量淋酱的甜点，避免路上融化或漏酱</span></li>
+                    <li>③ <b class="geo">Bacha Coffee</b>堂食喝咖啡约 <b>45-60分钟</b>：Ground Floor地面层 <b>Lot G47</b>，每日参考 <b>08:00-22:00</b>，电话 <b>+60 3-2332 8888</b>；主打壶装100%阿拉比卡咖啡，参考人均 <b class="hl">RM50-60（约 ¥82-98）</b>，4人约 <b>RM200-240（约 ¥328-394）</b><span class="tip">Salon Du Chocolat打包袋保持密封，不在Bacha店内拆开食用；排队时间也计入本段，进店时倒推18:40离场线把控节奏</span></li>
+                    <li>④ <b class="geo">Inside Scoop</b>买冰淇淋约 <b>10-15分钟</b>：到Concourse层 <b>OSC02</b>，每日 <b>10:00-22:00</b>；推荐榴莲、椰糖煎蕊、芋头或深巧克力，4人各一球约 <b class="hl">RM34-45（约 ¥56-74）</b>，买完直接出商场，边走边吃</li>
+                  </ul>
+                  <span class="tip">午餐已经吃过螃蟹，Nadeje只分享蛋糕、Bacha只喝咖啡，不再点正餐；商场内换楼层和找店已留出机动时间，<b>18:40离开商场</b></span>
+                </li>
+                <li>🚶 从 Inside Scoop 经商场出口步行到<b class="geo">城中城公园 KLCC Park＋双子塔</b>，约 <b>5-10 分钟</b>，费用 <b>RM0（约 ¥0）</b>；边吃冰淇淋边走，拍蓝调与亮灯后的塔身 <b>18:40-19:10</b></li>
+                <li>🚶 从 KLCC 步行到<b class="geo">Menara Public Bank 经典机位</b>，约 <b>10-15 分钟</b>，费用 <b>RM0（约 ¥0）</b>；门口快速拍完 <b>19:20-19:40</b></li>
+                <li>🚕 从 Public Bank 叫 Grab 回<b class="geo">Victory Suites / The Face 2</b>，约 <b>5-10 分钟</b>，参考 <b class="hl">RM8-15（约 ¥13-25）/车</b>，直接上楼换泳衣 <b>19:40-19:55</b></li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🏊 玩</div><div class="dr-body"><div class="row-main"><b class="hl">先回酒店玩屋顶泳池</b>，泳池正对双子塔，亮灯后拍夜景比白天更有氛围：</div><span class="dr-note inline-note">❗ 公开住客信息显示泳池 <b class="hl">22:00 关闭</b>；私人公寓的管理规则可能临时调整，入住时仍向房东确认进入方式和当日开放情况</span><details class="row-details"><summary>查看交通细节</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🏊 到房间换泳衣后直接上屋顶；泳池开放时间参考 <b>10:00-22:00</b>，安排约 <b>20:00-21:00</b>游泳、拍双子塔夜景，<b class="hl">最晚21:00结束并离开泳池</b>；住客使用，额外费用 <b>RM0（约 ¥0）</b></li>
+                <li>🚿 <b>21:00-21:30</b>回房冲澡、换衣并整理现金，完整预留 <b>30分钟</b></li>
+                <li>🚕 <b>21:30</b>从酒店叫<b>普通Grab 4座车</b>去<b class="geo">甲洞兴记肉骨茶</b>，4人不带大件行李可以同乘，约 <b>30-45 分钟</b>，参考 <b class="hl">RM25-40（约 ¥41-66）/车</b>；预计 <b>22:00-22:15</b>抵达</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🌙 晚餐</div><div class="dr-body"><div class="row-main"><b class="hl">晚餐吃兴记肉骨茶</b>：</div><span class="dr-note inline-note">❗ <b class="hl">按只收现金准备</b>，使用白天在柏威年换好的马币；用餐结束后直接叫车回酒店</span><details class="row-details"><summary>查看行程细节（2）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>📍 <b class="geo">兴记肉骨茶（甲洞店）</b>：<b class="geo">121, Jln Kepong, Metro Prima, 52100 Kuala Lumpur</b>；周二营业参考 <b>15:00-次日 02:30</b>，出发前可电话确认</li>
+                <li>🍲 点汤肉骨茶、<b class="hl">招牌干肉骨茶</b>和油条；干煲酱香重适合配饭，油条泡汤吃，参考人均约 <b class="hl">RM40（约 ¥66）</b>；约 <b>22:00-22:15</b>到店后开始用餐，<b class="hl">23:15前结束并叫车</b></li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🏨 住宿</div><div class="dr-body"><div class="row-main">晚餐后从兴记叫<b>普通Grab 4座车</b>回<b class="geo">Victory Suites / The Face 2</b>，4人不带大件行李可以同乘，约 <b>25-35 分钟</b>，参考 <b class="hl">RM20-35（约 ¥33-57）/车</b>，预计 <b class="hl">23:40-23:50</b> 到店；把等车或小幅堵车算入，最晚按<b>次日00:00左右</b>回到酒店准备</div><span class="dr-note inline-note">❗ 到房后收好护照、现金和换汇凭证；次日需要退房和赶飞机，大部分行李应在去泳池前整理好，回来只做最后清点</span></div></div></div>
+</article>
+<article class="day-card" id="day-0930" data-day="0930" role="tabpanel" aria-labelledby="tab-0930" hidden>
+  <header class="day-h">
+    <span class="day-count">DAY 03</span>
+    <h2>📅 09.30（周三）· 吉隆坡 → 斗湖 → 仙本那</h2>
+    <span class="tag">退房 · 航班 · 接驳</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main"><b>08:40</b>从酒店叫 Grab 到<b class="geo">Suria KLCC 4楼华阳冰室</b>，约 <b>09:05-09:15</b>到；单程约 <b class="hl">RM8-15（约 ¥13-25）/车</b>，<b class="hl">最晚10:10离店</b></div><div class="quick-facts">前一晚收好大部分行李；门店位于 <b>Lot 414-415 &amp; OS404</b>，工作日 <b>07:30-22:00</b>，电话 <b>+60 11-1107 6363</b>。预留 <b>55-65分钟</b>排位用餐；4人分点椰浆饭、咖椰牛油烤吐司、半熟蛋和酥皮蛋挞，人均 <b class="hl">RM20-30（约 ¥33-49）</b>，4人约 <b>RM80-120（约 ¥131-197）</b>。返程预留 <b>20-35分钟</b>，车费同上，预计 <b>10:30-10:45</b>到酒店，最晚 <b>11:00前</b>到</div><span class="dr-note inline-note">❗ 商场主体尚未全面营业时，从早间开放入口进入；找不到入口就向保安出示“Oriental Kopi, Level 4, Lot 414-415”，必要时拨打门店电话。<b class="hl">10:10是离店硬截止时间</b>，即使上菜偏慢也不继续加单</span></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🏨 退房</div><div class="dr-body"><div class="row-main">预计 <b>10:30-10:45</b>回到<b class="geo">Victory Suites / The Face 2</b>，完成最后清点和退房；检查护照、现金、充电器、泳衣和换汇凭证，确认房卡／钥匙归还方式，4人带齐2个箱子和4个背包，<b class="hl">11:20前</b>到预约上车点等司机</div><span class="dr-note inline-note">❗ 行李必须在前一晚基本打包完成，早餐回来后只做洗漱、清点和退房；即使回程出现小幅堵车，也以 <b>11:00前回到酒店</b>为底线，不要把司机30分钟免费等待时间当作正常缓冲</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🚕 交通</div><div class="dr-body"><div class="row-main"><b>11:30</b>搭乘<b class="hl">已预约送机车</b>前往<b class="geo">吉隆坡机场 T2</b>，车程 <b>50-70分钟</b>、预计 <b>12:20-12:40</b>到；整车已付 <b class="hl">¥133</b></div><div class="quick-facts">司机免费等待 <b>30分钟</b>；4人同乘，AA后每人 <b>¥33.25</b>，浅浅和对象两人合计 <b class="hl">¥66.50</b></div><span class="dr-note inline-note">❗ <b>11:20前</b>按订单中的上车点指引到位并保持电话畅通；上车前核对司机、车牌和目的地 <b>T2／KLIA2</b>，不要去T1。免费等待只作为突发延误兜底，不主动让司机久等</span></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>✈️ 值机</div><div class="dr-body"><div class="row-main">搭乘已订 <b class="geo">AK5748 吉隆坡T2 → 斗湖</b>，航班 <b>15:00-17:55</b>；抵达后先看出发屏确认值机区和登机口，使用AirAsia MOVE提前线上值机，在自助机打印行李条后办理托运，再过马来西亚国内线安检</div><span class="dr-note inline-note">❗ 亚航建议国内航班至少提前2小时到机场；KLIA T2值机／托运行李柜台通常在起飞前 <b class="hl">60分钟关闭</b>。这是马来西亚国内航班，无需办理出境，但护照和首次入境记录必须随身</span></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🍜 午餐</div><div class="dr-body"><div class="row-main">完成托运和安检后在T2候机区解决简餐，安排约 <b>13:10-14:10</b>，参考人均 <b class="hl">RM20-35（约 ¥33-57）</b>；选择出餐快的米饭、面食或便利店组合，吃完补水并在 <b>14:20前</b>到登机口附近</div><span class="dr-note inline-note">❗ 登机口可能较远，机场内不要临时排热门餐厅；登机口一般在起飞前约20分钟关闭，以登机牌和现场广播为准</span></div></div>
+<div class="day-row"><div class="dr-tag t2"><i></i>✈️ 交通</div><div class="dr-body"><div class="row-main">从<b class="geo">吉隆坡机场 T2</b>飞往<b class="geo">斗湖机场</b>，航班 <b>15:00-17:55</b>，2 人机票约 <b class="hl">RM1,068（¥1,752）</b>；落地后按现场指引完成沙巴境内移民检查并取行李</div><span class="dr-note inline-note">❗ 护照和吉隆坡入境记录随身携带，确认完成沙巴境内移民手续后再离开到达区</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🚕 交通</div><div class="dr-body"><div class="row-main">从<b class="geo">斗湖机场</b>到<b class="geo">Hua Qiao Home 侨之家民宿</b>约 <b>83 公里／1.5-2小时</b>；4人同车按以下顺序叫车：</div><span class="dr-note inline-note">❗ 三种方式都要按<b class="hl">4人＋2个箱子＋4个背包</b>确认容量；4人乘固本出租车通常比按人收费的Mini Van更便宜且可直接出发，因此先问官方柜台。普通出租车装不下行李时改叫Grab 6-Seater；不要与出口私人揽客人员私下议价</span><details class="row-details"><summary>查看预订步骤</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🥇 🚖 <b class="geo">优先机场官方固本出租车</b>：取完行李进入<b class="geo">到达大厅 Arrivals Hall</b>，寻找“<b>Airport Taxi／Taxi Coupon</b>”柜台；未看到时沿到达出口出去后向右找，或询问工作人员“<b>Airport taxi coupon counter to Semporna?</b>”。出示侨之家英文地址并说明4人、2个箱子和4个背包，正常时段前往仙本那镇的常见固本价约 <b class="hl">RM95（约 ¥156）/车</b>，以柜台当日价目表为准；付款前确认车型能装下全部行李。在柜台付款取得固本和收据后，到航站楼外官方出租车排队区交给调度员，上车前核对车牌并确认送到民宿门口</li>
+                <li>🥈 📱 <b class="geo">其次使用Grab 6-Seater</b>：取完行李后打开 Grab，将上车点设为<b class="geo">Tawau Airport 到达层网约车上车点</b>，目的地填写<b class="geo">Hua Qiao Home, Road A10, Taman Mutiara, Jalan Hospital, Semporna</b>；参考 <b class="hl">RM120-160（约 ¥197-262）/车</b>，以实时价格为准。司机接单后发送“<b>4 passengers, 2 suitcases and 4 backpacks. Is it OK?</b>”，按 App 显示的上车区、车牌和车型找车</li>
+                <li>🥉 🚐 <b class="geo">共享Mini Van小巴</b>：不是固定时刻的大巴，通常在机场到达区外招揽或由接送公司拼车，坐满后发往仙本那镇并沿途送客；常见约 <b class="hl">RM30（约 ¥49）/人</b>，4人合计约 <b class="hl">RM120（约 ¥197）</b>，车程约 <b>1.5-2小时</b>。上车前问清是否送到侨之家门口、是否另收行李费和预计发车时间，确认司机和车辆属于正规接送公司后再付款</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🏨 住宿</div><div class="dr-body"><div class="row-main">入住已订的<b class="geo">Hua Qiao Home 侨之家民宿</b>（<span class="geo">Road A10, Taman Mutiara, Jalan Hospital, Semporna</span>），连续住至 <b>10.03</b>，3晚约 <b class="hl">RM447（¥733）</b>。中国房东，订单含每日免费早餐，早餐参考 <b>07:00-09:00</b></div><span class="dr-note inline-note">❗ 入住后自行复核两天电子订单和集合定位，仅向房东确认免费早餐时间及10.03退房后寄存安排；民宿到新游客码头步行约 <b>7 分钟/500 米</b></span></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🍜 晚餐</div><div class="dr-body"><div class="row-main"><b class="hl">抵达并办完入住后再吃晚餐</b>，预计 <b>20:30-21:30</b>；以下路程均从<b class="geo">Hua Qiao Home 侨之家民宿</b>起算：</div><span class="dr-note inline-note">❗ 若 <b>21:00</b> 后才出门，先电话确认厨房是否接单；无法确认时直接选营业时间更宽松的 Hot Soto，不点需要久等的活海鲜</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🥇 <b class="geo">Sutera Seafood Restaurant 苏特拉海鲜餐厅</b>（<span class="geo">14A, Jalan Tinagayan</span>）：约 <b>2.8 公里</b>，打车约 <b>6-10 分钟</b>，单程约 <b class="hl">RM8-15（约 ¥13-25）/车</b>；本地家常海鲜与热炒，鱼汤、炒饭、炒粉出餐较快，人均约 <b class="hl">RM15-30（约 ¥25-49）</b>；营业时间参考 <b>07:00-22:00</b>，最适合晚到后的第一顿热食</li>
+                <li>🥈 <b class="geo">Seaview Cafe 海景咖啡餐厅</b>（<span class="geo">Seafest Hotel Boutique Wing, Jalan Kastam</span>）：约 <b>1.7 公里</b>，打车约 <b>8-10 分钟</b>，单程约 <b class="hl">RM8-15（约 ¥13-25）/车</b>；海景环境，特色是海鲜炒粿条、炒饭和虾类热炒，人均约 <b class="hl">RM20-40（约 ¥33-66）</b>；周三参考营业至 <b>22:00</b>，想吃得舒服又不点整桌活海鲜时选它</li>
+                <li>🥉 <b class="geo">Semporna Hot Soto 仙本那热苏多汤馆</b>（<span class="geo">Taman Bandar Semporna</span>）：约 <b>1 公里</b>，步行约 <b>14 分钟</b>，费用 <b>RM0（约 ¥0）</b>；主打牛肉 Soto、鸡肉 Soto 和汤粉，热汤清爽、上菜快，人均约 <b class="hl">RM10-20（约 ¥16-33）</b>；营业时间参考为 <b>24 小时</b>，到店前再次复核，若航班或接驳延误就选这家</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t6"><i></i>🎒 准备</div><div class="dr-body"><div class="row-main">回侨之家后把10.01电子票、付款凭证和集合定位再次截图保存，确认次日集合时间、步行或接送方式及紧急联系人</div><span class="dr-note inline-note">❗ 将水母衣、潜水袜、防水手机袋、干毛巾、替换衣物、电解质饮料、珊瑚友好防晒和晕船药装入防水包；护照原件妥善存放，随身携带电子备份和当天够用的小额现金</span></div></div></div>
+</article>
+<article class="day-card" id="day-1001" data-day="1001" role="tabpanel" aria-labelledby="tab-1001" hidden>
+  <header class="day-h">
+    <span class="day-count">DAY 04</span>
+    <h2>📅 10.01（周四）· 马达京跳岛</h2>
+    <span class="tag">潘达南 · 马达京 · 邦邦岛</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main"><b class="hl">首选直接吃侨之家免费早餐</b>，建议 <b>07:00-07:25</b> 完成；想换口味时从以下选一处：</div><span class="dr-note inline-note">❗ 今天 <b>07:45</b> 前要进入集合流程，外出早餐必须在 <b>07:25</b> 前结束；早餐七分饱，避免空腹坐快艇，也不要吃过多油炸食物</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🥇 <b class="geo">Hua Qiao Home 侨之家民宿</b>：房东免费提供，费用 <b class="hl">RM0（约 ¥0）/人</b>，营业参考 <b>07:00-09:00</b>；在民宿吃完即可准备集合，最稳妥</li>
+                <li>🥈 <b class="geo">Restoran Bismillah-2 比斯米拉2号餐厅</b>（<span class="geo">Jalan Hospital</span>）：从民宿步行约 <b>4 分钟/280 米</b>，费用 <b>RM0（约 ¥0）</b>；特色是 Roti Canai、Thosai、煎蛋和拉茶，人均约 <b class="hl">RM5-15（约 ¥8-25）</b>，营业时间参考 <b>24 小时</b></li>
+                <li>🥉 <b class="geo">Wang Wang Soto House 旺旺苏多屋</b>（<span class="geo">New Township, Jalan Kastam</span>）：从民宿步行约 <b>10 分钟/700 米</b>，费用 <b>RM0（约 ¥0）</b>；主打鸡肉 Soto、海鲜 Soto 和热汤面，人均约 <b class="hl">RM10-20（约 ¥16-33）</b>，营业时间参考 <b>06:30-15:00</b></li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🚐 交通</div><div class="dr-body"><div class="row-main">若运营商确认从<b class="geo">新游客码头 Jeti Pelancong Semporna</b>出发，从侨之家步行约 <b>7 分钟/500 米</b>，费用 <b>RM0（约 ¥0）</b>；若被安排到其他码头，则乘一日团统一接送车约 <b>5-15 分钟</b>，团费已含。到码头签到后向潜导说明4人是否会游泳及健康情况，逐一检查装备 <b>07:45-08:25</b></div><span class="dr-note inline-note">❗ 前一晚以运营商确认的集合点为准；发现面镜、呼吸管、救生衣或脚蹼不合适立即更换，迟到可能无法等候</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main"><b class="hl">确定走马达京＋潘达南＋邦邦岛纯海岛线</b>；按9.30电子订单执行，一日团参考 <b class="hl">RM118-250（约 ¥193-410）/人</b>，低价平台套餐可能另收脚蹼及上岛费，付款前以电子确认单为准：</div><span class="dr-note inline-note">❗ 参考离港 <b>08:30</b>、返抵码头 <b>16:00</b>；出海前由运营商复核天气、海况和停航通知，各岛顺序按海况调整。<b class="hl">浮潜全程穿救生衣并与同伴结对</b>，始终留在潜导视线内，不单独离船、不追海龟、不触摸海洋生物、不站立或踩踏珊瑚</span><details class="row-details"><summary>查看安全与装备</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🏖 <b class="geo">潘达南岛 Pandanan</b>：作为2026年汀巴汀巴暂停开放期间的替代停靠点，以白沙滩、浅水拍照和近岸浮潜为主；是否登岛及停留时长以当天海况和运营商安排为准</li>
+                <li>🐢 <b class="geo">马达京岛 Mataking</b>：主浮潜点看珊瑚、鱼群和海龟，跟随潜导下水约 <b>40-50 分钟</b>；部分团另收上岛费约 <b class="hl">RM20（约 ¥33）/人</b></li>
+                <li>🤿 <b class="geo">邦邦岛 Pom Pom</b>：第二个浮潜点，以海龟和浅礁为主；体力不足时留在船边近距离活动</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🍱 午餐</div><div class="dr-body"><div class="row-main">食用一日团提供的盒饭和饮用水，团费已含 <b>RM0（约 ¥0）</b>；一般在岛上或船上用餐，约 <b>12:00-13:00</b></div><span class="dr-note inline-note">❗ 自带一份密封零食和电解质饮料，海岛没有稳定便利店</span></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🚐 交通</div><div class="dr-body"><div class="row-main">若返抵<b class="geo">新游客码头</b>，步行约 <b>7 分钟/500 米</b>回<b class="geo">侨之家民宿</b>，费用 <b>RM0（约 ¥0）</b>；若返抵其他码头则乘旅行社统一接送车约 <b>5-15 分钟</b>，团费已含。回房冲澡并休息约 <b>60-90 分钟</b></div></div></div>
+          <div class="day-row"><div class="dr-tag t6"><i></i>🍜 晚餐</div><div class="dr-body"><div class="row-main">跳岛回侨之家冲澡休息后，建议 <b>17:45-19:15</b> 用餐；以下路程均从<b class="geo">Hua Qiao Home 侨之家民宿</b>起算：</div><span class="dr-note inline-note">❗ 海鲜必须先确认品种、重量、每公斤单价、加工费和预计总价，再让店家下单；夜间回程不想步行时直接叫车回侨之家</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🥇 <b class="geo">Fat Mom's Restaurant 肥妈海鲜楼</b>（<span class="geo">Taman Bandar Semporna</span>）：约 <b>1 公里</b>，步行约 <b>14 分钟</b>，费用 <b>RM0（约 ¥0）</b>；若出海后太累，打车约 <b>5-10 分钟</b>、单程 <b class="hl">RM8-12（约 ¥13-20）/车</b>。特色是奶油老虎虾、蛋黄鱿鱼、蛋黄蟹和蒜蓉空心菜，人均约 <b class="hl">RM35-60（约 ¥57-98）</b>；营业时间参考 <b>11:30-14:00、16:00-21:00</b></li>
+                <li>🥈 <b class="geo">Fish Village Seafood Restaurant 渔港海鲜楼</b>（<span class="geo">Taman Bandar Semporna</span>）：约 <b>1.1 公里</b>，步行约 <b>15 分钟</b>，费用 <b>RM0（约 ¥0）</b>；若不想走路，打车约 <b>5-10 分钟</b>、单程 <b class="hl">RM8-12（约 ¥13-20）/车</b>。特色是奶油虾、姜葱蟹、清蒸鱼和海鲜面，人均约 <b class="hl">RM40-70（约 ¥66-115）</b>；营业时间参考 <b>11:00-14:00、17:00-21:00</b></li>
+                <li>🥉 <b class="geo">DOZO Nanyang Kopi House DOZO南洋咖啡馆</b>（<span class="geo">Wing Tat Grand Hotel 附近</span>）：约 <b>500 米</b>，步行约 <b>7 分钟</b>，费用 <b>RM0（约 ¥0）</b>；主打婆罗洲叻沙、斗亚兰面、锅气炒粿条和南洋咖啡，人均约 <b class="hl">RM18-30（约 ¥30-49）</b>；营业时间参考 <b>10:00-21:30</b>，当天不想继续吃海鲜时选它</li>
+              </ul></div></details></div></div></div>
+</article>
+<article class="day-card" id="day-1002" data-day="1002" role="tabpanel" aria-labelledby="tab-1002" hidden>
+  <header class="day-h">
+    <span class="day-count">DAY 05</span>
+    <h2>📅 10.02（周五）· 马布卡帕莱</h2>
+    <span class="tag">水上村 · 浮潜 · 海龟</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main"><b class="hl">首选直接吃侨之家免费早餐</b>，建议 <b>07:00-07:25</b> 完成；想换口味时从以下选一处：</div><span class="dr-note inline-note">❗ 今天仍须在 <b>07:45</b> 前进入集合流程；外出早餐在 <b>07:25</b> 前结束，避免吃得过饱影响快艇体验</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🥇 <b class="geo">Hua Qiao Home 侨之家民宿</b>：房东免费提供，费用 <b class="hl">RM0（约 ¥0）/人</b>，营业参考 <b>07:00-09:00</b>；在民宿吃完即可准备集合，适合连续第二天早起出海</li>
+                <li>🥈 <b class="geo">Restoran Bismillah-2 比斯米拉2号餐厅</b>（<span class="geo">Jalan Hospital</span>）：从民宿步行约 <b>4 分钟/280 米</b>，费用 <b>RM0（约 ¥0）</b>；Roti Canai、Thosai、煎蛋和拉茶出餐较快，人均约 <b class="hl">RM5-15（约 ¥8-25）</b>，营业时间参考 <b>24 小时</b></li>
+                <li>🥉 <b class="geo">Wang Wang Soto House 旺旺苏多屋</b>（<span class="geo">New Township, Jalan Kastam</span>）：从民宿步行约 <b>10 分钟/700 米</b>，费用 <b>RM0（约 ¥0）</b>；鸡肉 Soto、海鲜 Soto 和热汤面是特色，人均约 <b class="hl">RM10-20（约 ¥16-33）</b>，营业时间参考 <b>06:30-15:00</b></li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🚐 交通</div><div class="dr-body"><div class="row-main">若从<b class="geo">新游客码头</b>出发，从侨之家步行约 <b>7 分钟/500 米</b>，费用 <b>RM0（约 ¥0）</b>；若运营商安排其他码头，则乘一日团统一接送车约 <b>5-15 分钟</b>，团费已含。签到后重新检查装备，晕船药按说明在开船前约 <b>30-60 分钟</b>服用 <b>07:45-08:25</b></div><span class="dr-note inline-note">❗ 防水包内带干毛巾、替换衣物、电解质饮料和小额现金；手机、现金、房卡分别装入密封袋</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main"><b class="hl">确定走马布岛＋卡帕莱浮潜线</b>，按9.30电子订单执行，一日团参考 <b class="hl">RM133-220（约 ¥218-361）/人</b>；低价平台套餐可能另收脚蹼、马布水屋入场费等费用，付款前以电子确认单为准：</div><span class="dr-note inline-note">❗ 参考离港 <b>08:30</b>、返抵码头 <b>16:00</b>；运营商出海前复核天气和海况，是否能上岛及具体浮潜点以当天安排为准。<b class="hl">两次浮潜都必须穿救生衣并执行同伴制</b>，始终在潜导视线范围内，不追海龟、不触摸海洋生物、不踩珊瑚</span><details class="row-details"><summary>查看安全与装备</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🏘 <b class="geo">马布岛 Mabul</b>：在旅行团允许区域看水上村和海岛生活，跟随导游步行约 <b>30-45 分钟</b>，费用 <b>RM0（约 ¥0）</b></li>
+                <li>🤿 <b class="geo">马布岛浮潜点</b>：第一轮下水约 <b>40-50 分钟</b>，重点看浅礁、鱼群和海龟；始终与同伴结对</li>
+                <li>🐢 <b class="geo">卡帕莱 Kapalai</b>：在水屋外围指定水域进行第二轮浮潜约 <b>40-50 分钟</b>，以海龟、海星和珊瑚为主；卡帕莱通常只在外围活动</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🍱 午餐</div><div class="dr-body"><div class="row-main">食用一日团提供的盒饭和饮用水，团费已含 <b>RM0（约 ¥0）</b>，约 <b>12:00-13:00</b></div><span class="dr-note inline-note">❗ 两次下水之间少量多次补水，避免一次吃太撑</span></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🚐 交通</div><div class="dr-body"><div class="row-main">若返抵<b class="geo">新游客码头</b>，步行约 <b>7 分钟/500 米</b>回<b class="geo">侨之家民宿</b>，费用 <b>RM0（约 ¥0）</b>；若返抵其他码头则乘旅行社统一接送车约 <b>5-15 分钟</b>，团费已含。回房冲澡、晾晒水母衣并整理湿装备</div></div></div>
+          <div class="day-row"><div class="dr-tag t6"><i></i>🍜 晚餐</div><div class="dr-body"><div class="row-main">第二天跳岛结束后，建议 <b>17:30-19:00</b> 用餐；以下路程均从<b class="geo">Hua Qiao Home 侨之家民宿</b>起算：</div><span class="dr-note inline-note">❗ 活海鲜先看称重、单价和总价；用餐后按原交通方式回侨之家，再把夜巴随身用品与大件行李分开整理</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🥇 <b class="geo">Fish Village Seafood Restaurant 渔港海鲜楼</b>（<span class="geo">Taman Bandar Semporna</span>）：约 <b>1.1 公里</b>，步行约 <b>15 分钟</b>，费用 <b>RM0（约 ¥0）</b>；若出海后疲惫，打车约 <b>5-10 分钟</b>、单程 <b class="hl">RM8-12（约 ¥13-20）/车</b>。特色是奶油虾、姜葱蟹、清蒸鱼和海鲜面，人均约 <b class="hl">RM40-70（约 ¥66-115）</b>；营业时间参考 <b>11:00-14:00、17:00-21:00</b></li>
+                <li>🥈 <b class="geo">Sutera Seafood Restaurant 苏特拉海鲜餐厅</b>（<span class="geo">14A, Jalan Tinagayan</span>）：约 <b>2.8 公里</b>，打车约 <b>6-10 分钟</b>，单程约 <b class="hl">RM8-15（约 ¥13-25）/车</b>；家常海鲜、鱼汤、炒饭和炒粉选择多，人均约 <b class="hl">RM15-30（约 ¥25-49）</b>；营业时间参考至 <b>22:00</b>，预算更低时选它</li>
+                <li>🥉 <b class="geo">Seaview Cafe 海景咖啡餐厅</b>（<span class="geo">Seafest Hotel Boutique Wing, Jalan Kastam</span>）：约 <b>1.7 公里</b>，打车约 <b>8-10 分钟</b>，单程约 <b class="hl">RM8-15（约 ¥13-25）/车</b>；海景座位、海鲜炒粿条、炒饭和虾类热炒是特色，人均约 <b class="hl">RM20-40（约 ¥33-66）</b>；周五营业时间参考至 <b>22:00</b>，想换成轻松咖啡馆环境时选它</li>
+              </ul></div></details></div></div></div>
+</article>
+<article class="day-card" id="day-1003" data-day="1003" role="tabpanel" aria-labelledby="tab-1003" hidden>
+  <header class="day-h">
+    <span class="day-count">DAY 06</span>
+    <h2>📅 10.03（周六）· 二选一半日安排＋夜巴</h2>
+    <span class="tag">半日游 · 取行李 · 夜巴</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🅰️／🅱️ 二选一</div><div class="dr-body"><div class="row-main"><b class="hl">根据前两天浮潜后的体力和当天海况二选一</b>：想继续玩水就执行<b>方案A情人湾半日游</b>；想睡晚一点、保持干爽并为夜巴留体力，就执行<b>方案B仙本那市区慢逛</b>。两套方案均在 <b>16:10</b>结束游玩，随后回侨之家取行李</div><span class="dr-note inline-note">❗ 方案A需要提前付款且公开规则为不可取消，若已经锁票就按订单执行；尚未购买时可在下单前最终决定</span></div></div>
+          <div class="day-row"><div class="dr-tag t1"><i></i>🅰️ 早餐</div><div class="dr-body"><div class="row-main">为赶在 <b>08:00 前</b>到集合点，建议 <b>06:45-07:10</b> 吃完；从以下选择一处：</div><span class="dr-note inline-note">❗ <b class="hl">最晚07:10结束早餐</b>；若房东无法提前供餐，就直接步行去 24 小时营业的 Bismillah-2，不临时改去更远的店</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🥇 <b class="geo">Hua Qiao Home 侨之家民宿</b>：房东免费提供，费用 <b class="hl">RM0（约 ¥0）/人</b>；前一晚请房东把早餐提前到 <b>06:45-07:10</b> 或准备简餐，吃完直接办理退房与寄存</li>
+                <li>🥈 <b class="geo">Restoran Bismillah-2 比斯米拉2号餐厅</b>（<span class="geo">Jalan Hospital</span>）：从民宿步行约 <b>4 分钟/280 米</b>，费用 <b>RM0（约 ¥0）</b>；特色是 Roti Canai、Thosai、煎蛋、咖喱和拉茶，人均约 <b class="hl">RM5-15（约 ¥8-25）</b>，营业时间参考 <b>24 小时</b></li>
+                <li>🥉 <b class="geo">Wang Wang Soto House 旺旺苏多屋</b>（<span class="geo">New Township, Jalan Kastam</span>）：从民宿步行约 <b>10 分钟/700 米</b>，费用 <b>RM0（约 ¥0）</b>；鸡肉 Soto、海鲜 Soto 和热汤面适合本地早餐，人均约 <b class="hl">RM10-20（约 ¥16-33）</b>，营业时间参考 <b>06:30-15:00</b></li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🅰️ 寄存</div><div class="dr-body"><div class="row-main"><b>07:10-07:25</b>在<b class="geo">Hua Qiao Home 侨之家民宿</b>办理退房，将大件行李寄存在民宿；随身只带手机、小额现金、防水袋、防晒、泳衣、毛巾和一套干衣</div><span class="dr-note inline-note">❗ <b class="hl">入住时确认10.03可寄存至18:00</b>，并询问返程后能否在公共区换衣；不能冲澡时就在活动方更衣区擦干、换好干衣再回镇</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🅰️ 交通</div><div class="dr-body"><div class="row-main"><b>07:25</b>从<b class="geo">侨之家民宿</b>步行 <b>10-15分钟</b>到<b class="geo">海角一号海鲜餐厅集合点</b>，费用 <b class="hl">RM0（约 ¥0）</b>；<b class="hl">最晚07:45签到</b></div><div class="quick-facts">地址：<b>Lot E17-0 &amp; E17-1, Bandar Mutiara, Jalan Hospital</b>，与民宿同在 Taman Mutiara／Jalan Hospital 一带</div><span class="dr-note inline-note">❗ 平台不含酒店接送；出发前用电子凭证定位导航，四人结伴步行并在到场后立即签到</span></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🅰️ 玩水</div><div class="dr-body"><div class="row-main"><b>08:00-13:30</b>参加<b class="geo">情人湾上午半日游</b>；参考 <b class="hl">USD77.55≈RM316（约 ¥520）/人</b>，4人约 <b class="hl">RM1,264（约 ¥2,080）</b></div><div class="quick-facts">听完安全说明后依次体验拖曳伞、摩托艇、香蕉船和浮潜，每项 1 次；团费含往返船、午餐、浮潜装备和水上项目，午餐后返回仙本那</div><span class="dr-note inline-note">❗ <b class="hl">订单必须显示 Morning Session 与13:30返抵</b>；该产品为拼团且公开规则为不可取消，天气与海况调整以运营方通知为准</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🎫 <b class="hl">提前在 Pelago 下单上午场</b>：打开<a href="https://www.pelago.com/en/activity/ps5gb0jvd-timbun-mata-island-half-day-trip-snorkeling-water-sports-semporna-sabah/" target="_blank" rel="noopener noreferrer">情人湾半日游商品页</a>，或搜索“<b>Timbun Mata Island Half Day Trip: Snorkeling &amp; Water Sports | Semporna</b>”→选择 Morning Session→日期 <b>10.03</b>→4人→付款；订单为人工确认，通常在 <b>48 小时内</b>出结果</li>
+                <li>📩 付款前让客服书面确认<b>集合点、08:00出发、13:30回到仙本那、四项活动与午餐均包含</b>；保存电子凭证、当地运营方 <b>Timbun Mata Love Bay</b> 联系方式和紧急联系人</li>
+                <li>🩴 穿泳衣外搭速干衣，带防晒、遮阳帽、防水手机袋、毛巾、拖鞋和干衣；上船前按说明服用晕船药</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🅰️ 换装</div><div class="dr-body"><div class="row-main">约 <b>13:30</b>回到<b class="geo">Cape One 集合点</b>后步行约 <b>10-15分钟</b>回<b class="geo">Hua Qiao Home 侨之家民宿</b>，费用 <b class="hl">RM0（约 ¥0）</b>；约 <b>13:45-14:20</b>在房东允许的公共区擦干换衣，把湿泳衣和毛巾装入独立密封袋，不展开大件行李</div></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🅰️ 采购慢逛</div><div class="dr-body">
+  <div class="row-main"><b>14:20</b>从民宿步行 <b>8-12分钟</b>到<b class="geo">Bataras Hypermarket Semporna</b>补夜巴饮用水和密封零食；再步行 <b>10-15分钟</b>到 Seafest 海滨，安排 <b>15:10-16:10</b></div>
+  <div class="quick-facts">Bataras 位于 <b>Wisma YCL, Jalan Kastam</b>，采购约 <b>25-30分钟</b>、营业参考 <b>07:30-22:00</b>；沙巴茶、Tenom咖啡和独立包装糕点预算 <b class="hl">RM30-80（约 ¥49-131）/人</b>，可查看<a href="https://bataras.com.my/locate/" target="_blank" rel="noopener noreferrer">官方门店页</a>。Seafest Square 营业参考 <b>08:00-22:00</b></div>
+  <span class="dr-note inline-note">❗ <b class="hl">16:10准时离开</b>；只买轻便、密封、能直接装箱的商品。珍珠首饰控制在 <b>RM20-100（约 ¥33-164）/件</b>的小纪念品范围，没有正规发票、材质说明和证书就不买高价“天然海珠”</span></div></div>
+          <div class="day-row"><div class="dr-tag t1"><i></i>🅱️ 早餐寄存</div><div class="dr-body"><div class="row-main"><b>08:00-08:45</b>优先吃<b class="geo">侨之家民宿免费早餐</b>；想吃热食可步行 <b>4分钟/280米</b>到<b class="geo">比斯米拉2号餐厅</b>，人均 <b class="hl">RM5-15（约 ¥8-25）</b></div><div class="quick-facts"><b>08:45-09:00</b>退房并寄存大件行李；随身只带护照、手机、小额现金、防晒和充电宝</div><span class="dr-note inline-note">❗ 选择方案B无需06:45早起，但入住时同样要确认10.03可寄存至18:00</span></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🅱️ 市区上午</div><div class="dr-body"><div class="row-main"><b>09:00</b>从民宿步行到<b class="geo">仙本那中央市场</b>，再依次走<b>海滨清真寺外观→主码头→Waterfront</b>，安排 <b>09:15-11:10</b>、费用 <b class="hl">RM0（约 ¥0）</b></div><div class="quick-facts">民宿到市场约 <b>10-15分钟</b>，各点之间约 <b>5-10分钟</b>；路线不折返</div><span class="dr-note inline-note">❗ 市场是本地鱼获与农贸市场，气味重或地面湿滑时只看外围；清真寺以外观拍照为主，未经允许不要近距离拍摄摊主、渔民和儿童</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🅱️ 午餐</div><div class="dr-body"><div class="row-main"><b>11:10</b>从Waterfront步行约 <b>10-15分钟</b>到<b class="geo">DOZO Nanyang Kopi House DOZO南洋咖啡馆</b>，费用 <b>RM0（约 ¥0）</b>；吃叻沙、斗亚兰面、炒饭或鸡肉套餐，参考人均 <b class="hl">RM18-30（约 ¥30-49）</b>，安排 <b>11:25-12:20</b>，营业参考 <b>10:00-21:30</b></div></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🅱️ 市区下午</div><div class="dr-body">
+  <div class="row-main">午餐后步行 <b>8-12分钟</b>到<b class="geo">Bataras Hypermarket Semporna</b>，约 <b>12:35-13:15</b>采购；再步行 <b>10-15分钟</b>到 Seafest 海滨，安排 <b>13:30-16:10</b></div>
+  <div class="quick-facts">Bataras 位于 <b>Wisma YCL, Jalan Kastam</b>、营业参考 <b>07:30-22:00</b>；夜巴补给和伴手礼预算 <b class="hl">RM30-80（约 ¥49-131）/人</b>。海滨可逛手工艺品和纪念品，也可在 Starbucks 或 Secret Recipe 休息，饮料或蛋糕人均 <b class="hl">RM15-30（约 ¥25-49）</b></div>
+  <span class="dr-note inline-note">❗ 仙本那只买轻便纪念品和路上补给，不安排大额购物；珍珠按普通饰品挑，高价商品没有正规发票、材质说明和证书就不买；<b class="hl">16:10准时离开</b></span></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🔗 共同安排</div><div class="dr-body"><div class="row-main"><b>16:10</b>从 Seafest Square 步行约 <b>20-25分钟</b>回<b class="geo">Hua Qiao Home 侨之家民宿</b>，费用 <b>RM0（约 ¥0）</b>；约 <b>16:35-17:00</b>取回寄存行李并完成夜巴打包，随后步行去吃晚餐</div><span class="dr-note inline-note">❗ 护照、现金、手机、充电宝、薄外套和颈枕放随身包；潮湿物品继续单独密封，大件行李不要在街边重新摊开整理</span></div></div>
+          <div class="day-row"><div class="dr-tag t6"><i></i>🍜 晚餐</div><div class="dr-body"><div class="row-main"><b class="hl">夜巴日前只选出餐快、能在18:00前结束的店</b>，建议 <b>17:00-18:00</b> 用餐；以下路程均从<b class="geo">Hua Qiao Home 侨之家民宿</b>起算：</div><span class="dr-note inline-note">❗ <b class="hl">最晚18:00结束用餐</b>，回侨之家取行李并补买水和密封零食，不点需要称重、现蒸或久等的大份海鲜</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🥇 <b class="geo">DOZO Nanyang Kopi House DOZO南洋咖啡馆</b>（<span class="geo">Wing Tat Grand Hotel 附近</span>）：约 <b>500 米</b>，步行约 <b>7 分钟</b>，费用 <b>RM0（约 ¥0）</b>；叻沙、斗亚兰面、炒饭和鸡肉套餐均为单人份，出餐相对好控制，人均约 <b class="hl">RM18-30（约 ¥30-49）</b>；营业时间参考 <b>10:00-21:30</b></li>
+                <li>🥈 <b class="geo">Semporna Sup Ikan（Kapalai）仙本那卡帕莱鱼汤店</b>（<span class="geo">Bandar Kapalai</span>）：约 <b>2.4-2.8 公里</b>，打车约 <b>7-10 分钟</b>，单程约 <b class="hl">RM8-15（约 ¥13-25）/车</b>；特色是番茄鱼汤、咸菜鱼汤和苦瓜鱼汤，汤配饭清爽不油腻，人均约 <b class="hl">RM16-25（约 ¥26-41）</b>；营业时间参考 <b>09:00-21:00</b></li>
+                <li>🥉 <b class="geo">Semporna Hot Soto 仙本那热苏多汤馆</b>（<span class="geo">Taman Bandar Semporna</span>）：约 <b>1 公里</b>，步行约 <b>14 分钟</b>，费用 <b>RM0（约 ¥0）</b>；牛肉 Soto、鸡肉 Soto 和汤粉上菜快，人均约 <b class="hl">RM10-20（约 ¥16-33）</b>；营业时间参考为 <b>24 小时</b>，到店前再次复核，适合想吃最简单热汤时选择</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t1"><i></i>🚕 交通</div><div class="dr-body"><div class="row-main">回<b class="geo">侨之家民宿</b>取齐行李后，约 <b>18:10</b>四人结伴步行前往<b class="geo">Semporna Bus Terminal 仙本那长途汽车站</b>；约 <b>330-600米／5-10分钟</b>，费用 <b class="hl">RM0（约 ¥0）</b>，预计 <b>18:20左右</b> 到站</div><span class="dr-note inline-note">❗ 各自照看自己的箱包，不要把护照和现金放进拉杆箱；出发前按电子车票核对车站名称和地图定位，避免走到 Mini Van 站</span></div></div>
+          <div class="day-row"><div class="dr-tag t1"><i></i>🚌 夜巴</div><div class="dr-body"><div class="row-main">乘直达夜巴从<b class="geo">仙本那长途汽车站</b>前往<b class="geo">亚庇 Inanam Bus Terminal</b>，参考班次 <b>19:30-次日 06:35</b>，车程约 <b>11 小时</b>；票价参考 <b class="hl">RM60-75（约 ¥98-123）/人</b>，本次预算按 <b class="hl">RM74（¥122）/人</b></div><span class="dr-note inline-note">❗ <b class="hl">19:30 为当前公开班次参考</b>，最终以购票页面和电子车票为准；发车前在柜台再次确认车辆和站台</span><details class="row-details"><summary>查看预订步骤</summary><div class="detail-content"><ul class="dr-subs">
+                <li>🎫 购票时核对出发地 Semporna、终点 Inanam、日期和座位号，优先选车厢前中部座位</li>
+                <li>🧳 大件行李放车底行李舱并拍照，护照、现金、手机和充电宝放随身包带上车</li>
+                <li>🧥 车内空调冷，带薄外套、颈枕和耳塞；容易晕车的在发车前约 <b>30 分钟</b>服用晕车药</li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🚗 明日接驳</div><div class="dr-body"><div class="row-main">次日约 <b>06:35</b> 抵达<b class="geo">Inanam Bus Terminal</b>后叫一辆 Grab 前往<b class="geo">King Park Hotel Kota Kinabalu 哥打京那巴鲁国王公园酒店</b>，约 <b>15-25 分钟</b>，参考 <b class="hl">RM15-25（约 ¥25-41）/车</b></div><span class="dr-note inline-note">❗ 下车先清点行李，再在车站正规上车区叫6座车；酒店可否清晨寄存行李提前确认</span></div></div></div>
+</article>
+<article class="day-card" id="day-1004" data-day="1004" role="tabpanel" aria-labelledby="tab-1004" hidden>
+  <header class="day-h">
+    <span class="day-count">DAY 07</span>
+    <h2>📅 10.04（周日）· 夜巴抵达＋市区慢游</h2>
+    <span class="tag">寄存 · 市集 · 日落</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🚕 交通</div><div class="dr-body"><div class="row-main">约 <b>06:35</b>抵达<b class="geo">Inanam Bus Terminal 亚庇长途汽车站</b>，清点车底行李后叫一辆 Grab 前往<b class="geo">King Park Hotel Kota Kinabalu 哥打京那巴鲁国王公园酒店</b>（<span class="geo">Jalan Masjid Lama, Bandaran Berjaya</span>），约 <b>15-25分钟</b>，参考 <b class="hl">RM15-25（约 ¥25-41）/车</b></div><span class="dr-note inline-note">❗ 4人带行李优先选6座车型；使用完整英文酒店名和订单定位，平台车牌与司机一致后再上车</span></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🏨 住宿</div><div class="dr-body"><div class="row-main">约 <b>07:00-07:20</b>到<b class="geo">哥打京那巴鲁国王公园酒店</b>寄存大件行李；酒店官方入住时间为 <b>14:00后</b>、退房时间为 <b>12:00前</b>，现场确认10.06早退房寄存及两次一日团接送位置。市区酒店已订两晚共 <b class="hl">¥553（约 RM337）</b>，订单包含10.05和10.06早餐；入住时确认早餐厅位置及 <b>06:30</b>准时开餐</div></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main">从国王公园酒店步行约 <b>10-15分钟</b>到<b class="geo">Kedai Kopi Yee Fung 怡丰茶室</b>（<span class="geo">127, Gaya Street</span>），费用 <b>RM0（约 ¥0）</b>；吃叻沙、牛杂粉和桔子冰，人均约 <b class="hl">RM10-20（约 ¥16-33）</b>，周日参考 <b>06:30-16:00</b>营业，安排 <b>07:30-08:15</b></div></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🎡 玩</div><div class="dr-body">
+    <div class="row-main">从怡丰茶室步行 <b>2-5分钟</b>进入<b class="geo">Gaya Street Sunday Market</b>，安排 <b>08:20-10:10</b>，交通及门票 <b class="hl">RM0</b></div>
+    <div class="quick-facts">先完整走一遍再回头购买沙巴珠饰、藤编、杯垫、蜡染布艺和本地糕点，小手信预算 <b class="hl">RM20-80（约 ¥33-131）/人</b>；市场每周日 <b>06:00-13:00</b>，查看<a href="https://sabahtourism.com/destination/gaya-street-sunday-market/" target="_blank" rel="noopener noreferrer">沙巴旅游局介绍</a></div>
+    <span class="dr-note inline-note">❗ 带RM5、RM10小额现金，同类商品至少比较2-3摊；珠饰和所谓古董只按旅游纪念品判断。夜巴后只逛主街，不绕去偏远摊区</span></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🛍 逛街补给</div><div class="dr-body">
+    <div class="row-main"><b>10:10</b>从加雅街步行 <b>10-15分钟</b>到<b class="geo">Suria Sabah 曙光广场</b>，安排 <b>10:25-11:30</b>；包装食品预算 <b class="hl">RM30-100（约 ¥49-164）/人</b></div>
+    <div class="quick-facts">去3楼 Bataras Marketplace 比较沙巴茶、Tenom咖啡、白咖啡、叻沙调料和密封零食，再到LG层 Watsons 补防晒与旅行装；商场每日 <b>10:00-22:00</b>，查看<a href="https://suriasabah.com.my/contact/" target="_blank" rel="noopener noreferrer">官方营业信息</a></div>
+    <span class="dr-note inline-note">❗ 市集买地方手工艺，商场买明码标价的食品和日用品；味道重、包装不密封或需要冷藏的食品不买</span></div></div>
+          <div class="day-row"><div class="dr-tag t6"><i></i>🍜 午餐</div><div class="dr-body">
+    <div class="row-main">从 Suria Sabah 步行 <b>10-15分钟</b>到<b class="geo">Fook Yuen 富源茶餐室（Gaya Street）</b>，安排 <b>11:45-12:30</b>；人均 <b class="hl">RM10-20（约 ¥16-33）</b></div>
+    <div class="quick-facts">点咖椰牛油吐司、点心、炒米粉和拉茶；步行费用 <b>RM0</b></div></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🥭 榴莲</div><div class="dr-body"><div class="row-main"><b class="hl">亚庇榴莲三选一，只执行一个方案</b>；根据当天体力、果况和想要的体验决定，不把行程锁死在一家店：</div><span class="dr-note inline-note">❗ 三个方案总预算均按4人约 <b class="hl">RM120-220（约 ¥197-361）</b>控制；统一先问当天品种、每公斤价格、能否拼盘及坏果更换规则。榴莲全部现场吃完，不带进酒店，也不携带有气味的开果乘坐Grab</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
+                <li><b class="geo">市中心门店｜DKing Sabah - 帝一榴·沙巴</b>：午餐后从加雅街步行约 <b>10-15分钟</b>，费用 <b>RM0（约 ¥0）</b>，安排 <b>12:45-13:30</b>；地址为<span class="geo">Jalan Tun Fuad Stephens, Pusat Bandar Kota Kinabalu</span>，每日 <b>11:00-23:00</b>，可询问沙巴本地品种、猫山王、黑刺或拼盘；通过<a href="https://wa.me/60126193579" target="_blank" rel="noopener noreferrer">WhatsApp +60 12-619 3579</a>确认当天果况，或查看<a href="https://dking.com.my/visit-us/" target="_blank" rel="noopener noreferrer">官方门店页</a>。吃完叫普通Grab回国王公园酒店，约 <b>5-10分钟</b>，参考 <b class="hl">RM6-10（约 ¥10-16）/车</b></li>
+                <li><b class="geo">晚间摊区｜Segama Durian Night Market 榴莲夜市</b>：保留午后酒店休息，吃完大茄来海鲜后约 <b>20:30</b>叫Grab前往<span class="geo">12-40, Jalan Segama Compleks</span>，单程约 <b>5-10分钟</b>，参考 <b class="hl">RM6-10（约 ¥10-16）/车</b>；夜市参考每日 <b>17:00-00:00</b>，安排 <b>20:40-21:10</b>现场比较多个摊位后购买，查看<a href="https://wanderlog.com/zh/place/details/7866847" target="_blank" rel="noopener noreferrer">摊区位置与近期评价</a>。只买整果、盯住称重并当面开果，不接受用普通本地果冒充高价品种</li>
+                <li><b class="geo">果园体验｜Durian Paul 阿宝榴莲园</b>：只在夜巴后精神较好、愿意减少酒店休息时选择；约 <b>14:20</b>从酒店叫Grab前往<span class="geo">Jalan Limpugou, Pulutan Menggatal</span>，单程约 <b>20-30分钟</b>，参考 <b class="hl">RM20-35（约 ¥33-57）/车</b>，约 <b>15:35</b>返程并在16:20前回到酒店；沙巴旅游资料介绍园内有30多种榴莲，参考入场 <b class="hl">RM8（约 ¥13）/人</b>且消费满RM30可抵扣，出发前通过<a href="https://wa.me/60168399748" target="_blank" rel="noopener noreferrer">WhatsApp +60 16-839 9748</a>确认当天是否开放、果况和价格，并查看<a href="https://fliphtml5.com/zlym/FINAL-SAMPLE---PRINTING-FILE/" target="_blank" rel="noopener noreferrer">沙巴榴莲旅游资料</a></li>
+              </ul></div></details></div></div>
+          <div class="day-row"><div class="dr-tag t6"><i></i>🏨 住宿</div><div class="dr-body">
+    <div class="row-main">选晚间榴莲夜市或下午果园时，午餐后约 <b>12:40</b>步行 <b>10-15分钟</b>回国王公园酒店；选 DKing Sabah 时约 <b>13:40</b>乘 Grab 回店</div>
+    <div class="quick-facts">能提前入住就直接洗漱，最迟 <b>14:00</b>办理入住；市中心门店或晚间夜市方案可休整至 <b>16:30</b>，果园方案短暂整理后按 <b>14:20</b>出发</div></div></div>
+          <div class="day-row"><div class="dr-tag t1"><i></i>🎫 订单复核</div><div class="dr-body"><div class="row-main"><b>14:10-14:30</b>在酒店复核两张已订确认单：<b>10.05 美人鱼岛＋红树林＋萤火虫</b>、<b>10.06 环滩岛浮潜</b></div><div class="quick-facts">逐项核对4名成人姓名、国王公园酒店接送、接车时间、当地联系人、包含项目及天气取消规则；凭证和联系电话保存到4人手机</div><span class="dr-note inline-note">❗ 适逢中国国庆热门出行期，<b class="hl">两团都应在出发前尽快线上付款锁位，不等到10.04现场购票</b>；官方页面没有承诺提前一天仍有余位，4人同团更容易受船位和接送车位限制。若此时仍未出票，立即联系运营方确认余位，取得书面确认后再付款</span></div></div>
+          <div class="day-row"><div class="dr-tag t1"><i></i>🚕 交通</div><div class="dr-body"><div class="row-main"><b>16:40</b>从国王公园酒店叫 Grab 到<b class="geo">Tanjung Aru Beach 丹绒亚路海滩</b>，约 <b>10-15分钟</b>，参考 <b class="hl">RM10-18（约 ¥16-30）/车</b>；酒店官方资料显示两地约 <b>4.9公里</b>，定位使用公共海滩入口，不进入酒店私人区域</div></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main">沿公共沙滩散步、找椰树与海岸线机位，安排 <b>17:05-18:30</b>；10.04日落约 <b>18:05</b>，建议 <b class="hl">17:30前确定位置</b>，门票 <b class="hl">RM0（约 ¥0）/人</b></div><span class="dr-note inline-note">❗ 雷雨或云层过厚时以安全为先，海边看完立即叫车，不在天黑后单独走偏僻沙滩</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🍜 晚餐</div><div class="dr-body">
+    <div class="row-main">日落后叫 Grab 到<b class="geo">大茄来海鲜餐厅（Asia City）</b>，约 <b>10-15分钟</b>、<b class="hl">RM8-15（约 ¥13-25）/车</b>；安排 <b>19:00-20:30</b>，人均 <b class="hl">RM50-90（约 ¥82-148）</b></div>
+    <div class="quick-facts">点奶油老虎虾、咸蛋黄炒蟹、沙巴菜和炒饭，营业参考 <b>12:30-23:00</b>。选榴莲夜市就饭后直接去 Segama；另外两种方案则结伴步行 <b>8-15分钟</b>回酒店，费用 <b>RM0</b></div>
+    <span class="dr-note inline-note">❗ 海鲜先确认每公斤单价、重量与做法；不去榴莲夜市时，回酒店前买好次日早餐和饮用水，避免组合团清晨空腹出发</span></div></div></div>
+</article>
+<article class="day-card" id="day-1005" data-day="1005" role="tabpanel" aria-labelledby="tab-1005" hidden>
+  <header class="day-h">
+    <span class="day-count">DAY 08</span>
+    <h2>📅 10.05（周一）· 美人鱼岛＋红树林萤火虫</h2>
+    <span class="tag">浮潜 · 长鼻猴 · 萤火虫</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main"><b>06:25</b>穿好泳衣并外搭速干衣，到酒店<b class="geo">Melting Pot 餐厅</b>门口等开餐；酒店自助早餐公开供应时间为每日 <b>06:30-10:30</b>，订单已含早餐，费用 <b class="hl">RM0（约 ¥0）/人</b>。<b>06:30-06:45</b>优先拿现成热食、面包、水果和饮料，<b class="hl">06:45准时离席</b>，06:50到大堂等车</div><span class="dr-note inline-note">❗ 前一晚完成洗漱和出海包整理，早餐时不等现煮餐、不回房取东西；证件和大件现金留在酒店保险箱</span></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🎫 提前订票</div><div class="dr-body"><div class="row-main"><b class="hl">出发前锁位，不等到10.04</b>：预订<b class="geo">10.05 美人鱼岛＋Kawa Kawa红树林＋萤火虫组合团</b>；参考 <b class="hl">RM290（约 ¥476）/人</b>，4人约 <b class="hl">RM1,160（约 ¥1,902）</b></div><details class="row-details"><summary>查看预订步骤</summary><div class="detail-content"><ul class="dr-subs"><li>打开<a href="https://www.discoverytours.com.my/holidays/mantanani-kawa-kawa-fireflies/" target="_blank" rel="noopener noreferrer">Discovery Tours 官方商品页</a>，选择 <b>10.05、4名成人</b>；接送酒店填写 <b>King Park Hotel Kota Kinabalu</b>及完整地址</li><li>费用包含市区酒店往返接送、船、两次浮潜、装备、午餐和晚餐</li><li>需人工确认时联系亚庇办公室 <b>+60 88-210 097／+60 88-259 368</b>，工作时间为周一至周五 <b>08:00-17:45</b></li></ul></div></details><span class="dr-note inline-note">❗ 付款前让运营方书面确认酒店接送、集合时间、当地联系人、保险及天气取消退款规则</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🚐 交通</div><div class="dr-body"><div class="row-main">约 <b>06:50</b>到国王公园酒店大堂等车，参考 <b>07:00</b>统一接送，陆路前往码头约 <b>2小时</b>；团费已含接送，费用 <b class="hl">RM0（约 ¥0）</b></div><span class="dr-note inline-note">❗ 接送车迟到先联系电子凭证上的运营方，不自行打车追船；车程长，容易晕车的按说明提前用药</span></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main">抵达<b class="geo">Mantanani Island 美人鱼岛</b>后听安全说明，参考 <b>11:00</b>进行两处浮潜，每处约 <b>30分钟</b>；跟随潜导看珊瑚、热带鱼和海星，余下时间在白沙滩拍照</div><span class="dr-note inline-note">❗ 全程穿救生衣并与同伴结对，不追逐海洋生物、不踩珊瑚；海况差时接受运营方调整浮潜点</span></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🍜 午餐</div><div class="dr-body"><div class="row-main">约 <b>13:30</b>在岛上吃团餐，费用已包含；补水后换干衣，约 <b>14:30</b>离岛前往红树林</div></div></div>
+          <div class="day-row"><div class="dr-tag t6"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main">约 <b>16:00</b>抵达<b class="geo">Kawa Kawa 红树林</b>，乘第一段游船寻找长鼻猴、猕猴和水鸟；约 <b>17:00</b>在河口看日落，带望远镜更容易观察远处动物</div></div></div>
+          <div class="day-row"><div class="dr-tag t1"><i></i>🍜 晚餐</div><div class="dr-body"><div class="row-main">日落后在红树林营地吃自助晚餐，费用已包含；约 <b>19:00</b>再次乘船看萤火虫</div><span class="dr-note inline-note">❗ 萤火虫受雨量与天气影响，不开闪光灯、不抓取昆虫；涂防蚊液并穿薄长裤</span></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🚐 交通</div><div class="dr-body"><div class="row-main">约 <b>20:00</b>乘团车返回亚庇，预计 <b>21:30</b>送回国王公园酒店；费用已包含。回店后直接洗漱，并向前台确认次日 <b>07:15-07:30</b>接送和退房寄存</div></div></div></div>
+</article>
+<article class="day-card" id="day-1006" data-day="1006" role="tabpanel" aria-labelledby="tab-1006" hidden>
+  <header class="day-h">
+    <span class="day-count">DAY 09</span>
+    <h2>📅 10.06（周二）· 环滩岛＋换酒店</h2>
+    <span class="tag">浮潜 · 换酒店 · 泳池</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main">起床后穿好泳衣，把干衣、防晒、毛巾和防水袋装进随身包，并在 <b>06:25前</b>把退房行李全部封好；随后到酒店<b class="geo">Melting Pot 餐厅</b>，利用订单已包含的自助早餐用餐，费用 <b class="hl">RM0（约 ¥0）/人</b>。早餐公开供应时间为每日 <b>06:30-10:30</b>，本日安排 <b>06:30-06:45</b>快速用餐，<b class="hl">06:45准时离席办理退房</b></div><span class="dr-note inline-note">❗ 只拿现成餐食，不等现煮档；房卡、护照和取行李凭证提前放进随身包</span></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🏨 住宿</div><div class="dr-body"><div class="row-main"><b>06:45-07:00</b>从国王公园酒店退房，把全部大件行李寄存在前台；只带出海随身包，取行李凭证拍照保存，最晚 <b>07:05</b>到大堂等接送车</div><span class="dr-note inline-note">❗ <b class="hl">前一晚再次确认行李可寄存至16:00以后</b>，护照、现金和电子产品不要放在无人看管的外部行李区</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🎫 提前订票</div><div class="dr-body"><div class="row-main"><b class="hl">出发前锁位，不等到10.04</b>：预订<b class="geo">10.06 环滩岛浮潜一日游</b>；参考 <b class="hl">RM350（约 ¥574）/人</b>，4人约 <b class="hl">RM1,400（约 ¥2,296）</b></div><details class="row-details"><summary>查看预订步骤</summary><div class="detail-content"><ul class="dr-subs"><li>打开<a href="https://www.amazingborneo.com/package/mengalum-island-day-tour-snorkeling" target="_blank" rel="noopener noreferrer">Amazing Borneo Tours 官方商品页</a>，选择 <b>10.06、4名成人</b>；接送酒店填写 <b>King Park Hotel Kota Kinabalu</b>及完整地址</li><li>费用包含市区酒店往返接送、船、两次浮潜、装备、饮用水和自助午餐</li></ul></div></details><span class="dr-note inline-note">❗ 官方页面提示旺季可能加价且需向销售确认；付款前取得4人余位、最终含税总价、接送时间及天气取消规则的书面答复</span></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🚐 交通</div><div class="dr-body"><div class="row-main">约 <b>07:05</b>到国王公园酒店大堂等车，参考 <b>07:15-07:30</b>统一接送，前往<b class="geo">Sutera Harbour Marina Jetty 丝绸港码头</b>登记；约 <b>08:00</b>乘快艇，船程约 <b>1小时</b>。团费已含接送，费用 <b class="hl">RM0（约 ¥0）</b></div></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main">约 <b>09:15</b>抵达<b class="geo">Mengalum Island 环滩岛</b>，听安全说明后约 <b>10:00</b>开始两次船潜浮潜；重点看硬珊瑚、鱼群和清澈浅海，随后回白沙滩休息拍照</div><span class="dr-note inline-note">❗ 船程较颠，按说明提前服晕船药；穿救生衣、跟随潜导，不单独离船或踩踏珊瑚</span></div></div>
+          <div class="day-row"><div class="dr-tag t6"><i></i>🍜 午餐</div><div class="dr-body"><div class="row-main">约 <b>12:30</b>在岛上吃自助午餐，费用已包含；约 <b>13:30</b>自由活动，<b>14:30-15:00</b>乘船返回市区</div></div></div>
+          <div class="day-row"><div class="dr-tag t1"><i></i>🏨 住宿</div><div class="dr-body"><div class="row-main"><b>15:00-15:15</b>回国王公园酒店取行李，再叫 Grab 到<b class="geo">麦哲伦丝绸度假村</b>；约 <b>10-15分钟</b>、<b class="hl">RM10-18（约 ¥16-30）/车</b>，该晚已订 <b class="hl">¥1,407（约 RM858）</b></div><div class="quick-facts">地址：<b>1 Sutera Harbour Boulevard</b>；酒店官方入住时间为 <b>15:00后</b></div></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main">入住后先回房冲洗换泳衣，约 <b>16:30-18:30</b>使用<b class="geo">麦哲伦度假村泳池</b>和海边花园，费用 <b>RM0（约 ¥0）</b>；酒店官方公布泳池每日 <b>07:00-19:00</b>开放</div><span class="dr-note inline-note">❗ 18:30开始收拾冲洗，不把下水时间压到闭池前最后几分钟；当日雷雨时遵从救生员安排</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🍜 晚餐</div><div class="dr-body"><div class="row-main">约 <b>19:15-20:45</b>在酒店内<b class="geo">Al Fresco 海滨餐厅</b>用餐，步行约 <b>3-5分钟</b>，费用 <b>RM0（约 ¥0）</b>；点木烤披萨、意面或沙巴风味主菜，人均参考 <b class="hl">RM60-120（约 ¥98-197）</b>，官方营业时间为每日 <b>11:00-23:00</b></div><span class="dr-note inline-note">❗ <b class="hl">海边座位建议至少提前1天预约</b>：点击<a href="https://wa.me/60178130299" target="_blank" rel="noopener noreferrer">WhatsApp +60 17-813 0299</a>发送：<b>“Hello, I would like to reserve a table at Al Fresco for 4 adults on 6 October 2026 at 7:15 pm. We are staying at The Magellan Sutera Resort. Could we have an outdoor sea-view table if available? Name: [姓名]. Please confirm my reservation. Thank you.”</b> 收到餐厅明确回复日期、时间和人数才算预约成功；WhatsApp无回复时致电酒店总机 <b>+60 88-318 888／+60 88-312 222</b>，照读同一段并记录确认号</span></div></div></div>
+</article>
+<article class="day-card" id="day-1007" data-day="1007" role="tabpanel" aria-labelledby="tab-1007" hidden>
+  <header class="day-h">
+    <span class="day-count">DAY 10</span>
+    <h2>📅 10.07（周三）· 度假酒店＋红眼返程</h2>
+    <span class="tag">度假酒店 · 晚餐 · 机场</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main">约 <b>06:15-07:00</b>在酒店<b class="geo">Five Sails 五帆餐厅</b>吃订单已包含的自助早餐，费用 <b class="hl">RM0（约 ¥0）/人</b>；官方供应时间为每日 <b>06:00-10:30</b>，优先吃现做蛋档、热食、水果和咖啡，吃完直接去泳池和海边花园</div></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main">早餐后约 <b>07:10-10:30</b>使用<b class="geo">麦哲伦度假村泳池</b>、海边花园和沙滩景观区，费用 <b>RM0（约 ¥0）</b>；泳池官方开放 <b>07:00-19:00</b>，上午人少、阳光也相对温和</div><span class="dr-note inline-note">❗ 下水前确认当日开放区域；海岸以散步拍照为主，不跨越警示线自行下海</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🏨 住宿</div><div class="dr-body"><div class="row-main"><b>10:30-11:40</b>回房冲洗、换衣和整理行李，最晚 <b>12:00</b>退房并寄存；办理时让前台在房卡失效后继续保留当日泳池或更衣淋浴权限，并确认晚间取行李流程</div></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🍜 午餐</div><div class="dr-body"><div class="row-main">约 <b>12:15-13:15</b>在酒店内<b class="geo">Muffinz Deli Cafe 麦芬兹咖啡厅</b>吃简餐，步行约 <b>2-5分钟</b>，费用 <b>RM0（约 ¥0）</b>；可选牛肉面、三明治、沙拉和咖啡，人均参考 <b class="hl">RM35-60（约 ¥57-98）</b>，官方营业时间为每日 <b>11:00-20:00</b></div></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🅰️／🅱️ 下午二选一</div><div class="dr-body"><div class="row-main"><b class="hl">想把酒店住够本就留在园区，想补齐购物就去Imago</b>；两套方案都把大件行李寄存在麦哲伦，最晚 <b>17:00</b>回到酒店，为18:00晚餐留出整理时间</div></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🅰️ 酒店下午</div><div class="dr-body">
+    <div class="row-main"><b>13:30-17:00</b>留在酒店，沿海边花园和<b class="geo">Sutera Harbour Marina</b>慢走拍照，也可在大堂或海景休息区喝饮料；费用 <b class="hl">RM0</b></div>
+    <div class="quick-facts">前台确认退房后仍可使用设施时，可去开放至 <b>21:00</b>的 Marina Pool 游泳</div>
+    <span class="dr-note inline-note">❗ 退房后设施权限以酒店当天答复为准；无权限就保留码头散步和公共休息区，不临时跑远景点</span></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🅱️ 商场</div><div class="dr-body">
+    <div class="row-main"><b>13:30</b>从麦哲伦叫 Grab 到<b class="geo">Imago Shopping Mall 我格广场</b>，约 <b>5-10分钟</b>、单程 <b class="hl">RM6-10（约 ¥10-16）</b>；逛至 <b>16:25</b>，预计 <b>16:35-16:50</b>回酒店</div>
+    <div class="quick-facts">商场距 Sutera Harbour 约 <b>1.5公里</b>；按地下层超市与食品区→GF／1F美妆服饰→中庭顺序逛，包装食品预算 <b class="hl">RM30-100（约 ¥49-164）/人</b>。每日 <b>10:00-22:00</b>营业，竹竿舞参考 <b>12:00／14:00／16:00／18:00／20:00</b>，查看<a href="https://www.imago.my/" target="_blank" rel="noopener noreferrer">Imago官网</a></div>
+    <span class="dr-note inline-note">❗ 大件行李继续寄存在酒店，4人约定 <b>16:20</b>在中庭集合；看完16:00演出后直接叫车。购买液体、酱料和易碎品前先确认托运行李空间</span></div></div>
+          <div class="day-row"><div class="dr-tag t6"><i></i>🍜 晚餐</div><div class="dr-body"><div class="row-main">约 <b>18:00-19:30</b>在酒店内<b class="geo">Ferdinand's 费迪南意大利餐厅</b>吃旅程收尾晚餐，步行约 <b>3-5分钟</b>，费用 <b>RM0（约 ¥0）</b>；手工意面单点约 <b>RM85（约 ¥139）起</b>，按主菜加饮料人均参考 <b class="hl">RM120-220（约 ¥197-361）</b>，官方晚餐营业 <b>18:00-23:00</b></div><span class="dr-note inline-note">❗ <b class="hl">建议至少提前1天订位</b>：点击<a href="https://wa.me/60178130299" target="_blank" rel="noopener noreferrer">WhatsApp +60 17-813 0299</a>发送：<b>“Hello, I would like to reserve a table at Ferdinand's for 4 adults on 7 October 2026 at 6:00 pm. We are staying at The Magellan Sutera Resort. Name: [姓名]. Please confirm my reservation and the dress code. Thank you.”</b> 收到餐厅明确回复才算预约成功；WhatsApp无回复时致电酒店总机 <b>+60 88-318 888／+60 88-312 222</b>，照读同一段并记录确认号。不点需要久等的多人套餐，餐后回更衣区洗漱换装，最晚 <b>20:45</b>取回行李并清点护照</span></div></div>
+          <div class="day-row"><div class="dr-tag t1"><i></i>🚕 交通</div><div class="dr-body"><div class="row-main">约 <b>21:15</b>从麦哲伦丝绸度假村叫一辆 Grab 6座车前往<b class="geo">Kota Kinabalu International Airport 亚庇国际机场 T1</b>，约 <b>10-20分钟</b>，参考 <b class="hl">RM20-35（约 ¥33-57）/车</b>；航班 <b>10.08 01:15</b>起飞，预计 <b>21:35前后</b>抵达机场</div><span class="dr-note inline-note">❗ 4人带全部行李不要叫普通经济型小车；核对目的地为T1，平台显示车牌后再上车，并为国际航班保留至少3小时值机、安检和出境时间</span></div></div></div>
+</article>
+<article class="day-card" id="day-1008" data-day="1008" role="tabpanel" aria-labelledby="tab-1008" hidden>
+  <header class="day-h">
+    <span class="day-count">DAY 11</span>
+    <h2>📅 10.08（周四）· 香港返深</h2>
+    <span class="tag">入境 · 过关 · 上班</span>
+  </header>
+  <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>✈️ 交通</div><div class="dr-body"><div class="row-main">航班于 <b>04:25</b> 抵达<b class="geo">香港国际机场 T1</b>；下机后直接办理香港入境、领取托运行李，预计约 <b>05:15-05:40</b>进入接机大堂</div><span class="dr-note inline-note">❗ 护照、返深安排和完整行程放在随身包；是否准予入境及停留期限以香港入境处现场决定为准</span></div></div>
+          <div class="day-row"><div class="dr-tag t2"><i></i>🚕 方案A</div><div class="dr-body"><div class="row-main"><b class="geo">福田口岸：</b>约05:20-05:55从机场的士站乘绿色普通的士，直达<b>落马洲支线管制站公共运输交汇处</b>，约06:00-06:50抵达；口岸06:30开放后步行办理两地出入境，预计 <b class="hl">06:50-07:30</b>到深圳，保守按07:45。的士参考 <b class="hl">约 ¥264-289/车</b></div><span class="dr-note inline-note">❗ 目的地说“落马洲支线管制站公共运输交汇处，走福田口岸，不是新田”；全程不换车、不坐皇巴</span></div></div>
+          <div class="day-row"><div class="dr-tag t3"><i></i>🚕 方案B</div><div class="dr-body"><div class="row-main"><b class="geo">皇岗口岸：</b>约05:20-05:55乘绿色普通的士到<b>落马洲（新田）公共运输交汇处</b>，约05:55-06:45抵达；换24小时皇巴，经香港落马洲管制站和深圳皇岗临时旅检楼通关，预计 <b class="hl">06:35-07:30</b>到深圳，保守按07:45。的士参考约 ¥255-281，皇巴4人约 ¥34，合计 <b class="hl">约 ¥289-315/4人</b></div><span class="dr-note inline-note">❗ 皇岗两端之间不能步行，必须换皇巴；普通香港的士不能直接跨境</span></div></div>
+          <div class="day-row"><div class="dr-tag t4"><i></i>🚕 交通</div><div class="dr-body"><div class="row-main">完成内地入境后，在所选口岸的<b class="geo">网约车上客区</b>用滴滴或高德叫车回家；页面没有家庭地址，车程与费用按输入真实地址后的人民币报价执行</div><span class="dr-note inline-note">❗ <b class="hl">回家放下行李后直接去上班</b>；红眼航班后不要自己开车，提前把家庭地址和公司地址存进叫车软件</span></div></div>
+          <div class="day-row"><div class="dr-tag t5"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main">到家附近买便携早餐后直接通勤，参考 <b class="hl">¥15-30/人</b>；优先选能外带的包点、粥粉面或便利店组合，不为吃早餐绕路</div><span class="dr-note inline-note">❗ <b>10.08为周四工作日</b>，早餐只占约 <b>10-15分钟</b>；另记得 <b>10.10（周六）补班</b></span></div></div></div>
+</article>
+  </section>
+  <nav class="pager" aria-label="切换日期">
+    <button type="button" id="prevDay" aria-label="查看前一天">‹ 前一天</button>
+    <button type="button" id="nextDay" aria-label="查看后一天">后一天 ›</button>
+  </nav>
+  <p class="sr-status" id="dayStatus" aria-live="polite"></p>
+  <footer>本页为马来线本地移动版攻略 · 内容整理自当前行程原稿</footer>
+</main>
+<script>
+(function(){
+  'use strict';
+  var days = ['0928','0929','0930','1001','1002','1003','1004','1005','1006','1007','1008'];
+  var storageKey = 'malaysia_active_day_v1';
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.date-btn'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.day-card'));
+  var dateNav = document.getElementById('dateNav');
+  var prev = document.getElementById('prevDay');
+  var next = document.getElementById('nextDay');
+  var stage = document.getElementById('cardStage');
+  var status = document.getElementById('dayStatus');
+  var currentIndex = 0;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function validDay(value){ return days.indexOf(value) >= 0 ? value : null; }
+  function dayFromHash(){
+    var match = window.location.hash.match(/^#day-(\d{4})$/);
+    return match ? validDay(match[1]) : null;
+  }
+  function savedDay(){
+    try { return validDay(localStorage.getItem(storageKey)); }
+    catch(e){ return null; }
+  }
+  function persist(day){
+    try { localStorage.setItem(storageKey, day); } catch(e){}
+  }
+  function updateHash(day){
+    var hash = '#day-' + day;
+    if(window.location.hash !== hash){
+      try { history.replaceState(null, '', hash); }
+      catch(e){ window.location.hash = hash; }
+    }
+  }
+  function showDay(day, options){
+    options = options || {};
+    var index = days.indexOf(day);
+    if(index < 0) return;
+    currentIndex = index;
+    cards.forEach(function(card){
+      var active = card.getAttribute('data-day') === day;
+      card.hidden = !active;
+      card.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
+    buttons.forEach(function(button){
+      var active = button.getAttribute('data-target') === day;
+      button.setAttribute('aria-selected', active ? 'true' : 'false');
+      button.setAttribute('tabindex', active ? '0' : '-1');
+      if(active && dateNav){
+        var targetLeft = button.offsetLeft - (dateNav.clientWidth - button.offsetWidth) / 2;
+        var maxLeft = Math.max(0, dateNav.scrollWidth - dateNav.clientWidth);
+        var centeredLeft = Math.max(0, Math.min(maxLeft, targetLeft));
+        try {
+          dateNav.scrollTo({left:centeredLeft, behavior:reduceMotion ? 'auto' : 'smooth'});
+        } catch(e){ dateNav.scrollLeft = centeredLeft; }
+      }
+    });
+    prev.disabled = index === 0;
+    next.disabled = index === days.length - 1;
+    prev.textContent = index === 0 ? '‹ 已是第一天' : '‹ ' + days[index - 1].slice(0,2) + '.' + days[index - 1].slice(2);
+    next.textContent = index === days.length - 1 ? '已是最后一天 ›' : days[index + 1].slice(0,2) + '.' + days[index + 1].slice(2) + ' ›';
+    var activeCard = document.getElementById('day-' + day);
+    var heading = activeCard ? activeCard.querySelector('h2') : null;
+    status.textContent = heading ? '已切换到' + heading.textContent.replace('📅','').trim() : '已切换日期';
+    persist(day);
+    if(options.updateHash !== false) updateHash(day);
+    if(options.scrollTop){
+      var top = document.querySelector('.date-shell').getBoundingClientRect().bottom + window.scrollY;
+      if(window.scrollY > top + 80) window.scrollTo({top:Math.max(0,top - 8),behavior:reduceMotion ? 'auto' : 'smooth'});
+    }
+  }
+  function move(delta){
+    var nextIndex = Math.max(0, Math.min(days.length - 1, currentIndex + delta));
+    if(nextIndex !== currentIndex) showDay(days[nextIndex], {scrollTop:true});
+  }
+
+  buttons.forEach(function(button){
+    button.addEventListener('click', function(){ showDay(button.getAttribute('data-target')); });
+    button.addEventListener('keydown', function(event){
+      if(event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      var buttonIndex = days.indexOf(button.getAttribute('data-target'));
+      var targetIndex = Math.max(0, Math.min(days.length - 1, buttonIndex + (event.key === 'ArrowLeft' ? -1 : 1)));
+      showDay(days[targetIndex]);
+      buttons[targetIndex].focus();
+    });
+  });
+  prev.addEventListener('click', function(){ move(-1); });
+  next.addEventListener('click', function(){ move(1); });
+
+  document.addEventListener('keydown', function(event){
+    var tag = event.target && event.target.tagName ? event.target.tagName.toLowerCase() : '';
+    if(['input','textarea','select','button','a','summary'].indexOf(tag) >= 0) return;
+    if(event.key === 'ArrowLeft'){ event.preventDefault(); move(-1); }
+    if(event.key === 'ArrowRight'){ event.preventDefault(); move(1); }
+  });
+
+  var touchStartX = 0;
+  var touchStartY = 0;
+  stage.addEventListener('touchstart', function(event){
+    if(!event.touches || event.touches.length !== 1) return;
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+  }, {passive:true});
+  stage.addEventListener('touchend', function(event){
+    if(!event.changedTouches || event.changedTouches.length !== 1) return;
+    var dx = event.changedTouches[0].clientX - touchStartX;
+    var dy = event.changedTouches[0].clientY - touchStartY;
+    if(Math.abs(dx) >= 52 && Math.abs(dx) > Math.abs(dy) * 1.25){
+      move(dx < 0 ? 1 : -1);
+    }
+  }, {passive:true});
+
+  window.addEventListener('hashchange', function(){
+    var hashDay = dayFromHash();
+    if(hashDay && hashDay !== days[currentIndex]) showDay(hashDay, {updateHash:false});
+  });
+
+  showDay(dayFromHash() || savedDay() || days[0], {updateHash:true});
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
