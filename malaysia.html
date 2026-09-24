@@ -10,6 +10,7 @@
   --paper:#fff8f3;--card:#fffdfb;--ink:#563743;--muted:#8c747c;
   --rose:#b85f6d;--rose-deep:#914454;--peach:#f3a48d;--blush:#fde6e2;
   --champagne:#c99b58;--champagne-soft:#fff2d7;--line:#efd9d7;
+  --button-blue:#35628a;--button-line:#a0b9cf;--button-soft:#f2f7fc;
   --shadow:0 12px 30px rgba(126,67,80,.12);
 }
 *{box-sizing:border-box}
@@ -24,7 +25,7 @@ body{
 }
 button,summary{font:inherit}
 a{color:var(--rose-deep);font-weight:760;text-decoration-color:rgba(145,68,84,.38);text-decoration-thickness:1px;text-underline-offset:2px;overflow-wrap:anywhere}
-.shell{width:min(100%,760px);margin:0 auto;padding:0 12px 34px}
+.shell{width:min(100%,760px);margin:0 auto;padding:0 12px calc(88px + env(safe-area-inset-bottom,0px))}
 .compact-title{
   min-height:42px;display:flex;align-items:center;justify-content:center;gap:7px;
   padding:9px 6px 7px;font-size:15px;font-weight:900;letter-spacing:.25px;color:var(--rose-deep)
@@ -42,17 +43,18 @@ a{color:var(--rose-deep);font-weight:760;text-decoration-color:rgba(145,68,84,.3
 }
 .date-nav::-webkit-scrollbar{display:none}
 .date-btn{
-  flex:0 0 46px;min-height:44px;border:1px solid var(--line);border-radius:14px;background:rgba(255,253,251,.88);
-  color:var(--muted);display:grid;place-content:center;gap:1px;cursor:pointer;scroll-snap-align:center;
+  flex:0 0 46px;min-height:44px;border:1px solid var(--button-line);border-radius:14px;background:var(--button-soft);
+  color:var(--button-blue);display:grid;place-content:center;gap:1px;cursor:pointer;scroll-snap-align:center;
   box-shadow:0 2px 8px rgba(126,67,80,.04);transition:background .18s ease,color .18s ease,transform .18s ease,border-color .18s ease
 }
 .date-btn span{font-size:15px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
 .date-btn small{font-size:9px;font-weight:760}
 .date-btn[aria-selected="true"]{
-  color:#fff;border-color:transparent;background:linear-gradient(145deg,var(--rose),var(--rose-deep));
-  box-shadow:0 6px 15px rgba(145,68,84,.22);transform:translateY(-1px)
+  color:#fff;border-color:var(--button-blue);background:var(--button-blue);
+  box-shadow:none;transform:translateY(-1px)
 }
-button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid rgba(243,164,141,.48);outline-offset:2px}
+button:focus-visible,summary:focus-visible{outline:2px solid var(--button-blue);outline-offset:3px}
+a:focus-visible{outline:3px solid rgba(243,164,141,.48);outline-offset:2px}
 .card-stage{touch-action:pan-y;min-height:50vh}
 .day-card{
   background:linear-gradient(180deg,#fffdfb 0,#fffaf6 100%);border:1px solid rgba(184,95,109,.18);border-radius:22px;
@@ -74,6 +76,24 @@ button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid rgb
   color:var(--rose-deep);font-size:9px;line-height:1.2;letter-spacing:.8px;font-weight:900;background:rgba(255,253,251,.7)
 }
 .day-h h2{font-size:16px;line-height:1.35;margin:0 30px 3px 0;font-weight:900;position:relative;z-index:1;color:var(--rose-deep)}
+.honeymoon-line{
+  grid-column:1/-1;margin:7px 0 0;padding-top:6px;border-top:1px dashed rgba(201,155,88,.32);
+  color:#8c5260;font-size:12px;line-height:1.55;font-weight:500
+}
+.honeymoon-line::before{content:"♥";color:var(--rose);margin-right:6px;font-size:10px}
+.sweet-surprise{
+  margin:0 0 9px;padding:9px 11px;border:1px dashed #e1b9b2;border-radius:12px;
+  background:#fff3ee;animation:card-in .25s ease both
+}
+.sweet-surprise[hidden]{display:none}
+.surprise-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.surprise-heading strong{font-size:11px;color:var(--rose-deep);font-weight:650}
+.sweet-surprise p{margin:3px 0 0;color:var(--ink);font-size:12px;line-height:1.55}
+.surprise-close{
+  position:relative;flex:none;min-height:30px;padding:4px 8px;border:1px solid var(--button-line);
+  border-radius:6px;color:var(--button-blue);background:var(--button-soft);font-size:11px;cursor:pointer
+}
+.surprise-close::before{content:"";position:absolute;inset:-7px 0}
 .tag{
   justify-self:start;display:inline-flex;align-items:center;min-height:22px;padding:2px 9px;border-radius:999px;
   background:rgba(255,253,251,.72);border:1px solid rgba(184,95,109,.17);color:#7d5a61;
@@ -96,15 +116,27 @@ button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid rgb
 .row-main{font-weight:540}
 .dr-body b{font-weight:850;color:var(--ink)}
 .dr-body b.hl,.hl{color:#b54f5f}.dr-body b.geo,.geo{color:#8c5260}
-.row-details{margin-top:2px;border:0;background:transparent;overflow:visible}
+.row-details{margin-top:7px;margin-bottom:4px;border:0;background:transparent;overflow:visible}
 .row-details summary{
-  position:relative;min-height:32px;display:inline-flex;align-items:center;padding:4px 18px 4px 0;cursor:pointer;
-  color:var(--rose-deep);font-size:11.5px;font-weight:850;list-style:none
+  position:relative;min-height:30px;max-width:100%;display:inline-flex;align-items:center;gap:5px;padding:4px 8px;cursor:pointer;
+  border:1px solid var(--button-line);border-radius:6px;background:var(--button-soft);color:var(--button-blue);
+  font-size:11px;font-weight:600;line-height:1.4;list-style:none
 }
-.row-details summary::before{content:"";position:absolute;inset:-6px -8px}
+.row-details summary::before{content:"";position:absolute;inset:-7px 0}
 .row-details summary::-webkit-details-marker{display:none}
-.row-details summary::after{content:"＋";position:absolute;right:0;font-size:13px;line-height:1;color:var(--champagne)}
-.row-details[open] summary::after{content:"−"}
+.row-details summary::after{content:"⌄";font-size:14px;line-height:1;flex:none}
+.row-details[open] summary{background:#e7f0f9;color:var(--button-blue);border-color:var(--button-line)}
+.row-details[open] summary::after{content:"⌃"}
+@media(hover:hover){.row-details summary:hover{filter:brightness(.94)}}
+.row-details summary:active{transform:translateY(1px)}
+.back-to-top{
+  position:fixed;right:max(12px,calc((100vw - 736px)/2));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:40;
+  width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:1px solid var(--button-line);
+  border-radius:8px;background:var(--button-soft);color:var(--button-blue);cursor:pointer;
+  box-shadow:0 2px 6px rgba(53,98,138,.10)
+}
+.back-to-top::before{content:"";position:absolute;inset:-5px}
+.back-to-top span{font-size:17px;line-height:1}
 .detail-content{margin:1px 0 4px;padding:3px 0 3px 10px;border-left:2px solid rgba(201,155,88,.38)}
 .inline-details{margin-top:5px}\n.quick-facts{margin-top:5px;color:#765f66;font-size:11.5px;line-height:1.5}\n.quick-facts::before{content:"◇";color:var(--champagne);margin-right:5px;font-weight:900}
 .dr-subs{list-style:none;padding:0;margin:5px 0 0;display:grid;gap:5px}
@@ -117,10 +149,10 @@ button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid rgb
 .inline-note{margin-bottom:1px}
 .pager{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .pager button{
-  min-height:44px;border:1px solid rgba(184,95,109,.22);border-radius:14px;background:#fffdfb;color:var(--rose-deep);
-  font-weight:850;cursor:pointer;padding:7px 9px
+  min-height:44px;border:1px solid var(--button-line);border-radius:10px;background:var(--button-soft);color:var(--button-blue);
+  font-size:12px;font-weight:650;cursor:pointer;padding:7px 9px
 }
-.pager button:last-child{background:linear-gradient(145deg,var(--rose),var(--rose-deep));color:#fff;border-color:transparent}
+.pager button:last-child{background:var(--button-soft);color:var(--button-blue);border-color:var(--button-line)}
 .pager button:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
 .sr-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;padding:16px 8px 0}
@@ -159,12 +191,20 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
 <button class="date-btn" id="tab-1008" role="tab" aria-controls="day-1008" aria-selected="false" data-target="1008" tabindex="-1"><span>08</span><small>周四</small></button>
     </nav>
   </div>
+  <aside class="sweet-surprise" id="sweetSurprise" aria-label="蜜月小彩蛋" hidden>
+    <div class="surprise-heading">
+      <strong id="surpriseTitle">拆到一颗糖</strong>
+      <button type="button" class="surprise-close" id="closeSurprise" aria-label="收起这次蜜月小彩蛋">收好 ×</button>
+    </div>
+    <p id="surpriseText" role="status"></p>
+  </aside>
   <section class="card-stage" id="cardStage" aria-label="每日行程攻略">
     <article class="day-card" id="day-0928" data-day="0928" role="tabpanel" aria-labelledby="tab-0928">
   <header class="day-h">
     <span class="day-count">DAY 01</span>
     <h2>📅 09.28（周一）· 长途转机落地日</h2>
     <span class="tag">转机 · 入境 · 入住</span>
+    <p class="honeymoon-line">落地再晚，身边有你，陌生城市就有了家的方向。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>✈️ 交通</div><div class="dr-body"><div class="row-main">从<b class="geo">包头东河机场</b>飞往<b class="geo">南京禄口机场</b>，航班 <b>11:20-13:35</b>；在南京转机后飞往<b class="geo">吉隆坡国际机场 T1</b>，航班 <b>18:25-23:40</b></div><span class="dr-note inline-note">❗ 出发机场再次确认行李是否直挂吉隆坡；若不能直挂，按柜台指引预留提取和重新托运时间</span></div></div>
           <div class="day-row"><div class="dr-tag t2"><i></i>🛂 入境</div><div class="dr-body"><div class="row-main">出发前按要求填写 <b>MDAC 马来西亚电子入境卡</b>；落地后跟随标识步行到入境区，约 <b>10-15 分钟</b>、费用 <b>RM0（约 ¥0）</b>，再按现场指引走外国护照自助通道或人工通道</div><span class="dr-note inline-note">❗ 使用自助设备时取下护照保护套并保留电子入境记录；入境方式以机场当晚开放情况为准</span></div></div>
@@ -193,6 +233,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     <span class="day-count">DAY 02</span>
     <h2>📅 09.29（周二）· 城市精华线</h2>
     <span class="tag">老城 · 商圈 · 夜景</span>
+    <p class="honeymoon-line">双子塔负责闪闪发光，你负责牵着我逛到舍不得回去。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main"><b class="hl">早餐确定吃永兴城茶室</b>，吃完直接去老城区：</div><span class="dr-note inline-note">❗ 店里是开放式环境，越早越凉快；猪肉粉和热门档口可能提前卖完，<b class="hl">到店先占位再分头点餐</b></span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
                 <li>🛏 <b class="hl">08:30起床，09:00出门</b>；从酒店叫 Grab 到<b class="geo">Win Heng Seng 永兴城茶室</b>（<span class="geo">183, Jalan Imbi, Imbi</span>），约 <b>10-15 分钟</b>，参考 <b class="hl">RM10-16（约 ¥16-26）/车</b></li>
@@ -260,6 +301,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     <span class="day-count">DAY 03</span>
     <h2>📅 09.30（周三）· 吉隆坡 → 斗湖 → 仙本那</h2>
     <span class="tag">退房 · 航班 · 接驳</span>
+    <p class="honeymoon-line">把城市留在身后，把手交给你，我们一起去看海。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main"><b>08:40</b>从酒店叫 Grab 到<b class="geo">Suria KLCC 4楼华阳冰室</b>，约 <b>09:05-09:15</b>到；单程约 <b class="hl">RM8-15（约 ¥13-25）/车</b>，<b class="hl">最晚10:10离店</b></div><div class="quick-facts">前一晚收好大部分行李；门店位于 <b>Lot 414-415 &amp; OS404</b>，工作日 <b>07:30-22:00</b>，电话 <b>+60 11-1107 6363</b>。预留 <b>55-65分钟</b>排位用餐；4人分点椰浆饭、咖椰牛油烤吐司、半熟蛋和酥皮蛋挞，人均 <b class="hl">RM20-30（约 ¥33-49）</b>，4人约 <b>RM80-120（约 ¥131-197）</b>。返程预留 <b>20-35分钟</b>，车费同上，预计 <b>10:30-10:45</b>到酒店，最晚 <b>11:00前</b>到</div><span class="dr-note inline-note">❗ 商场主体尚未全面营业时，从早间开放入口进入；找不到入口就向保安出示“Oriental Kopi, Level 4, Lot 414-415”，必要时拨打门店电话。<b class="hl">10:10是离店硬截止时间</b>，即使上菜偏慢也不继续加单</span></div></div>
           <div class="day-row"><div class="dr-tag t2"><i></i>🏨 退房</div><div class="dr-body"><div class="row-main">预计 <b>10:30-10:45</b>回到<b class="geo">Victory Suites / The Face 2</b>，完成最后清点和退房；检查护照、现金、充电器、泳衣和换汇凭证，确认房卡／钥匙归还方式，4人带齐2个箱子和4个背包，<b class="hl">11:20前</b>到预约上车点等司机</div><span class="dr-note inline-note">❗ 行李必须在前一晚基本打包完成，早餐回来后只做洗漱、清点和退房；即使回程出现小幅堵车，也以 <b>11:00前回到酒店</b>为底线，不要把司机30分钟免费等待时间当作正常缓冲</span></div></div>
@@ -285,6 +327,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     <span class="day-count">DAY 04</span>
     <h2>📅 10.01（周四）· 马达京跳岛</h2>
     <span class="tag">潘达南 · 马达京 · 邦邦岛</span>
+    <p class="honeymoon-line">今天的海蓝得不像话，我想和你把这一刻记很久。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main"><b class="hl">首选直接吃侨之家免费早餐</b>，建议 <b>07:00-07:25</b> 完成；想换口味时从以下选一处：</div><span class="dr-note inline-note">❗ 今天 <b>07:45</b> 前要进入集合流程，外出早餐必须在 <b>07:25</b> 前结束；早餐七分饱，避免空腹坐快艇，也不要吃过多油炸食物</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
                 <li>🥇 <b class="geo">Hua Qiao Home 侨之家民宿</b>：房东免费提供，费用 <b class="hl">RM0（约 ¥0）/人</b>，营业参考 <b>07:00-09:00</b>；在民宿吃完即可准备集合，最稳妥</li>
@@ -310,6 +353,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     <span class="day-count">DAY 05</span>
     <h2>📅 10.02（周五）· 马布卡帕莱</h2>
     <span class="tag">水上村 · 浮潜 · 海龟</span>
+    <p class="honeymoon-line">想和你慢得像只海龟，把相爱的日子游得长一点。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main"><b class="hl">首选直接吃侨之家免费早餐</b>，建议 <b>07:00-07:25</b> 完成；想换口味时从以下选一处：</div><span class="dr-note inline-note">❗ 今天仍须在 <b>07:45</b> 前进入集合流程；外出早餐在 <b>07:25</b> 前结束，避免吃得过饱影响快艇体验</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
                 <li>🥇 <b class="geo">Hua Qiao Home 侨之家民宿</b>：房东免费提供，费用 <b class="hl">RM0（约 ¥0）/人</b>，营业参考 <b>07:00-09:00</b>；在民宿吃完即可准备集合，适合连续第二天早起出海</li>
@@ -335,6 +379,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     <span class="day-count">DAY 06</span>
     <h2>📅 10.03（周六）· 二选一半日安排＋夜巴</h2>
     <span class="tag">半日游 · 取行李 · 夜巴</span>
+    <p class="honeymoon-line">夜巴会把我们送到下一站，你的肩膀是我今晚的小枕头。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🅰️／🅱️ 二选一</div><div class="dr-body"><div class="row-main"><b class="hl">根据前两天浮潜后的体力和当天海况二选一</b>：想继续玩水就执行<b>方案A情人湾半日游</b>；想睡晚一点、保持干爽并为夜巴留体力，就执行<b>方案B仙本那市区慢逛</b>。两套方案均在 <b>16:10</b>结束游玩，随后回侨之家取行李</div><span class="dr-note inline-note">❗ 方案A需要提前付款且公开规则为不可取消，若已经锁票就按订单执行；尚未购买时可在下单前最终决定</span></div></div>
           <div class="day-row"><div class="dr-tag t1"><i></i>🅰️ 早餐</div><div class="dr-body"><div class="row-main">为赶在 <b>08:00 前</b>到集合点，建议 <b>06:45-07:10</b> 吃完；从以下选择一处：</div><span class="dr-note inline-note">❗ <b class="hl">最晚07:10结束早餐</b>；若房东无法提前供餐，就直接步行去 24 小时营业的 Bismillah-2，不临时改去更远的店</span><details class="row-details"><summary>查看餐厅备选（3）</summary><div class="detail-content"><ul class="dr-subs">
@@ -380,6 +425,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     <span class="day-count">DAY 07</span>
     <h2>📅 10.04（周日）· 夜巴抵达＋市区慢游</h2>
     <span class="tag">寄存 · 市集 · 日落</span>
+    <p class="honeymoon-line">一人一口甜，一起等日落，今天的幸福刚好够两个人分。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🚕 交通</div><div class="dr-body"><div class="row-main">约 <b>06:35</b>抵达<b class="geo">Inanam Bus Terminal 亚庇长途汽车站</b>，清点车底行李后叫一辆 Grab 前往<b class="geo">King Park Hotel Kota Kinabalu 哥打京那巴鲁国王公园酒店</b>（<span class="geo">Jalan Masjid Lama, Bandaran Berjaya</span>），约 <b>15-25分钟</b>，参考 <b class="hl">RM15-25（约 ¥25-41）/车</b></div><span class="dr-note inline-note">❗ 4人带行李优先选6座车型；使用完整英文酒店名和订单定位，平台车牌与司机一致后再上车</span></div></div>
           <div class="day-row"><div class="dr-tag t2"><i></i>🏨 住宿</div><div class="dr-body"><div class="row-main">约 <b>07:00-07:20</b>到<b class="geo">哥打京那巴鲁国王公园酒店</b>寄存大件行李；酒店官方入住时间为 <b>14:00后</b>、退房时间为 <b>12:00前</b>，现场确认10.06早退房寄存及两次一日团接送位置。市区酒店已订两晚共 <b class="hl">¥553（约 RM337）</b>，订单包含10.05和10.06早餐；入住时确认早餐厅位置及 <b>06:30</b>准时开餐</div></div></div>
@@ -416,6 +462,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     <span class="day-count">DAY 08</span>
     <h2>📅 10.05（周一）· 美人鱼岛＋红树林萤火虫</h2>
     <span class="tag">浮潜 · 长鼻猴 · 萤火虫</span>
+    <p class="honeymoon-line">萤火虫把夜晚点亮，我想趁着微光再看一眼你。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main"><b>06:25</b>穿好泳衣并外搭速干衣，到酒店<b class="geo">Melting Pot 餐厅</b>门口等开餐；酒店自助早餐公开供应时间为每日 <b>06:30-10:30</b>，订单已含早餐，费用 <b class="hl">RM0（约 ¥0）/人</b>。<b>06:30-06:45</b>优先拿现成热食、面包、水果和饮料，<b class="hl">06:45准时离席</b>，06:50到大堂等车</div><span class="dr-note inline-note">❗ 前一晚完成洗漱和出海包整理，早餐时不等现煮餐、不回房取东西；证件和大件现金留在酒店保险箱</span></div></div>
           <div class="day-row"><div class="dr-tag t2"><i></i>🎫 提前订票</div><div class="dr-body"><div class="row-main"><b class="hl">出发前锁位，不等到10.04</b>：预订<b class="geo">10.05 美人鱼岛＋Kawa Kawa红树林＋萤火虫组合团</b>；参考 <b class="hl">RM290（约 ¥476）/人</b>，4人约 <b class="hl">RM1,160（约 ¥1,902）</b></div><details class="row-details"><summary>查看预订步骤</summary><div class="detail-content"><ul class="dr-subs"><li>打开<a href="https://www.discoverytours.com.my/holidays/mantanani-kawa-kawa-fireflies/" target="_blank" rel="noopener noreferrer">Discovery Tours 官方商品页</a>，选择 <b>10.05、4名成人</b>；接送酒店填写 <b>King Park Hotel Kota Kinabalu</b>及完整地址</li><li>费用包含市区酒店往返接送、船、两次浮潜、装备、午餐和晚餐</li><li>需人工确认时联系亚庇办公室 <b>+60 88-210 097／+60 88-259 368</b>，工作时间为周一至周五 <b>08:00-17:45</b></li></ul></div></details><span class="dr-note inline-note">❗ 付款前让运营方书面确认酒店接送、集合时间、当地联系人、保险及天气取消退款规则</span></div></div>
@@ -431,6 +478,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     <span class="day-count">DAY 09</span>
     <h2>📅 10.06（周二）· 环滩岛＋换酒店</h2>
     <span class="tag">浮潜 · 换酒店 · 泳池</span>
+    <p class="honeymoon-line">从海岛住进海风里，今晚把时间留给我们俩。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main">起床后穿好泳衣，把干衣、防晒、毛巾和防水袋装进随身包，并在 <b>06:25前</b>把退房行李全部封好；随后到酒店<b class="geo">Melting Pot 餐厅</b>，利用订单已包含的自助早餐用餐，费用 <b class="hl">RM0（约 ¥0）/人</b>。早餐公开供应时间为每日 <b>06:30-10:30</b>，本日安排 <b>06:30-06:45</b>快速用餐，<b class="hl">06:45准时离席办理退房</b></div><span class="dr-note inline-note">❗ 只拿现成餐食，不等现煮档；房卡、护照和取行李凭证提前放进随身包</span></div></div>
           <div class="day-row"><div class="dr-tag t2"><i></i>🏨 住宿</div><div class="dr-body"><div class="row-main"><b>06:45-07:00</b>从国王公园酒店退房，把全部大件行李寄存在前台；只带出海随身包，取行李凭证拍照保存，最晚 <b>07:05</b>到大堂等接送车</div><span class="dr-note inline-note">❗ <b class="hl">前一晚再次确认行李可寄存至16:00以后</b>，护照、现金和电子产品不要放在无人看管的外部行李区</span></div></div>
@@ -447,6 +495,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     <span class="day-count">DAY 10</span>
     <h2>📅 10.07（周三）· 度假酒店＋红眼返程</h2>
     <span class="tag">度假酒店 · 晚餐 · 机场</span>
+    <p class="honeymoon-line">再一起吃顿慢慢的晚餐，把这趟蜜月酿成以后常讲的故事。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>🍳 早餐</div><div class="dr-body"><div class="row-main">约 <b>06:15-07:00</b>在酒店<b class="geo">Five Sails 五帆餐厅</b>吃订单已包含的自助早餐，费用 <b class="hl">RM0（约 ¥0）/人</b>；官方供应时间为每日 <b>06:00-10:30</b>，优先吃现做蛋档、热食、水果和咖啡，吃完直接去泳池和海边花园</div></div></div>
           <div class="day-row"><div class="dr-tag t2"><i></i>🎡 玩</div><div class="dr-body"><div class="row-main">早餐后约 <b>07:10-10:30</b>使用<b class="geo">麦哲伦度假村泳池</b>、海边花园和沙滩景观区，费用 <b>RM0（约 ¥0）</b>；泳池官方开放 <b>07:00-19:00</b>，上午人少、阳光也相对温和</div><span class="dr-note inline-note">❗ 下水前确认当日开放区域；海岸以散步拍照为主，不跨越警示线自行下海</span></div></div>
@@ -469,6 +518,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     <span class="day-count">DAY 11</span>
     <h2>📅 10.08（周四）· 香港返深</h2>
     <span class="tag">入境 · 过关 · 上班</span>
+    <p class="honeymoon-line">蜜月的行李要拆，喜欢你这件事，就带回家继续吧。</p>
   </header>
   <div class="timeline"><div class="day-row"><div class="dr-tag t1"><i></i>✈️ 交通</div><div class="dr-body"><div class="row-main">航班于 <b>04:25</b> 抵达<b class="geo">香港国际机场 T1</b>；下机后直接办理香港入境、领取托运行李，预计约 <b>05:15-05:40</b>进入接机大堂</div><span class="dr-note inline-note">❗ 护照、返深安排和完整行程放在随身包；是否准予入境及停留期限以香港入境处现场决定为准</span></div></div>
           <div class="day-row"><div class="dr-tag t2"><i></i>🚕 方案A</div><div class="dr-body"><div class="row-main"><b class="geo">福田口岸：</b>约05:20-05:55从机场的士站乘绿色普通的士，直达<b>落马洲支线管制站公共运输交汇处</b>，约06:00-06:50抵达；口岸06:30开放后步行办理两地出入境，预计 <b class="hl">06:50-07:30</b>到深圳，保守按07:45。的士参考 <b class="hl">约 ¥264-289/车</b></div><span class="dr-note inline-note">❗ 目的地说“落马洲支线管制站公共运输交汇处，走福田口岸，不是新田”；全程不换车、不坐皇巴</span></div></div>
@@ -484,6 +534,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
   <p class="sr-status" id="dayStatus" aria-live="polite"></p>
   <footer>本页为马来线本地移动版攻略 · 内容整理自当前行程原稿</footer>
 </main>
+<button type="button" class="back-to-top" id="backToTop" aria-label="返回页面顶部" title="返回顶部"><span aria-hidden="true">↑</span></button>
 <script>
 (function(){
   'use strict';
@@ -496,8 +547,61 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
   var next = document.getElementById('nextDay');
   var stage = document.getElementById('cardStage');
   var status = document.getElementById('dayStatus');
+  var backToTop = document.getElementById('backToTop');
   var currentIndex = 0;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var sweetEggs = [
+    ['今日暗号', '今天的暗号是“靠近一点”。听见的人，就把手伸给对方。'],
+    ['双人小任务', '找一面镜子，拍一张挤在同一个画面里的合照。头发乱一点也可爱。'],
+    ['悄悄话', '偷偷告诉对方：今天有哪一个瞬间，你觉得“和你出来真好”。'],
+    ['合照灵感', '今天留一张牵手的影子照，给未来的你们认一认。'],
+    ['甜蜜小约定', '下一份好吃的，第一口给对方；第二口记得夸一句“我选得不错吧”。'],
+    ['蜜月采访', '轮流问一句：“这趟旅行，到现在最想重来一次的是哪一刻？”'],
+    ['拥抱兑换券', '你们拆到一张双人拥抱券。等方便的时候，兑换一个慢慢的拥抱。'],
+    ['收藏一秒', '录十秒眼前的风景，再悄悄把对方的笑声也录进去。'],
+    ['今日偏爱', '今天各说一句具体的夸奖，比如“刚才你帮我拿行李的样子，好喜欢”。'],
+    ['合照灵感', '请对方给你拍一张照，再拍一张“正在认真拍你的对方”。'],
+    ['口袋纪念', '留下一张小票，背面写上今天最开心的一件小事，回家一起收起来。'],
+    ['悄悄话', '风景会变成相册，和你一起笑过的瞬间，会变成我讲很多次的故事。'],
+    ['双人小任务', '给今天起一个只有你们听得懂的名字，越幼稚越值得记住。'],
+    ['明信片时间', '给未来的你们写一句：“今天我们在这里，希望以后的我们也……”'],
+    ['今日暗号', '今天说“有点甜”，可以是在夸甜点，也可以是在偷偷夸身边的人。'],
+    ['慢一点也好', '找个舒服的地方并肩坐一会儿，暂时不用想下一站，看看眼前的彼此。'],
+    ['蜜月采访', '一人选一个词形容今天，再把两个词拼成你们的蜜月电影名。'],
+    ['小小期待', '睡前各说一件明天想一起做的小事，再互道一声“明天也牵好我”。']
+  ];
+  function revealSweetSurprise(){
+    var lastEgg = null;
+    try { lastEgg = localStorage.getItem('malaysia_last_sweet_egg_v1'); } catch(e){}
+    var candidates = sweetEggs.map(function(egg, index){ return index; }).filter(function(index){
+      return String(index) !== lastEgg;
+    });
+    var eggIndex = candidates[Math.floor(Math.random() * candidates.length)];
+    var egg = sweetEggs[eggIndex];
+    document.getElementById('surpriseTitle').textContent = '拆到一颗糖 · ' + egg[0];
+    document.getElementById('surpriseText').textContent = egg[1];
+    document.getElementById('sweetSurprise').hidden = false;
+    try { localStorage.setItem('malaysia_last_sweet_egg_v1', String(eggIndex)); } catch(e){}
+  }
+  document.getElementById('closeSurprise').addEventListener('click', function(){
+    document.getElementById('sweetSurprise').hidden = true;
+    buttons[currentIndex].focus({preventScroll:true});
+  });
+
+  function returnToTop(smooth){
+    window.scrollTo({top:0, left:0, behavior:smooth && !reduceMotion ? 'smooth' : 'instant'});
+  }
+  backToTop.addEventListener('click', function(){ returnToTop(true); });
+  Array.prototype.forEach.call(document.querySelectorAll('.row-details'), function(details){
+    var summary = details.querySelector('summary');
+    var topic = summary.textContent.replace(/^查看/, '').trim();
+    function updateSummary(){
+      summary.textContent = (details.open ? '收起' : '展开') + ' · ' + topic;
+    }
+    updateSummary();
+    details.addEventListener('toggle', updateSummary);
+  });
 
   function validDay(value){ return days.indexOf(value) >= 0 ? value : null; }
   function dayFromHash(){
@@ -550,14 +654,11 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
     status.textContent = heading ? '已切换到' + heading.textContent.replace('📅','').trim() : '已切换日期';
     persist(day);
     if(options.updateHash !== false) updateHash(day);
-    if(options.scrollTop){
-      var top = document.querySelector('.date-shell').getBoundingClientRect().bottom + window.scrollY;
-      if(window.scrollY > top + 80) window.scrollTo({top:Math.max(0,top - 8),behavior:reduceMotion ? 'auto' : 'smooth'});
-    }
+    returnToTop(false);
   }
   function move(delta){
     var nextIndex = Math.max(0, Math.min(days.length - 1, currentIndex + delta));
-    if(nextIndex !== currentIndex) showDay(days[nextIndex], {scrollTop:true});
+    if(nextIndex !== currentIndex) showDay(days[nextIndex]);
   }
 
   buttons.forEach(function(button){
@@ -568,7 +669,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
       var buttonIndex = days.indexOf(button.getAttribute('data-target'));
       var targetIndex = Math.max(0, Math.min(days.length - 1, buttonIndex + (event.key === 'ArrowLeft' ? -1 : 1)));
       showDay(days[targetIndex]);
-      buttons[targetIndex].focus();
+      buttons[targetIndex].focus({preventScroll:true});
     });
   });
   prev.addEventListener('click', function(){ move(-1); });
@@ -603,12 +704,8 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.6;paddi
   });
 
   showDay(dayFromHash() || savedDay() || days[0], {updateHash:true});
+  revealSweetSurprise();
 })();
 </script>
 </body>
 </html>
-
-
-
-
-
